@@ -189,7 +189,7 @@ So at this point you should have:
 You should note the build time in the Serial Communication port
 It's visible at the start of the application log
 
-![Tera Term log](../img/TeraTerm+CMD/1_result/image.png)
+![Tera Term log](img/TeraTerm+CMD/1_result/image.png)
 
 ___
 
@@ -367,7 +367,7 @@ At this point 2 images are on the nordic
 But the original one will always be selected upon each reset
 Let's modify this
 
-![Shows the list of images on target via MCUmgr](../img/TeraTerm+CMD/2_DFU/image-1.png)
+![Shows the list of images on target via MCUmgr](img/TeraTerm+CMD/2_DFU/image-1.png)
 
 Copy the hash of the second image
 Then adapt and enter this command in the **COMM_TERMINAL**
@@ -382,12 +382,12 @@ And press the `RESET` on your board
 You should see the Bootloader swpping the image to another
 And in the end the application load with a more up to date Build Time
 
-![Shows the DFU test with TeraTerm](../img/TeraTerm+CMD/2_DFU/image-2.png)
+![Shows the DFU test with TeraTerm](img/TeraTerm+CMD/2_DFU/image-2.png)
 
 Press the `RESET` button again on your board
 Now the application loading is the original
 
-![Shows the revert with TeraTerm](../img/TeraTerm+CMD/2_DFU/image-3.png)
+![Shows the revert with TeraTerm](img/TeraTerm+CMD/2_DFU/image-3.png)
 
 Close the Serial COM port
 
@@ -472,7 +472,7 @@ If it doesn't work, this is generally because the MCUmgr config in the `prj.conf
 Try deactivate mass storage on device:
 
 - Open Jlink Commander
-![JLink Commander on Windows](../img/errors/image.png)
+![JLink Commander on Windows](img/errors/image.png)
 - Execute this command:
 
 ```bash
