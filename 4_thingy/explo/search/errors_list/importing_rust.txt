@@ -1,0 +1,43 @@
+WHAT DID I DO:
+
+switch toolchain to zephyr sdk installed manually
+
+ERROR:
+
+[42/189] Generating zephyr/autogen-pubkey.c
+FAILED: zephyr/autogen-pubkey.c C:/ncs/myapps/ble_dfu_peripheral_lbs/build/mcuboot/zephyr/autogen-pubkey.c 
+C:\WINDOWS\system32\cmd.exe /C "cd /D C:\ncs\myapps\ble_dfu_peripheral_lbs\build\mcuboot && c:\python39\python.exe C:/ncs/v2.5.2/bootloader/mcuboot/scripts/imgtool.py getpub -k C:/Users/trovallet/Documents/Stage/zephyr_first/keys/v1/private.key > C:/ncs/myapps/ble_dfu_peripheral_lbs/build/mcuboot/zephyr/autogen-pubkey.c"
+Traceback (most recent call last):
+  File "C:\ncs\v2.5.2\bootloader\mcuboot\scripts\imgtool.py", line 20, in <module>
+    from imgtool import main
+  File "C:\ncs\v2.5.2\bootloader\mcuboot\scripts\imgtool\main.py", line 24, in <module>
+    import imgtool.keys as keys
+  File "C:\ncs\v2.5.2\bootloader\mcuboot\scripts\imgtool\keys\__init__.py", line 23, in <module>
+    from cryptography.hazmat.primitives import serialization
+  File "c:\python39\lib\site-packages\cryptography\hazmat\primitives\serialization\__init__.py", line 7, in <module>
+    from cryptography.hazmat.primitives._serialization import (
+  File "c:\python39\lib\site-packages\cryptography\hazmat\primitives\_serialization.py", line 10, in <module>
+    from cryptography.hazmat.primitives.hashes import HashAlgorithm
+  File "c:\python39\lib\site-packages\cryptography\hazmat\primitives\hashes.py", line 9, in <module>
+    from cryptography.hazmat.bindings._rust import openssl as rust_openssl
+ImportError: DLL load failed while importing _rust: La proc dure sp cifi e est introuvable.
+[51/189] Building C object zephyr/CMakeFiles/zephyr.dir/lib/os/heap.c.obj
+ninja: build stopped: subcommand failed.
+[47/297] Building C object zephyr/CMakeFiles/zephyr.dir/subsys/settings/src/settings_init.c.obj
+FAILED: modules/mcuboot/mcuboot_subimage-prefix/src/mcuboot_subimage-stamp/mcuboot_subimage-build mcuboot/zephyr/zephyr.hex mcuboot/zephyr/zephyr.elf C:/ncs/myapps/ble_dfu_peripheral_lbs/build/modules/mcuboot/mcuboot_subimage-prefix/src/mcuboot_subimage-stamp/mcuboot_subimage-build C:/ncs/myapps/ble_dfu_peripheral_lbs/build/mcuboot/zephyr/zephyr.hex C:/ncs/myapps/ble_dfu_peripheral_lbs/build/mcuboot/zephyr/zephyr.elf 
+C:\WINDOWS\system32\cmd.exe /C "cd /D C:\ncs\myapps\ble_dfu_peripheral_lbs\build\mcuboot && "C:\Program Files\CMake\bin\cmake.exe" --build . --"
+[57/297] Building C object zephyr/CMakeFiles/zephyr.dir/C_/ncs/v2.5.2/nrfxlib/crypto/nrf_cc312_platform/src/nrf_cc3xx_platform_mutex_zephyr.c.obj
+ninja: build stopped: subcommand failed.
+FATAL ERROR: command exited with status 1: 'C:\Program Files\CMake\bin\cmake.EXE' --build 'c:\ncs\myapps\ble_dfu_peripheral_lbs\build'
+
+HOW TO FIX:
+
+I upgraded my version of python:
+ 
+ A) in the log you can find this line (after the CPUNET image):
+-- Found Python3: c:/python39/python.exe (found version "3.9.0") found components: Interpreter 
+
+ B) I upgraded my python 3.9.0 to 3.9.7
+ 	- official site https://www.python.org/downloads/release/python-397/
+	- custom install (select the folder of the older install to replace it) + add to PATH
+

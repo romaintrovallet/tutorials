@@ -1,0 +1,39 @@
+link:
+https://devzone.nordicsemi.com/guides/nrf-connect-sdk-guides/b/software/posts/device-firmware-update-dfu-with-mcuboot-bootloader
+
+
+commands:
+========
+
+cd zephyr/samples/basic/blinky
+
+cat prj.conf
+
+nano prj.conf
+
+cp /c/ncs/v2.5.2/bootloader/mcuboot/boot/zephyr/usb_cdc_acm_log_recovery.conf /c/ncs/v2.5.2/zephyr/samples/basic/blinky
+
+west build -b nrf5340dk_nrf5340_cpuapp --pristine -- -DMCUBOOT_OVERLAY_CONFIG=/c/ncs/v2.5.2/zephyr/samples/basic/blinky/usb_cdc_acm_log_recovery.conf
+
+cat /c/ncs/v2.5.2/zephyr/samples/basic/blinky/usb_cdc_acm_log_recovery.conf
+
+
+by default you don't get overflow with nrf5340dk
+
+- still gonna perform flash resize 
+
+west build -b nrf5340dk_nrf5340_cpuapp --pristine -t mcuboot_guiconfig
+
+west flash
+
+
+
+-- second part
+
+cd ../../bluetooth/hci_usb
+
+nano prj.conf
+
+cp /c/ncs/v2.5.2/bootloader/mcuboot/boot/zephyr/usb_cdc_acm_log_recovery.conf /c/ncs/v2.5.2/zephyr/samples/bluetooth/hci_usb/
+
+west build -b nrf5340dk_nrf5340_cpuapp --pristine -- -DMCUBOOT_OVERLAY_CONFIG=/c/ncs/v2.5.2/zephyr/samples/bluetooth/hci_usb/usb_cdc_acm_log_recovery.conf

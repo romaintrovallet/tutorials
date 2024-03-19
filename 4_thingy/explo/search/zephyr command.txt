@@ -1,0 +1,32 @@
+After switching west workspaces + west update:
+
+cmake -DWEST_PYTHON=C:/ncs/toolchains/c57af46cb7/opt/bin/python.exe '-Bc:\ncs\myapps\ble_dfu_peripheral_lbs\build' -GNinja -DBOARD=nrf5340dk_nrf5340_cpuapp -DNCS_TOOLCHAIN_VERSION=NONE -DCONF_FILE=c:/ncs/myapps/ble_dfu_peripheral_lbs/prj.conf '-Sc:\ncs\myapps\ble_dfu_peripheral_lbs' -DCMAKE_VERBOSE_MAKEFILE=ON  
+
+
+cmake -E env PYTHON_EXECUTABLE=C:/ncs/toolchains/c57af46cb7/opt/bin/python.exe failed
+
+C:/ncs/toolchains/c57af46cb7/opt/zephyr-sdk/aarch64-zephyr-elf/bin/aarch64-zephyr-elf-gcc.exe --version
+
+
+--- with toolchain 2.5.2 / 2.5.1 + modified 'v2.5.2/zephyr/cmake/modules/kconfig.cmake' ---
+
+CMake Error at C:/ncs/v2.5.2/zephyr/cmake/modules/kconfig.cmake:343 (message):
+  Command C:/ncs/toolchains/c57af46cb7/opt/bin/cmake.exe -E env
+  PYTHON_EXECUTABLE=C:/ncs/toolchains/c57af46cb7/opt/bin/python.exe failed
+  with return code: Le fichier spécifié est introuvable
+
+--- with toolchain 2.4.3 + modified 'v2.5.2/zephyr/cmake/modules/kconfig.cmake' ---
+Make Error at C:/ncs/v2.5.2/zephyr/cmake/modules/kconfig.cmake:343 (message):
+  Command C:/ncs/toolchains/31f4403e35/opt/bin/cmake.exe -E env
+  PYTHON_EXECUTABLE=C:/ncs/toolchains/31f4403e35/opt/bin/python.exe failed
+  with return code: Le fichier spécifié est introuvable
+
+--- with toolchain 2.4.3 + original 'v2.5.2/zephyr/cmake/modules/kconfig.cmake' ---
+It compiled like normal
+
+==> tried to reinstall toolchain / modify toolchain
+
+==> to make it work again 
+ - change toolchain to older ex: 2.5.2 -> 2.4.3(2.5.1 isn't enough)
+ - let that fucking kconfig.cmake alone
+ - if not enough -> set the 'bin' folder in the toolchain as PATH (not 'opt/bin') /!\ this line certainly won't work but as i did it before it worked again, i thought i write it here /!\
