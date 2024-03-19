@@ -17,8 +17,11 @@ ___
 
 ## 0) Requirements
 
-- zephyrproject + zephyrSDK [Getting Started](https://docs.zephyrproject.org/latest/develop/getting_started/index.html)
-- Go + MCUmgr ( [Go Install](https://go.dev/doc/install) + [MCUmgr from Zephyr](https://docs.zephyrproject.org/latest/services/device_mgmt/mcumgr.html))
+This tutorial is made for zephyrproject + zephyr SDK install
+But it can be used with Zephyr version of NCS
+
+- zephyrproject + zephyr SDK [Getting Started](https://docs.zephyrproject.org/latest/develop/getting_started/index.html)
+- Go + MCUmgr ([Go Install](https://go.dev/doc/install) + [MCUmgr from Zephyr](https://docs.zephyrproject.org/latest/services/device_mgmt/mcumgr.html))
 - Serial Communication Port Reader (ex : TeraTerm / Putty / Termite)
 
 ___
