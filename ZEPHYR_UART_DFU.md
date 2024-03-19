@@ -4,8 +4,8 @@ Things omitted for the sake of simplicity:
 
 - Use of NCS for VSCode app
 - The TF-M mode (could not make it work with Vanilla Zephyr)
-- Custom keys (another Markdown is in the works)
-- Thingy91 development (could not make it work with Vanilla Zephyr)
+- Custom keys (another Markdown is available)
+- Thingy91 as a target (could not make it work with Vanilla Zephyr)
 - Only made for Windows users
 
 Before starting this tutorial, it is recommended to read the following links:
@@ -417,7 +417,7 @@ You can force the reset with this command
 mcumgr -c <name> reset
 ```
 
-and even optimizing the whole process with one command
+And even optimizing the whole process with one command
 
 ```bash
 mcumgr -c <name> image confirm <hash> && mcumgr -c <name> reset
