@@ -445,9 +445,9 @@ Then add `--recover` to your command line, see example below
 west flash -d apps/blinky/build/nrf5340dk_cpuapp/build_s --recover
 ```
 
-### C) No `app_update.bin` in the `build/zephyr` folder
+### C) No `zephyr.signed.bin` in the `build/zephyr` folder
 
-If the console doesn't provide any error but you can't find the `app_update.bin`.
+If the console doesn't provide any error but you can't find the `zephyr.signed.bin`.
 Just delete the `build` folder in your application.
 You will need to recreate a new build configuration (select the same options).
 And the file should be here
