@@ -1,0 +1,26 @@
+HOW TO REPLICATE:
+
+modify west workspace
+
+
+ERROR:
+
+Parsing C:/ncs/myapps/ble_dfu_peripheral_lbs/Kconfig
+C:/ncs/v2.5.2/zephyr/scripts/kconfig/kconfig.py: C:/ncs/myapps/ble_dfu_peripheral_lbs/build/Kconfig/Kconfig.modules:128: Could not open 'C:\ncs\v2.5.2\zephyr\' (in 'osource "$(ZEPHYR_MCUBOOT_KCONFIG)"') (ENOENT: No such file or directory)
+CMake Error at C:/ncs/v2.5.2/zephyr/cmake/modules/kconfig.cmake:348 (message):
+  command failed with return code: 1
+Call Stack (most recent call first):
+  C:/ncs/v2.5.2/nrf/cmake/modules/kconfig.cmake:29 (include)
+  C:/ncs/v2.5.2/zephyr/cmake/modules/zephyr_default.cmake:129 (include)
+  C:/ncs/v2.5.2/zephyr/share/zephyr-package/cmake/ZephyrConfig.cmake:66 (include)
+  C:/ncs/v2.5.2/zephyr/share/zephyr-package/cmake/ZephyrConfig.cmake:92 (include_boilerplate)
+  CMakeLists.txt:8 (find_package)
+
+
+-- Configuring incomplete, errors occurred!
+FATAL ERROR: command exited with status 1: 'C:\Program Files\CMake\bin\cmake.EXE' -DWEST_PYTHON=c:/python39/python.exe '-Bc:\ncs\myapps\ble_dfu_peripheral_lbs\build' -GNinja -DBOARD=nrf5340dk_nrf5340_cpuapp -DNCS_TOOLCHAIN_VERSION=NONE -DCONF_FILE=c:/ncs/myapps/ble_dfu_peripheral_lbs/prj.conf '-Sc:\ncs\myapps\ble_dfu_peripheral_lbs'
+
+
+FIX this error:
+
+don't change your west workspace => change it back to what it was

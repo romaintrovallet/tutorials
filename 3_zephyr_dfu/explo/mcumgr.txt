@@ -1,0 +1,201 @@
+NMP timeout => bad mcumgr config in prj.conf
+
+Images:
+Split status: N/A (0)
+
+
+TODO:
+
+zephyrproject/blinky => build_mcumgr (test if different / required settings)
+
+regarder smp_svr sur zephyr_sdk
+
+
+
+MCUmgr commands:
+
+/*mcumgr conn add test1 type=serial connstring=COM10*/
+
+mcumgr -c test1 echo hello
+
+mcumgr -c test1 image list
+
+mcumgr -c test1 image upload -e zephyr.signed.bin
+
+mcumgr -c test1 image list
+
+mcumgr -c test1 image confirm 0f295fc86cdd59244e2339ef6f206a335dedabcbbce9239f3d0c8e3ddbfe4f1b
+mcumgr -c test1 image confirm 24a6fe883a67ca6ae4b776a1c8f4db5d7a0edafa408aea10d609cf8285e98391
+mcumgr -c test1 image confirm 95e07d0847d9c924831806be2bbc5ae3db957ec2b1eaf4073214a9d99e0723c6 && mcumgr -c test1 reset
+mcumgr -c test1 image confirm dc8fdcdc83e81ee56ad7916e9d194a6f9da73eac3c46d3a6faaf6d02a8789622
+
+mcumgr -c test1 image test a5d5d245f692d1bb9ffb2bc2bcdf90336d7934fdceb5d6cdb78752600aa6be3e
+
+mcumgr -c test1 reset
+
+
+NCS Bootloader commands:
+
+cd c:\ncs\v2.5.2
+
+west build -b nrf5340dk_nrf5340_cpuapp -d build_mcuboot_manual bootloader\mcuboot\boot\zephyr
+
+west flash -d build_mcuboot_manual 
+
+
+
+
+
+
+set ZEPHYR_BASE="c:\ncs\zephyr_clean\zephyrproject\zephyr"
+
+
+
+
+
+VENV CLEAN ZEPHYRPROJECT
+
+cd c:/ncs/zephyr_clean
+
+zephyrproject\.venv\Scripts\activate.bat
+
+cd zephyrproject
+
+west update
+
+west zephyr-export
+
+
+CLEAN ZEPHYRPROJECT Bootloader S
+_________________________________
+
+cd c:\ncs\zephyr_clean\zephyrproject
+
+west build -b nrf5340dk_nrf5340_cpuapp -d c:/ncs/zephyr_clean/zephyrproject/build_mcuboot_manual c:/ncs/zephyr_clean/zephyrproject/bootloader/mcuboot/boot/zephyr -p
+
+west flash -d build_mcuboot_manual
+
+
+CLEAN ZEPHYRPROJECT Bootloader NS
+_________________________________
+
+cd c:\ncs\zephyr_clean\zephyrproject
+
+west build -b nrf5340dk_nrf5340_cpuapp_ns -d c:/ncs/zephyr_clean/zephyrproject/build_mcuboot_manual_ns c:/ncs/zephyr_clean/zephyrproject/bootloader/mcuboot/boot/zephyr -p
+
+west flash -d build_mcuboot_manual_ns
+
+
+CLEAN ZEPHYRPROJECT Application commands:
+
+
+BLINKY_DFU_TEST
+_______________
+
+west build --build-dir c:/ncs/apps/zephyr_apps/blinky_dfu_test/build_s c:/ncs/apps/zephyr_apps/blinky_dfu_test --pristine --board nrf5340dk_nrf5340_cpuapp -p --no-sysbuild -- -DCONF_FILE=c:/ncs/apps/zephyr_apps/blinky_dfu_test/prj.conf
+
+west flash -d c:/ncs/apps/zephyr_apps/blinky_dfu_test/build_s
+
+mcumgr -c test1 image upload -e c:/ncs/apps/zephyr_apps/blinky_dfu_test/build_s/zephyr/zephyr.signed.bin
+
+---------			----------------------				----------
+
+BLINKY(mcumgr_boot_s)
+___________________
+
+west build --build-dir c:/ncs/apps/zephyr_apps/blinky/build_mcumgr_boot_manual c:/ncs/apps/zephyr_apps/blinky --pristine --board nrf5340dk_nrf5340_cpuapp -p --no-sysbuild -- -DCONF_FILE=c:/ncs/apps/zephyr_apps/blinky/prj_boot_mcumgr.conf
+
+west flash -d c:/ncs/apps/zephyr_apps/blinky/build_mcumgr_boot_manual
+
+mcumgr -c test1 image upload -e c:/ncs/apps/zephyr_apps/blinky/build_mcumgr_boot_manual/zephyr/zephyr.signed.bin
+
+---------			----------------------				----------
+
+BLINKY(mcumgr_boot_ns)
+___________________
+
+west build --build-dir c:/ncs/apps/zephyr_apps/blinky/build_mcumgr_boot_manual_ns c:/ncs/apps/zephyr_apps/blinky --pristine --board nrf5340dk_nrf5340_cpuapp_ns -p --no-sysbuild -- -DCONF_FILE=c:/ncs/apps/zephyr_apps/blinky/prj_boot_mcumgr.conf
+
+west flash -d c:/ncs/apps/zephyr_apps/blinky/build_mcumgr_boot_manual_ns
+
+mcumgr -c test1 image upload -e c:/ncs/apps/zephyr_apps/blinky/build_mcumgr_boot_manual_ns/zephyr/zephyr.signed.bin
+
+---------			----------------------				----------
+
+BLINKY(ns)
+___________________
+
+west build --build-dir c:/ncs/apps/zephyr_apps/blinky/build_manual_ns c:/ncs/apps/zephyr_apps/blinky --pristine --board nrf5340dk_nrf5340_cpuapp_ns -p --no-sysbuild -- -DCONF_FILE=c:/ncs/apps/zephyr_apps/blinky/prj.conf
+
+west flash -d c:/ncs/apps/zephyr_apps/blinky/build_manual_ns
+
+mcumgr -c test1 image upload -e c:/ncs/apps/zephyr_apps/blinky/build_manual_ns/zephyr/zephyr.signed.bin
+
+---------			----------------------				----------
+
+BLINKY_4_DFU_TEST (s)
+_________________
+
+west build --build-dir c:/ncs/apps/zephyr_apps/blinky_4_dfu_test/build_s c:/ncs/apps/zephyr_apps/blinky_4_dfu_test --pristine --board nrf5340dk_nrf5340_cpuapp -p --no-sysbuild -- -DCONF_FILE=c:/ncs/apps/zephyr_apps/blinky_4_dfu_test/prj.conf
+
+west flash -d c:/ncs/apps/zephyr_apps/blinky_4_dfu_test/build_s
+
+mcumgr -c test1 image upload -e c:/ncs/apps/zephyr_apps/blinky_4_dfu_test/build_s/zephyr/zephyr.signed.bin
+
+
+---------			----------------------				----------
+
+BLINKY_4_DFU_TEST (ns)
+_________________
+
+west build --build-dir c:/ncs/apps/zephyr_apps/blinky_4_dfu_test/build_ns c:/ncs/apps/zephyr_apps/blinky_4_dfu_test --pristine --board nrf5340dk_nrf5340_cpuapp_ns -p --no-sysbuild -- -DCONF_FILE=c:/ncs/apps/zephyr_apps/blinky_4_dfu_test/prj.conf
+
+west build --build-dir c:/ncs/apps/zephyr_apps/blinky_4_dfu_test/build_ns c:/ncs/apps/zephyr_apps/blinky_4_dfu_test --pristine --board nrf5340dk_nrf5340_cpuapp_ns -p --no-sysbuild -- -DCONF_FILE=c:/ncs/apps/zephyr_apps/blinky_4_dfu_test/prj_tfm.conf
+
+west flash -d c:/ncs/apps/zephyr_apps/blinky_4_dfu_test/build_ns
+
+mcumgr -c test1 image upload -e c:/ncs/apps/zephyr_apps/blinky_4_dfu_test/build_ns/zephyr/zephyr.signed.bin
+
+
+
+
+
+CONFIRM
+
+mcumgr -c test1 image confirm 1db4d5cc8c034a550006c583565c020b26858adca4e2a79c93fd45a23e95b966
+
+
+
+
+TEST
+
+mcumgr -c test1 image test 051f4e0f49128dc2cd846cf8cdd5a987fdb21a434493bd41eb7bd4c3656b6271
+
+
+
+hashes:
+
+91a247a266a5ca72b1a7aa590af96f996754d235a73bdea6064c97a1595802fa
+c1c98f00f1038089b2c9334dc98e02108d6172c5426096bed1333f577bbfa972
+8f91c47ac57c75079080dcc202632b8d6014742fd655ebcf02da2178034e02cf
+d2b1a94b58ec33f281e90e4c0e1d1e719c10cc79e1e78380dddd650167855896
+e360c752691085389270d3b17b358b3cb3902e821685a4b03afcaf8a03afef66
+6c6259fe5e2f620f9e02b986e731ad89e11b56e1a1b7de68e1e94b139a126c12
+290902017207448e91d01c320711d03ddc6b153f6e8b51216decaac80be324f3
+f2068b7432760062f6ae9a91851df68fa6a9780d43303bd99f563b6898191cfa
+33c20f506a70f9139b8897ed83b04fd13cfd09cdc1d541e7beaec6567cb666a8
+2d741ab3da275995b435a7a03e3504d00c10182c368203f1f703e63a282588db
+051f4e0f49128dc2cd846cf8cdd5a987fdb21a434493bd41eb7bd4c3656b6271
+da25ba81548915e0c07d5c27f0cf3976ebf4f076888fa14bcfc257809f7c6213
+
+
+1db4d5cc8c034a550006c583565c020b26858adca4e2a79c93fd45a23e95b966
+2b0c4c99bbe59066baed089ea2345584dad109278a5a04b7da4e6c585b92b9f8
+1081b56ac212e7729251024674941dd9858a667c4800c1bf8b422ddec2581983
+0e9a0d2ad49ef84161da3d8b42f723e874a3c55350cd5f6167e79b3e701d64e9
+177f9bd9837b06d864f51f1caaea862883d0bf0946393f00704056ca3449601e
+
+
+
+
+

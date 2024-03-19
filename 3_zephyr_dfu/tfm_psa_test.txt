@@ -1,0 +1,7 @@
+
+
+
+cd c:\ncs\zephyr_clean\zephyrproject
+
+west build zephyr_apps/tfm_psa_test -p -b nrf5340dk_nrf5340_cpuapp_ns -- -DCONFIG_TFM_PSA_TEST_STORAGE=y
+

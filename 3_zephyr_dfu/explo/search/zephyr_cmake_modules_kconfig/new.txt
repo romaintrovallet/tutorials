@@ -1,0 +1,19 @@
+l 329
+
+# List of commands to execute
+set(commands
+    "${CMAKE_COMMAND} -E env ${COMMON_KCONFIG_ENV_SETTINGS} ${PYTHON_EXECUTABLE} ${ZEPHYR_BASE}/scripts/kconfig/kconfig.py --zephyr-base=${ZEPHYR_BASE} ${input_configs_flags} ${KCONFIG_ROOT} ${DOTCONFIG} ${AUTOCONF_H} ${PARSED_KCONFIG_SOURCES_TXT} ${input_configs}"
+    # Add more commands here if needed
+)
+
+foreach(cmd IN LISTS commands)
+    execute_process(
+        COMMAND ${cmd}
+        WORKING_DIRECTORY ${APPLICATION_SOURCE_DIR}
+        RESULT_VARIABLE cmd_ret
+    )
+
+    if(NOT "${cmd_ret}" STREQUAL "0")
+        message(FATAL_ERROR "Command failed with return code: ${cmd_ret}")
+    endif()
+endforeach()
