@@ -6,7 +6,7 @@ Things omitted for the sake of simplicity:
 - The TF-M mode (could not make it work with Vanilla Zephyr)
 - Custom keys (another Markdown is available)
 - Thingy91 as a target (could not make it work with Vanilla Zephyr)
-- Only made for Windows users
+- Other OS than Windows
 
 Before starting this tutorial, it is recommended to read the following links:
 
