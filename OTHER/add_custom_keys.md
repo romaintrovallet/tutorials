@@ -86,7 +86,7 @@ CONFIG_BOOT_SIGNATURE_KEY_FILE="priv.pem"
 CONFIG_BOOT_SIGNATURE_TYPE_ECDSA_P256=y
 ```
 
-The path can be shorten
+The path is shorter
 
 </details>
 
