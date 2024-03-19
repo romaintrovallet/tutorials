@@ -17,8 +17,10 @@ Before doing the main tutorial, verify the compatibility between:
 
 (<sup>1</sup>) => Zephyrproject isn't compatible with NCS made up samples
 
-When combining a main tutorial (rows) with complementary ones (cols)
-You might found limits
+Before adding complementary tutorials to the main ones, verify the compatibility between:
+
+- The main tutorials (rows)
+- The complementary tutorial (cols)
 
 | Compatibility Table | ZEPHYR_UART_DFU | ... | ... | ... | ... | NCS_BLE_DFU |
 | :------------------ | :-------------: | :-: | :-: | :-: | :-: | :---------: |
