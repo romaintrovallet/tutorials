@@ -26,4 +26,5 @@ You might found limits
 | **Thingy91** | Not Compatible<sup>2</sup>| ... | ... | ... | ... | Not Compatible<sup>3</sup>|
 
 (<sup>2</sup>) => Thingy91 isn't compatible with 'Vanilla' Zephyr due to lack of its board
+
 (<sup>3</sup>) => Thingy91 can't perform DFU with Bluetooth
