@@ -17,7 +17,7 @@ ___
 
 ## 0) Requirements
 
-- nRF Connect for Desktop + a NCS toolchain installed + NCS for VSCode ([nRF Connect SDK Install](https://developer.nordicsemi.com/nRF_Connect_SDK/doc/latest/nrf/installation.html))
+- nRF Connect for Desktop + a NCS toolchain installed + NCS for VSCode [nRF Connect SDK Install](https://developer.nordicsemi.com/nRF_Connect_SDK/doc/latest/nrf/installation.html)
 - Go + MCUmgr ( [Go Install](https://go.dev/doc/install) + [MCUmgr from Zephyr](https://docs.zephyrproject.org/latest/services/device_mgmt/mcumgr.html))
 - Serial Communication Port Reader (ex : TeraTerm / Putty / Termite)
 
@@ -27,10 +27,10 @@ ___
 
 ### A) Copy sample
 
-Go to your zephyrproject install.
-Go to this path : `zephyrproject\zephyr\samples\basic`
+Go to your toolchain install. (ex: `c:\ncs\v2.5.2`)
+Go to this path : `v2.5.2\zephyr\samples\basic`
 Copy the `blinky` folder
-Paste it in your app folder (ex: `zephyrproject\apps\blinky`)
+Paste it in your app folder (ex: `ncs\apps\blinky`)
 For the next steps, we will assume you pick the example folder
 
 This will be the application we are working with.
@@ -75,109 +75,60 @@ printk("build time: " __DATE__ " " __TIME__ "\n");
 
 ___
 
-## 2) Command Line config
+## 2) Build app
 
-In this tutorial we will use the command line
-Open a terminal in the parent folder of `zephyrproject`
+Create the build configuration (precise '_ns')
 
-If, for whatever reason, you cannot complete the whole tuto in one time.
-If you must build any application/bootloaders (Until Step 7 included)
-You need to make this step all over again
-
-In the following, it will be called the **MAIN_TERMINAL**
-
-Enter this command:
-
-```bash
-echo %ZEPHYR_BASE%
-```
-
-and it should return something like this:
-
-```bash
-<absolute>\<path>\<to>\zephyrproject\zephyr
-```
-
-If not go to error section
-
-Still in the **MAIN_TERMINAL**, enter this command:
-
-```bash
-zephyrproject\.venv\Scripts\activate.bat
-```
-
-You are now in the zephyr virtual environment.
-You shall keep your **MAIN_TERMINAL** open.
-
-Enter the following commands:
-
-```bash
-cd zephyrproject
-```
-
-```bash
-west update
-```
-
-```bash
-west zephyr-export
-```
-
-Once done, keep it in your background and please do not close it
-___
-
-## 3) Build app
-
-In the **MAIN_TERMINAL**
-
-Enter this command :
-
-```bash
-west build -b nrf5340dk_nrf5340_cpuapp apps/blinky -d apps/blinky/build/nrf5340dk_cpuapp/build_s
-```
+Launch the build
 
 ___
 
-## 4) Build bootloader
-
-In the **MAIN_TERMINAL**
-
-Enter this command :
-
-```bash
-west build -b nrf5340dk_nrf5340_cpuapp bootloader/mcuboot/boot/zephyr -d build_bootloader/nrf5340dk_cpuapp
-```
-
-___
-
-## 5) Flash app
+## 3) Flash app
 
 Now is a good time to plug your device
 
-In the **MAIN_TERMINAL**
-
-Enter this command :
-
-```bash
-west flash -d apps/blinky/build/nrf5340dk_cpuapp/build_s
-```
-
-If it doesn't flash, go to possible errors sections
+With the Thingy91, you need to press the Main Button while turning it ON.
+This triggers the Serial Recovery mode and make the Thingy programmable.
 
 At this point you should open a Serial Communication Port Reader to see the incoming output.
 Note that, at this point, you shouldn't see anything related to this application.
 
-___
+<details>
+<summary><b>Use nRF Programmer</b></summary>
 
-## 6) Flash bootloader
+The nRF Programmer is available in the nRF Connect for Desktop app.
 
-In the **MAIN_TERMINAL**
+Install it and open it.
 
-Enter this command :
+Select your device.
+
+Select the file to program.
+
+Press `Write.`
+
+</details>
+</br>
+<details>
+<summary><b>Use nRF Util</b></summary>
+
+You can download this tool [here](https://www.nordicsemi.com/Products/Development-tools/nRF-Util)
+Install the tool
+Open a CMD and test the install with the following command
+Then install `device`
 
 ```bash
-west flash -d build_bootloader/nrf5340dk_cpuapp
+nrfutil install device
 ```
+
+Once it is done you can open a CMD in the build folder (ex:`apps\blinky\build\thingy91_9160_ns`)
+Then enter this command
+
+```bash
+nrfutil device program --firmware app_signed.hex
+```
+
+</details>
+</br>
 
 So at this point you should have:
 
@@ -193,7 +144,7 @@ It's visible at the start of the application log
 
 ___
 
-## 7) Build app again
+## 4) Build app again
 
 At this point, you have a working bootloader and application
 Now we will update the application with a new version of the same application
@@ -220,13 +171,7 @@ Here are some examples :
 </details>
 </br>
 
-In the **MAIN_TERMINAL**
-
-Enter this command :
-
-```bash
-west build -b nrf5340dk_nrf5340_cpuapp apps/blinky -d apps/blinky/build/nrf5340dk_cpuapp/build_s -p
-```
+Make a Pristine Build with the NCS for VSCode app
 
 </details>
 </br>
@@ -234,29 +179,23 @@ west build -b nrf5340dk_nrf5340_cpuapp apps/blinky -d apps/blinky/build/nrf5340d
 <summary><b>[OPTIONAL] New app</b></summary>
 
 Follow the **A) Copy sample** in the **1) Create application**
-Instead get the `zephyrproject\zephyr\samples\hello_world`
-and copy it to `zephyrproject\apps\hello_world`
+Instead get the `v2.5.2\zephyr\samples\hello_world`
+and copy it to `ncs\apps\hello_world`
 
 Follow the same modification in the **B) Modify sample**
-and add this library in the `zephyrproject\apps\hello_world\src\main.c`
+and add this library in the `ncs\apps\hello_world\src\main.c`
 
 ```c
 #include <zephyr/kernel.h>
 ```
 
-In the **MAIN_TERMINAL**
-
-Then build it with this command
-
-```bash
-west build -b nrf5340dk_nrf5340_cpuapp apps/hello_world -d apps/hello_world/build/nrf5340dk_cpuapp/build_s
-```
+Make a Pristine Build with the NCS for VSCode app
 
 </details>
 
 ___
 
-## 8) Perform DFU
+## 5) Perform DFU
 
 At this point, we use MCUmgr to perform the DFU.
 Just know that other tools exists
@@ -273,9 +212,9 @@ In the following, it will be called the **CONFIG_TERMINAL**
 MCUmgr will use the Serial Communication Port
 
 - Close your Serial Communication Port
-- Go to your build folder (example : `zephyrproject/apps/blinky/build/nrf5340dk_cpuapp/build_s`)
+- Go to your build folder (example : `ncs\apps\blinky\build\thingy91_9160_ns`)
   - then `zephyr` folder
-  - then verify the presence of `zephyr.signed.bin`
+  - then verify the presence of `app_update.bin`
 
 In the **CONFIG_TERMINAL**
 
@@ -292,14 +231,14 @@ mcumgr 0.0.0-dev
 This verifies your installation of MCUmgr
 
 </details>
-
+</br>
 <details>
 <summary><b>First config</b></summary>
 
 In the **CONFIG_TERMINAL**
 
 ```bash
-nrfjprog --com
+nrfutil device list
 ```
 
 and the result should be something like this:
@@ -342,14 +281,14 @@ At this point you can close **CONFIG_TERMINAL**
 
 ### B) Application transfer
 
-Open another terminal in your build folder (ex: `zephyrproject\apps\blinky\build\nrf5340dk_cpuapp\build_s`)
+Open another terminal in your build folder (ex: `ncs\apps\blinky\build\thingy91_9160_ns`)
 If you built **[OPTIONAL] New app**, you must go to the new application build folder
 In the following, it will be called the **COMM_TERMINAL**
 
 Adapt and copy this command:
 
 ```bash
-mcumgr -c <name> image upload -e zephyr/zephyr.signed.bin
+mcumgr -c <name> image upload -e zephyr/app_update.bin
 ```
 
 Now you should be printed with a loading bar.
@@ -417,7 +356,7 @@ You can force the reset with this command
 mcumgr -c <name> reset
 ```
 
-and even optimizing the whole process with one command
+And even optimizing the whole process with one command
 
 ```bash
 mcumgr -c <name> image confirm <hash> && mcumgr -c <name> reset
@@ -427,36 +366,18 @@ ___
 
 ## 9) Possible errors
 
-### A) Wrong path when `echo %ZEPHYR_BASE%`
-
-First verify you are not in a virtual environment.
-Then adapt and enter this command:
-
-```bash
-set ZEPHYR_BASE=<absolute>\<path>\<to>\zephyrproject\zephyr
-```
-
-### B) Error when flashing the application
-
-First verify that you have rightly plugged the Development Kit and that you have turned it on.
-Then add `--recover` to your command line, see example below
-
-```bash
-west flash -d apps/blinky/build/nrf5340dk_cpuapp/build_s --recover
-```
-
-### C) No `app_update.bin` in the `build/zephyr` folder
+### A) No `app_update.bin` in the `build/zephyr` folder
 
 If the console doesn't provide any error but you can't find the `app_update.bin`.
 Just delete the `build` folder in your application.
 You will need to recreate a new build configuration (select the same options).
 And the file should be here
 
-### D) When `mcumgr` command => `Acces is denied`
+### B) When `mcumgr` command => `Acces is denied`
 
 In most cases, you forgot to close the Serial Communication Port
 
-### E) When `mcumgr` command => `NMP timeout`
+### C) When `mcumgr` command => `NMP timeout`
 
 Try to execute simpler command like
 
@@ -467,7 +388,7 @@ mcumgr -c <name> echo hello
 If it happened try the failed command a second time, it could work now.
 If it doesn't work, this is generally because the MCUmgr config in the `prj.conf` is badly set.
 
-### F) When `mcumgr image update` command => Stuck at 0%
+### D) When `mcumgr image update` command => Stuck at 0%
 
 Try deactivate mass storage on device:
 
