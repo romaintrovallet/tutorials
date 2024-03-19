@@ -5,6 +5,8 @@ All the main programs are compatible with:
 - nRF5340dk
 - Windows
 
+## Main tutorial / SDK
+
 Before doing the main tutorial, verify the compatibility between:
 
 - The main tutorials (rows)
@@ -16,6 +18,8 @@ Before doing the main tutorial, verify the compatibility between:
 | **Zephyrproject** | Compatible | ... | ... | ... | ... | Not Compatible<sup>1</sup>|
 
 (<sup>1</sup>) => Zephyrproject isn't compatible with NCS made up samples
+
+## Main tutorial / Complementary tutorial
 
 Before adding complementary tutorials to the main ones, verify the compatibility between:
 
