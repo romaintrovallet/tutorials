@@ -45,11 +45,11 @@ You should have this window that pops up.
 We will create an app from an existing sample.
 Select the correponding button
 
-![Picture of VSCode where the place to click is higlighted](img/NCS/1_new_app/sample.png)
+![Picture of VSCode where the place to click is higlighted](img/NCS/create_app/sample.png)
 
 Then select the blinky sample by searching `blinky`
 
-![Picture of VSCode where the place to click is higlighted](img/NCS/1_new_app/UART/blinky_sample.png)
+![Picture of VSCode where the place to click is higlighted](img/NCS/create_app/UART/blinky_sample.png)
 
 Then save the app.
 You should pick a high level folder because of the limit of 250 characters by CMake
@@ -84,7 +84,7 @@ printk("build time: " __DATE__ " " __TIME__ "\n");
 This will allow us to see the difference between old and new code after the update.
 You should have something like this:
 
-![Picture of the main.c file modified](img/NCS/3_modif_app/UART/main.png)
+![Picture of the main.c file modified](img/NCS/modif_app/UART/main.png)
 
 Don't forget to save `src/main.c`!!
 
@@ -118,7 +118,7 @@ CONFIG_BASE64=y
 
 You should have something like this:
 
-![Picture of the prj.conf file modified](img/NCS/3_modif_app/UART/conf.png)
+![Picture of the prj.conf file modified](img/NCS/modif_app/UART/conf.png)
 
 Don't forget to save `prj.conf`!!
 
@@ -187,7 +187,7 @@ Once these 2 things are set, you are ready to flash
 
 If ready, select the `Flash & Erase` command as presented below
 
-![Picture of the nRF Extension for VSCode with the place to click higlighted](img/NCS/5_flash_app/UART/flash.png)
+![Picture of the nRF Extension for VSCode with the place to click higlighted](img/NCS/flash_app/UART/flash.png)
 
 If the flash was successful, you should see 2 things:
 
@@ -229,7 +229,7 @@ Here are some examples :
 
 Rebuild by following the instructions below
 
-![Picture of the nRF Extension for VSCode with the place to click higlighted](img/NCS/second_build/UART/new_build-1.png)
+![Picture of the nRF Extension for VSCode with the place to click higlighted](img/NCS/second_build/UART/rebuild.png)
 
 </details>
 </br>
