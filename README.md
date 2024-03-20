@@ -1,8 +1,8 @@
-# Read Me
+# README
 
 You can find basic information about the Repository and how to use it.
 
-Most of the informations (and even more) can be found in the Nordic Course Intermediate
+Most of the informations (and even more) can be found in the Nordic Course Intermediate  
 [Nordic Course Intermediate - DFU/FOTA Section](https://academy.nordicsemi.com/courses/nrf-connect-sdk-intermediate/lessons/lesson-8-bootloaders-and-dfu-fota/)
 
 ## Requirement
@@ -26,7 +26,6 @@ Choose with your target:
 
 </details>
 </br>
-
 In addition of one of the above, you need:
 
 - Serial Communication Port Reader (ex : TeraTerm / Putty / Termite)
