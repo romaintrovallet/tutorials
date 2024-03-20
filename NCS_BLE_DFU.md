@@ -107,7 +107,7 @@ Don't forget to save `prj.conf`!!
 
 ___
 
-## 4) Build application
+## 3) Build application
 
 Now we need to configure the build settings.
 Select one of the 2 button
@@ -129,7 +129,7 @@ But after the generation you should have something like that.
 
 ___
 
-## 5) Flash the application
+## 4) Flash the application
 
 Now is a good time to plug your device.
 
@@ -159,7 +159,7 @@ If ready, select the `Flash & Erase` command as presented below
 
 ___
 
-## 6) Observe booting
+## 5) Observe booting
 
 To see the return of our application, follow the steps:
 
@@ -181,7 +181,7 @@ What's to note is the build time of the application
 
 ___
 
-## 7) Build Application again
+## 6) Build Application again
 
 At this point, you have a working bootloader and application
 Now we will update the application with a new version of the same application
@@ -222,7 +222,7 @@ Not written yet
 
 ___
 
-## 8) Perform DFU
+## 7) Perform DFU
 
 At this point, we use nRF Connect app to perform the DFU over Bluetooth.
 Just know that other tools exists
@@ -274,7 +274,7 @@ You have now performed your first DFU !!
 
 ___
 
-## 7) Possible errors
+## 8) Possible errors
 
 ### A) Error when flashing the application
 
