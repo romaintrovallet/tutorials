@@ -59,15 +59,30 @@ a lots of folder and folder thus making the full path of certain files very long
 I choose this path for the example : `c:\ncs\apps\dfu_tutorial`
 And I gave it the name `dfu_uart`
 
-![Picture of VSCode with the path and the name given to the application](img/NCS/1_new_app/UART/appli_saving.png)
+![Picture of VSCode with the path and the name given to the application](img/NCS/create_app/UART/appli_saving.png)
 
-![Picture of VSCode with the application ready to build](img/NCS/1_new_app/UART/appli_saved.png)
+![Picture of VSCode with the application ready to build](img/NCS/1_new_app/UART/create_saved.png)
 
 This will be the application we are working with.
 
 ___
 
 ## 2) Modify Application
+
+At this point you should have something like this:
+
+```bash
+.
+└── dfu_tutorial/
+    └── dfu_uart/
+        ├── src/
+        │   └── main.c
+        ├── .gitignore
+        ├── CMakeLists.txt
+        ├── prj.conf
+        ├── README.rst
+        └── sample.yaml
+```
 
 To make the DFU work, we will need to modify the application
 
@@ -138,6 +153,23 @@ This will allow us to have the details in the mcuboot part.
 
 Don't forget to save `child_image/mcuboot.conf`!!
 
+At this point you should have something like this:
+
+```bash
+.
+└── dfu_tutorial/
+    └── dfu_uart/
+        ├── child_image/
+        │   └── mcuboot.conf (U)
+        ├── src/
+        │   └── main.c (M)
+        ├── .gitignore
+        ├── CMakeLists.txt
+        ├── prj.conf (M)
+        ├── README.rst
+        └── sample.yaml
+```
+
 ___
 
 ## 3) Build application
@@ -145,11 +177,11 @@ ___
 Now we need to configure the build settings.
 Select one of the 2 button
 
-![Picture of the nRF Extension for VSCode with the place to click higlighted](img/NCS/4_build_app/UART/build-1.png)
+![Picture of the nRF Extension for VSCode with the place to click higlighted](img/NCS/build_app/UART/build-1.png)
 
 Select those 2 options and rename the output build folder to something recognizable.
 
-![Picture of the Build configuration with the place to modify the config higlighted](img/NCS/4_build_app/UART/build-2.png)
+![Picture of the Build configuration with the place to modify the config higlighted](img/NCS/build_app/UART/build-2.png)
 
 If the build fails, try rebuild first (sometimes NCS needs a second build)
 If it still fails, go to possible error section
@@ -157,7 +189,7 @@ If it still fails, go to possible error section
 This takes quite some time to generate.
 But after the generation you should have something like that.
 
-![Picture of the nRF Extension for VSCode with the visible build configuration](img/NCS/4_build_app/UART/build-3.png)
+![Picture of the nRF Extension for VSCode with the visible build configuration](img/NCS/build_app/UART/build-3.png)
 
 ___
 
