@@ -17,6 +17,7 @@ Before going any further you should either have:
 
 `/!\-/!\-/!\-/!\-/!\-/!\-/!\-/!\-/!\-/!\`  
 It's important to note that the 2 **should NOT be installed on the same computer** (outside of R&D purposes)
+
 Choose with your target:
 
 - **Nordic** Target => Install **nRF Connect SDK**
@@ -53,6 +54,7 @@ Before doing the main tutorial, verify the compatibility between:
 | **Zephyrproject** | Compatible | Compatible<sup>1</sup> | ... | N.A. | ... | Not Compatible<sup>2</sup>|
 
 (<sup>1</sup>) => Uses a zephyr sample
+
 (<sup>2</sup>) => Zephyrproject isn't compatible with NCS made up samples
 
 ### Main tutorials / Complementary tutorial
