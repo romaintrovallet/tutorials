@@ -1,5 +1,11 @@
 # Tutorial DFU over UART with Blinky sample
 
+This tutorial will show:
+
+- How to perform a DFU over UART
+- How to use MCUmgr
+- Using the Blinky sample
+
 Things omitted for the sake of simplicity:
 
 - Use of NCS for VSCode app
@@ -19,10 +25,12 @@ ___
 
 This tutorial is made for zephyrproject + zephyr SDK install
 But it can be used with Zephyr version of NCS
+Just replace `zephyrproject` with your toolchain version (ex:`v2.6.0`)
+(Not recommended if you have a zephyrproject install)
 
-- zephyrproject + zephyr SDK [Getting Started](https://docs.zephyrproject.org/latest/develop/getting_started/index.html)
+With the global requirements, you should add the following:
+
 - Go + MCUmgr ([Go Install](https://go.dev/doc/install) + [MCUmgr from Zephyr](https://docs.zephyrproject.org/latest/services/device_mgmt/mcumgr.html))
-- Serial Communication Port Reader (ex : TeraTerm / Putty / Termite)
 
 ___
 
@@ -192,7 +200,7 @@ So at this point you should have:
 You should note the build time in the Serial Communication port
 It's visible at the start of the application log
 
-![Tera Term log](img/TeraTerm+CMD/1_result/image.png)
+![Tera Term log](img/ZEPHYR/1_result/image.png)
 
 ___
 
@@ -370,7 +378,9 @@ At this point 2 images are on the nordic
 But the original one will always be selected upon each reset
 Let's modify this
 
-![Shows the list of images on target via MCUmgr](img/TeraTerm+CMD/2_DFU/image-1.png)
+![Shows the list of images on target via MCUmgr](img/ZEPHYR/2_DFU/image-1.png)
+
+### C) Application swap
 
 Copy the hash of the second image
 Then adapt and enter this command in the **COMM_TERMINAL**
@@ -385,12 +395,12 @@ And press the `RESET` on your board
 You should see the Bootloader swpping the image to another
 And in the end the application load with a more up to date Build Time
 
-![Shows the DFU test with TeraTerm](img/TeraTerm+CMD/2_DFU/image-2.png)
+![Shows the DFU test with TeraTerm](img/ZEPHYR/2_DFU/image-2.png)
 
 Press the `RESET` button again on your board
 Now the application loading is the original
 
-![Shows the revert with TeraTerm](img/TeraTerm+CMD/2_DFU/image-3.png)
+![Shows the revert with TeraTerm](img/ZEPHYR/2_DFU/image-3.png)
 
 Close the Serial COM port
 
