@@ -50,9 +50,10 @@ Before doing the main tutorial, verify the compatibility between:
 | Compatibility Table | ZEPHYR_UART_DFU | NCS_UART_DFU | ... | NCS_USB_DFU | ... | NCS_BLE_DFU |
 | :------------------ | :-------------: | :-: | :-: | :-: | :-: | :---------: |
 | **NCS** | Compatible | Compatible | ... | Compatible | ... | Compatible |
-| **Zephyrproject** | Compatible | Not Compatible<sup>1</sup> | ... | N.A. | ... | Not Compatible<sup>1</sup>|
+| **Zephyrproject** | Compatible | Compatible<sup>1</sup> | ... | N.A. | ... | Not Compatible<sup>2</sup>|
 
-(<sup>1</sup>) => Zephyrproject isn't compatible with NCS made up samples
+(<sup>1</sup>) => Uses a zephyr sample
+(<sup>2</sup>) => Zephyrproject isn't compatible with NCS made up samples
 
 ### Main tutorials / Complementary tutorial
 
@@ -64,13 +65,13 @@ Before adding complementary tutorials to the main ones, verify the compatibility
 | Compatibility Table | ZEPHYR_UART_DFU | NCS_UART_DFU | ... | NCS_USB_DFU | ... | NCS_BLE_DFU |
 | :------------------ | :-------------: | :-: | :-: | :-: | :-: | :---------: |
 | **Custom_Keys** | Compatible | Compatible | ... | Compatible | ... | Compatible |
-| **Thingy91** | Not Compatible<sup>2</sup>| Compatible | ... | Not Compatible<sup>4</sup> | ... | Not Compatible<sup>3</sup>|
+| **Thingy91** | Not Compatible<sup>3</sup>| Compatible | ... | Not Compatible<sup>4</sup> | ... | Not Compatible<sup>5</sup>|
 
-(<sup>2</sup>) => Thingy91 isn't compatible with 'Vanilla' Zephyr due to lack of its board
-
-(<sup>3</sup>) => Thingy91 can't perform DFU with Bluetooth
+(<sup>3</sup>) => Thingy91 isn't compatible with 'Vanilla' Zephyr due to lack of its board
 
 (<sup>4</sup>) => DFU over USB (USB-CDC) needs a second usb port (only provided by Development Kits)
+
+(<sup>5</sup>) => Thingy91 can't perform DFU with Bluetooth
 
 ### Main tutorials / Fonctionnalities
 
@@ -84,6 +85,6 @@ So here is a table of tested functionnalities.
 | :------------------ | :-------------: | :-: | :-: | :-: | :-: | :---------: |
 | **TF-M** | Compatible | Compatible | ... | Not Compatible<sup>5</sup> | ... | Not Compatible<sup>5</sup> |
 | **Revert** | Compatible | Compatible | ... | Compatible | ... | Compatible |
-| **TF-M + Revert** | Compatible | Compatible | ... | Not Compatible<sup>5</sup> | ... | Not Compatible<sup>5</sup> |
+| **TF-M + Revert** | Compatible | Compatible | ... | Not Compatible<sup>6</sup> | ... | Not Compatible<sup>5</sup> |
 
-(<sup>5</sup>) => Could not make it work
+(<sup>6</sup>) => Could not make it work
