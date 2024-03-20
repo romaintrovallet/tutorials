@@ -1,31 +1,39 @@
-# Tutorial DFU over Bluetooth
+# Tutorial DFU over Bluetooth with Peripheral LBS sample
+
+This tutorial will show:
+
+- How to perform a DFU over Bluetooth
+- How to use nRF Connect Application
+- Using the BLE Peripheral LBS sample
+
+Things omitted for the sake of simplicity:
+
+- The TF-M mode (could not make it work with this example)
+- Custom keys (another tutorial is available)
+- Thingy91 as a target (nRF852840 on the Thingy91 shall not be used for this purpose)
+- Other OS than Windows
+
+Before starting this tutorial, it is recommended to read the following links:
+
+- [Zephyr's doc on MCUboot](https://docs.mcuboot.com/readme-zephyr.html)
 
 ___
 
 ## 0) Requirements
 
-### A) nRF Connect
+This tutorial is made for NCS install.
+It is not compatible with the zephyrproject install.
 
-<details>
-<summary><b>Requirements nRF Connect</b></summary>
-You should have nRF Connect installed and setup for Visual Code
+If you are interested by the zephyrproject / Vanilla Zephyr version
+It is not available yet.
 
-[Create an application](hhttps://developer.nordicsemi.com/nRF_Connect_SDK/doc/latest/nrf/create_application.html)
+With the global requirements, you should add the following:
 
-and make sure to have a **nrf** west workspace
-![Picture of VSCode where the place to click is higlighted](img/NCS/0_workspace/workspace_v1.png)
-
-![Picture of VSCode where the place to click is higlighted](img/NCS/0_workspace/workspace_v2.png)
-</details>
-
-### B) Android App
-
-You must download the nRF Connect application on your phone.
-Available on Play Store and Apple Store
+- a phone with nRF Connect Application (available on Play Store / Apple Store)
 
 ___
 
-## 1) Application creation
+## 1) Create application
 
 In nRF Connect for VS Code, create a new application.
 Select one of the 2 button
@@ -70,9 +78,9 @@ then select it in your windows browser
 
 ___
 
-## 3) Modify the app
+## 2) Modify Application
 
-### A) main.c
+### A) src/main.c
 
 In your app folder, open `src/main.c`
 
@@ -83,18 +91,17 @@ printk("build time: " __DATE__ " " __TIME__ "\n");
 ```
 
 This will allow us to see the difference between old and new code after the update.
-
 You should have something like this:
 
 ![Picture of the main.c file modified](img/NCS/3_modif_app/printk.png)
 
 Don't forget to save !!
 
-### B) proj.conf
+### B) prj.conf
 
-Now open `proj.conf`
+Now open `prj.conf`
 
-```conf
+```bash
 #Enable MCUBOOT bootloader build in the application
 CONFIG_BOOTLOADER_MCUBOOT=y
 #Include MCUMGR and the dependencies in the build
@@ -103,7 +110,7 @@ CONFIG_NCS_SAMPLE_MCUMGR_BT_OTA_DFU=y
 
 You should have something like this:
 
-![Picture of the proj.conf file modified](img/NCS/3_modif_app/proj_conf.png)
+![Picture of the prj.conf file modified](img/NCS/3_modif_app/proj_conf.png)
 
 Don't forget to save !!
 
@@ -116,7 +123,7 @@ Select one of the 2 button
 
 ![Picture of the nRF Extension for VSCode with the place to click higlighted](img/NCS/4_build_app/BT/build_conf_v1.png)
 
-Select those 2 options to have a working build.
+Select those 2 options and rename the output build folder to something recognizable.
 
 At the time of making the tuto, a danger sign appears when selecting the board.
 It's because of the secure and non-secure way to build the application.
