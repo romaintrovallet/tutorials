@@ -40,7 +40,7 @@ All the main programs are compatible with:
 - nRF5340dk
 - Windows
 
-### Main tutorial / Configuration
+### Main tutorials / Configuration
 
 Before doing the main tutorial, verify the compatibility between:
 
@@ -54,7 +54,7 @@ Before doing the main tutorial, verify the compatibility between:
 
 (<sup>1</sup>) => Zephyrproject isn't compatible with NCS made up samples
 
-### Main tutorial / Complementary tutorial
+### Main tutorials / Complementary tutorial
 
 Before adding complementary tutorials to the main ones, verify the compatibility between:
 
@@ -72,7 +72,7 @@ Before adding complementary tutorials to the main ones, verify the compatibility
 
 (<sup>4</sup>) => DFU over USB (USB-CDC) needs a second usb port (only provided by Development Kits)
 
-### Main tutorial / Fonctionnalities
+### Main tutorials / Fonctionnalities
 
 You might want to add some functionnalities after.
 So here is a table of tested functionnalities.
