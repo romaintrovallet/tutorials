@@ -2,9 +2,9 @@
 
 This tutorial will show:
 
-- How to perform a DFU over Bluetooth
-- How to use nRF Connect Application
-- Using the BLE Peripheral LBS sample
+- How to perform a DFU over UART
+- How to use MCUmgr
+- Using the Blinky sample
 
 Things omitted for the sake of simplicity:
 
@@ -57,7 +57,6 @@ Furthermore, when you build the application you will have a `build` folder and w
 a lots of folder and folder thus making the full path of certain files very long.
 
 I choose this path for the example : `c:\ncs\apps\dfu_tutorial`
-
 And I gave it the name `dfu_uart`
 
 ![Picture of VSCode with the path and the name given to the application](img/NCS/1_new_app/UART/appli_saving.png)
@@ -85,7 +84,7 @@ You should have something like this:
 
 ![Picture of the main.c file modified](img/NCS/3_modif_app/UART/main.png)
 
-Don't forget to save !!
+Don't forget to save `src/main.c`!!
 
 ### B) prj.conf
 
@@ -119,7 +118,7 @@ You should have something like this:
 
 ![Picture of the prj.conf file modified](img/NCS/3_modif_app/UART/conf.png)
 
-Don't forget to save !!
+Don't forget to save `prj.conf`!!
 
 ### C) child_image/mcuboot.conf
 
@@ -135,7 +134,7 @@ CONFIG_MCUBOOT_LOG_LEVEL_INF=y
 
 This will allow us to have the details in the mcuboot part.
 
-Don't forget to save !!
+Don't forget to save `child_image/mcuboot.conf`!!
 
 ___
 
@@ -151,6 +150,7 @@ Select those 2 options and rename the output build folder to something recogniza
 ![Picture of the Build configuration with the place to modify the config higlighted](img/NCS/4_build_app/UART/build-2.png)
 
 If the build fails, try rebuild first (sometimes NCS needs a second build)
+If it still fails, go to possible error section
 
 This takes quite some time to generate.
 But after the generation you should have something like that.
@@ -194,11 +194,12 @@ If the flash was successful, you should see 2 things:
   - The bootloader log
   - The appliction log
 
+If you missed it, you can still press the `RESET` button
 What's to note is the build time of the application
 
 ___
 
-## 5) Build app again
+## 5) Build Application again
 
 At this point, you have a working bootloader and application
 Now we will update the application with a new version of the same application
@@ -219,8 +220,8 @@ But if you want a more visual approach, there are possibilities available below
 You can modify the app to bring a more visually updated approach
 Here are some examples :
 
-- the LED (led0 -> led1)
-- the blinking rate (1000 -> 100)
+- the LED (led0 -> led1) (line 14 in `src/main.c`)
+- the blinking rate (1000 -> 100) (line 11 in `src/main.c`)
 
 </details>
 </br>
@@ -374,6 +375,8 @@ But the original one will always be selected upon each reset
 Let's modify this
 
 ![Shows the list of images on target via MCUmgr](img/TeraTerm+CMD/2_DFU/image-1.png)
+
+### C) Application swap
 
 Copy the hash of the second image
 Then adapt and enter this command in the **COMM_TERMINAL**
