@@ -83,8 +83,8 @@ So here is a table of tested functionnalities.
 
 | Compatibility Table | ZEPHYR_UART_DFU | NCS_UART_DFU | ... | NCS_USB_DFU | ... | NCS_BLE_DFU |
 | :------------------ | :-------------: | :-: | :-: | :-: | :-: | :---------: |
-| **TF-M** | Compatible | Compatible | ... | Not Compatible<sup>5</sup> | ... | Not Compatible<sup>5</sup> |
+| **TF-M** | Compatible | Compatible | ... | Not Compatible<sup>6</sup> | ... | Not Compatible<sup>6</sup> |
 | **Revert** | Compatible | Compatible | ... | Compatible | ... | Compatible |
-| **TF-M + Revert** | Compatible | Compatible | ... | Not Compatible<sup>6</sup> | ... | Not Compatible<sup>5</sup> |
+| **TF-M + Revert** | Compatible | Compatible | ... | Not Compatible<sup>6</sup> | ... | Not Compatible<sup>6</sup> |
 
 (<sup>6</sup>) => Could not make it work
