@@ -63,6 +63,8 @@ I choose this path for the example : `c:\ncs\myapps\`
 
 ![Picture of VSCode with the name given to the application](img/NCS/1_new_app/BT/appli_saving_v3.png)
 
+This will be the application we are working with.
+
 ___
 
 ## 2) Open Application
@@ -93,9 +95,9 @@ printk("build time: " __DATE__ " " __TIME__ "\n");
 This will allow us to see the difference between old and new code after the update.
 You should have something like this:
 
-![Picture of the main.c file modified](img/NCS/3_modif_app/printk.png)
+![Picture of the main.c file modified](img/NCS/3_modif_app/BT/main.png)
 
-Don't forget to save !!
+Don't forget to save `src/main.c`!!
 
 ### B) prj.conf
 
@@ -110,9 +112,9 @@ CONFIG_NCS_SAMPLE_MCUMGR_BT_OTA_DFU=y
 
 You should have something like this:
 
-![Picture of the prj.conf file modified](img/NCS/3_modif_app/proj_conf.png)
+![Picture of the prj.conf file modified](img/NCS/3_modif_app/BT/conf.png)
 
-Don't forget to save !!
+Don't forget to save `prj.conf`!!
 
 ___
 
@@ -141,7 +143,28 @@ ___
 ## 5) Flash the application
 
 Now is a good time to plug your device.
-If ready, flash your application as presented below.
+
+Once it is plugged and turned ON, you have 2 choices:
+
+<details>
+<summary><b>Open VSCode Serial Communication Port Reader</b></summary>
+
+Not written yet
+
+</details>
+</br>
+<details>
+<summary><b>Open your Serial Communication Port Reader</b></summary>
+
+You have to find the used COM port (TeraTerm select it automatically)
+And set the baud rate to `115200`
+
+Once these 2 things are set, you are ready to flash
+
+</details>
+</br>
+
+If ready, select the `Flash & Erase` command as presented below
 
 ![Picture of the nRF Extension for VSCode with the place to click higlighted](img/NCS/5_flash_app/BT/flash.png)
 
@@ -156,9 +179,9 @@ To see the return of our application, follow the steps:
 For the next step the picture might not indicate what's to your screen.
 Just go through the steps so you have the same configuration in the end.
 
-![Picture of the serial configuration we have to select](img/NCS/6_result/BT/output_2.png)  
+![Picture of the serial configuration we have to select](img/NCS/6_result/BT/output_2.png)
 
-![Picture of the terminal](img/NCS/6_result/BT/output_3.png)  
+![Picture of the terminal](img/NCS/6_result/BT/output_3.png)
 
 Now press the `Reset Button` on the devkit.
 And observe the boot sequence on the terminal.
@@ -169,17 +192,55 @@ What's to note is the build time of the application
 
 ___
 
-## 7) Perform DFU
+## 7) Build Application again
 
-### A) New build + Send file to phone
+At this point, you have a working bootloader and application
+Now we will update the application with a new version of the same application
 
-First you need to rebuild your application, by pressing the following button
+But you can also use another application
+Just make sure to have (at least) the same configuration as presented in step 1
 
-![Picture of the nRF Extension for VSCode with the place to click higlighted](img/NCS/7_DFU/BT/rebuild.png)
+For this part, we will just rebuild (it's enough to see the difference)
+But if you want a more visual approach, there are possibilities available below
+
+<details>
+<summary><b>Rebuild the same app</b></summary>
+
+</br>
+<details>
+<summary><b>[OPTIONAL] Modify the app</b></summary>
+
+You can modify the app to bring a more visually updated approach
+Here are some examples :
+
+- the blinking LED (DK_LED1 -> DK_LED4) (line 33 `src/main.c`)
+- the blinking rate (1000 -> 100) (line 35 `src/main.c`)
+
+</details>
+</br>
+
+Rebuild by following the instructions below
+
+![Picture of the nRF Extension for VSCode with the place to click higlighted](img/NCS/second_build/UART/new_build-1.png)
+
+</details>
+</br>
+<details>
+<summary><b>[OPTIONAL] New app</b></summary>
+
+Not written yet
+
+</details>
+
+___
+
+## 8) Perform DFU
+
+### A) Send file to phone
 
 Now you should transfer the updated file to your phone.
-It is located at `<path_to_app_foolder>\build\zephyr\app_update.bin`
-I have chosen bluetooth.
+It is located at `myapps\ble_dfu_peripheral\build\zephyr\app_update.bin`
+I have chosen bluetooth to send it to my phone.
 
 ![Picture of the file to transfer to your phone in windows explorer](img/NCS/7_DFU/BT/phone_transfer.png)
 
@@ -196,7 +257,7 @@ Then connect to the the device
 
 Then select `CONNECT` again in the top of the application.
 You should now see the same things as the picture below.
-Presss `DFU`
+Press `DFU`
 
 ![Picture of the nRF Connect application with the place to click highlighted](img/NCS/7_DFU/BT/phone/device_connected.jpg)
 
