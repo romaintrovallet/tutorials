@@ -39,17 +39,17 @@ ___
 In nRF Connect for VS Code, create a new application.
 Select one of the 2 button
 
-![Picture of the nRF Extension for VSCode where the place to click is higlighted](img/NCS/create_app/new_app.png)
+![Picture of the nRF Extension for VSCode where the place to click is higlighted](img/NCS/new_app.png)
 
 You should have this window that pops up.
 We will create an app from an existing sample.
 Select the correponding button
 
-![Picture of VSCode where the place to click is higlighted](img/NCS/create_app/sample.png)
+![Picture of VSCode where the place to click is higlighted](img/NCS/sample.png)
 
 Then select the blinky sample by searching `blinky`
 
-![Picture of VSCode where the place to click is higlighted](img/NCS/create_app/UART/blinky_sample.png)
+![Picture of VSCode where the place to click is higlighted](img/NCS/UART/blinky_sample.png)
 
 Then save the app.
 You should pick a high level folder because of the limit of 250 characters by CMake
@@ -59,9 +59,9 @@ a lots of folder and folder thus making the full path of certain files very long
 I choose this path for the example : `c:\ncs\apps\dfu_tutorial`
 And I gave it the name `dfu_uart`
 
-![Picture of VSCode with the path and the name given to the application](img/NCS/create_app/UART/appli_saving.png)
+![Picture of VSCode with the path and the name given to the application](img/NCS/UART/appli_saving.png)
 
-![Picture of VSCode with the application ready to build](img/NCS/create_app/UART/appli_saved.png)
+![Picture of VSCode with the application ready to build](img/NCS/UART/appli_saved.png)
 
 This will be the application we are working with.
 
@@ -99,7 +99,7 @@ printk("build time: " __DATE__ " " __TIME__ "\n");
 This will allow us to see the difference between old and new code after the update.
 You should have something like this:
 
-![Picture of the main.c file modified](img/NCS/modif_app/UART/main.png)
+![Picture of the main.c file modified](img/NCS/UART/main.png)
 
 Don't forget to save `src/main.c`!!
 
@@ -133,7 +133,7 @@ CONFIG_BASE64=y
 
 You should have something like this:
 
-![Picture of the prj.conf file modified](img/NCS/modif_app/UART/conf.png)
+![Picture of the prj.conf file modified](img/NCS/UART/conf.png)
 
 Don't forget to save `prj.conf`!!
 
@@ -177,11 +177,11 @@ ___
 Now we need to configure the build settings.
 Select one of the 2 button
 
-![Picture of the nRF Extension for VSCode with the place to click higlighted](img/NCS/build_app/UART/build-1.png)
+![Picture of the nRF Extension for VSCode with the place to click higlighted](img/NCS/UART/build-1.png)
 
 Select those 2 options and rename the output build folder to something recognizable.
 
-![Picture of the Build configuration with the place to modify the config higlighted](img/NCS/build_app/UART/build-2.png)
+![Picture of the Build configuration with the place to modify the config higlighted](img/NCS/UART/build-2.png)
 
 If the build fails, try rebuild first (sometimes NCS needs a second build)
 If it still fails, go to possible error section
@@ -189,7 +189,7 @@ If it still fails, go to possible error section
 This takes quite some time to generate.
 But after the generation you should have something like that.
 
-![Picture of the nRF Extension for VSCode with the visible build configuration](img/NCS/build_app/UART/build-3.png)
+![Picture of the nRF Extension for VSCode with the visible build configuration](img/NCS/UART/build-3.png)
 
 ___
 
@@ -202,7 +202,16 @@ Once it is plugged and turned ON, you have 2 choices:
 <details>
 <summary><b>Open VSCode Serial Communication Port Reader</b></summary>
 
-Not written yet
+To see the log of our application, follow the steps:
+
+![Picture of the nRF Extension for VSCode with the place to click higlighted](img/NCS/UART/output_conf-1.png)
+
+For the next step the picture might not indicate what's to your screen.
+Just go through the steps so you have the same configuration in the end.
+
+![Picture of the serial configuration we have to select](img/NCS/UART/output_conf-2.png)
+
+![Picture of the terminal](img/NCS/UART/output_log_pre-1.png)
 
 </details>
 </br>
@@ -219,17 +228,18 @@ Once these 2 things are set, you are ready to flash
 
 If ready, select the `Flash & Erase` command as presented below
 
-![Picture of the nRF Extension for VSCode with the place to click higlighted](img/NCS/flash_app/UART/flash.png)
+![Picture of the nRF Extension for VSCode with the place to click higlighted](img/NCS/UART/flash.png)
 
 If the flash was successful, you should see 2 things:
 
 - A LED is blinking at a 1 sec rate
 - The Serial log, itself composed of 2 parts:
   - The bootloader log
-  - The appliction log
+  - The application log
 
 If you missed it, you can still press the `RESET` button
-What's to note is the build time of the application
+You should note the build time in the Serial Communication port
+It's visible at the start of the application log
 
 ___
 
@@ -261,7 +271,7 @@ Here are some examples :
 
 Rebuild by following the instructions below
 
-![Picture of the nRF Extension for VSCode with the place to click higlighted](img/NCS/second_build/UART/rebuild.png)
+![Picture of the nRF Extension for VSCode with the place to click higlighted](img/NCS/UART/rebuild.png)
 
 </details>
 </br>
@@ -370,11 +380,11 @@ At this point you can close **CONFIG_TERMINAL**
 
 ### B) Application transfer
 
-Go to your build folder (ex: `apps\dfu_tutorial\blinky\build\5340_ns`)
+Go to your build folder (ex: `apps\dfu_tutorial\dfu_uart\build\5340_ns`)
 If you built **[OPTIONAL] New app** (in the **5) Build app again**
 You must go to the new application build folder
 
-Check for the presence of `app_update.bin`
+Check for the presence of `zephyr\app_update.bin`
 
 Open a new Terminal in the build folder folder
 In the following, it will be called the **COMM_TERMINAL**
@@ -386,7 +396,7 @@ mcumgr -c <name> image list
 ```
 
 (If you don't know what 'name' is, go to **First MCUmgr Config**)
-You should have the list of the image
+You should have the list of images that are on target
 
 Adapt and copy this command:
 
@@ -423,7 +433,7 @@ mcumgr -c <name> image test <hash>
 Now open a Serial COM port (ex: TeraTerm)
 
 And press the `RESET` on your board
-You should see the Bootloader swpping the image to another
+You should see the Bootloader swapping the image to another
 And in the end the application load with a more up to date Build Time
 
 ![Shows the DFU test with TeraTerm](img/TeraTerm+CMD/2_DFU/image-2.png)
@@ -448,9 +458,9 @@ And now you can see the new application booting again
 Only this time, when you press the `RESET` button again
 It still boots on the most up to date image
 
-You have now performed your first DFU !!
+You have now performed your a DFU over UART!!
 
-You can play with the 2 pictures that are on the target
+You can play with the 2 images that are on the target
 You have to copy the hashs of the original image
 And follow the same step as above.
 
