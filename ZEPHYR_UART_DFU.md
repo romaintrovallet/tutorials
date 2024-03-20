@@ -215,7 +215,7 @@ So at this point you should have:
   - the application log
 
 If you missed it, you can still press the `RESET` button
-You should note the build time in the Serial Communication port
+You should note the build time in the Serial Communication log
 It's visible at the start of the application log
 
 ![Tera Term log](img/ZEPHYR/1_result/image.png)
@@ -384,7 +384,7 @@ Adapt and copy this command:
 mcumgr -c <name> image list
 ```
 
-(If you don't know what 'name' is, go to **First MCUmgr Config**)
+(If you don't know what 'name' is, go to **First MCUmgr Config**)  
 You should have the list of images that are on target
 
 Adapt and copy this command:
@@ -514,7 +514,7 @@ If it doesn't work, this is generally because the MCUmgr config in the `prj.conf
 
 Try deactivate mass storage on device:
 
-- Open Jlink Commander
+- Open Jlink Commander  
 ![JLink Commander on Windows](img/errors/jlink.png)
 - Execute this command:
 

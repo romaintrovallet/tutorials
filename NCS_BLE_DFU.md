@@ -181,7 +181,8 @@ The Serial log should be something like this
 ![Picture of the terminal where we can see the boot sequence](img/NCS/BLE/output_log_pre-2.png)
 
 If you missed it, you can still press the `RESET` button
-What's to note is the build time of the application
+You should note the build time in the Serial Communication log
+It's visible at the start of the application log
 
 ___
 
@@ -234,11 +235,11 @@ Just know that other tools exists
 
 ### A) Send file to phone
 
-Go to your build folder (ex: `myapps\ble_dfu_peripheral_lbs\build\zephyr`)
-If you built **[OPTIONAL] New app** (in the **7) Build app again**
+Go to your build folder (ex: `myapps\ble_dfu_peripheral_lbs\build`)
+If you built **[OPTIONAL] New app** (in the **5) Build app again**
 You must go to the new application build folder
 
-Check for the presence of `app_update.bin`
+Check for the presence of `zephyr\app_update.bin`
 
 Now you should transfer the updated file to your phone.
 I have chosen bluetooth to send it to my phone.

@@ -25,7 +25,7 @@ ___
 This tutorial is made for NCS install.
 It is not compatible with the zephyrproject install.
 
-If you are interested by the zephyrproject / Vanilla Zephyr version
+If you are interested by the zephyrproject / Vanilla Zephyr version  
 It can be found [here](https://github.com/romaintrovallet/tutorials/blob/master/ZEPHYR_UART_DFU.md)
 
 With the global requirements, you should add the following:
@@ -41,8 +41,8 @@ Select one of the 2 button
 
 ![Picture of the nRF Extension for VSCode where the place to click is higlighted](img/NCS/new_app.png)
 
-You should have this window that pops up.
-We will create an app from an existing sample.
+You should have this window that pops up.  
+We will create an app from an existing sample.  
 Select the correponding button
 
 ![Picture of VSCode where the place to click is higlighted](img/NCS/sample.png)
@@ -52,7 +52,7 @@ Then select the blinky sample by searching `blinky`
 ![Picture of VSCode where the place to click is higlighted](img/NCS/UART/blinky_sample.png)
 
 Then save the app.
-You should pick a high level folder because of the limit of 250 characters by CMake
+You should pick a high level folder because of the limit of 250 characters by CMake  
 Furthermore, when you build the application you will have a `build` folder and within
 a lots of folder and folder thus making the full path of certain files very long.
 
@@ -238,7 +238,7 @@ If the flash was successful, you should see 2 things:
   - The application log
 
 If you missed it, you can still press the `RESET` button
-You should note the build time in the Serial Communication port
+You should note the build time in the Serial Communication log
 It's visible at the start of the application log
 
 ___
@@ -380,7 +380,7 @@ At this point you can close **CONFIG_TERMINAL**
 
 ### B) Application transfer
 
-Go to your build folder (ex: `apps\dfu_tutorial\dfu_uart\build\5340_ns`)
+Go to your build folder (ex: `apps\dfu_tutorial\dfu_uart\build\5340_ns`)  
 If you built **[OPTIONAL] New app** (in the **5) Build app again**
 You must go to the new application build folder
 
@@ -395,7 +395,7 @@ Adapt and copy this command:
 mcumgr -c <name> image list
 ```
 
-(If you don't know what 'name' is, go to **First MCUmgr Config**)
+(If you don't know what 'name' is, go to **First MCUmgr Config**)  
 You should have the list of images that are on target
 
 Adapt and copy this command:
