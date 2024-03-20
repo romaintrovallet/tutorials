@@ -69,6 +69,8 @@ ___
 
 ## 2) Modify Application
 
+To make the DFU work, we will need to modify the application
+
 ### A) src/main.c
 
 In your app folder, open `src/main.c`
@@ -138,7 +140,7 @@ Don't forget to save `child_image/mcuboot.conf`!!
 
 ___
 
-## 3) Build configuration
+## 3) Build application
 
 Now we need to configure the build settings.
 Select one of the 2 button
@@ -212,7 +214,6 @@ But if you want a more visual approach, there are possibilities available below
 
 <details>
 <summary><b>Rebuild the same app</b></summary>
-
 </br>
 <details>
 <summary><b>[OPTIONAL] Modify the app</b></summary>
@@ -254,7 +255,7 @@ ___
 
 ## 6) Perform DFU
 
-At this point, we use MCUmgr to perform the DFU.
+At this point, we use MCUmgr to perform the DFU over UART.
 Just know that other tools exists
 [List of Over The Air Update provided by Zephyr](https://github.com/zephyrproject-rtos/zephyr/blob/main/doc/services/device_mgmt/ota.rst)
 
@@ -341,6 +342,8 @@ Go to your build folder (ex: `apps\dfu_tutorial\blinky\build\5340_ns`)
 If you built **[OPTIONAL] New app** (in the **5) Build app again**
 You must go to the new application build folder
 
+Check for the presence of `app_update.bin`
+
 Open a new Terminal in the build folder folder
 In the following, it will be called the **COMM_TERMINAL**
 
@@ -370,8 +373,8 @@ mcumgr -c <name> image list
 ```
 
 You should see 2 images in 2 slots (slot0 and slot1)
-At this point 2 images are on the nordic
-But the original one will always be selected upon each reset
+At this point 2 images are on the target
+But the original one will always be selected with each reset
 Let's modify this
 
 ![Shows the list of images on target via MCUmgr](img/TeraTerm+CMD/2_DFU/image-1.png)
@@ -415,8 +418,8 @@ It still boots on the most up to date image
 
 You have now performed your first DFU !!
 
-You can play with the 2 pictures that are on the nordic
-You have to copy the hahs of the original image
+You can play with the 2 pictures that are on the target
+You have to copy the hashs of the original image
 And follow the same step as above.
 
 If you don't want to press the `RESET` button anymore
@@ -434,7 +437,7 @@ mcumgr -c <name> image confirm <hash> && mcumgr -c <name> reset
 
 ___
 
-## 9) Possible errors
+## 7) Possible errors
 
 ### A) FAIL at Build => No configure step for 'tfm'
 
@@ -443,11 +446,8 @@ Relaunch the pristine build, it should work (no idea why it fails no the first t
 ### B) Error when flashing the application
 
 First verify that you have rightly plugged the Development Kit and that you have turned it on.
-Then add `--recover` to your command line, see example below
-
-```bash
-west flash -d apps/blinky/build/nrf5340dk_cpuapp/build_s --recover
-```
+Then if a window is printed and asking to `Recover` the target
+Press `Flash & Recover`
 
 ### C) No `app_update.bin` in the `build/zephyr` folder
 
@@ -486,10 +486,8 @@ MSDDisable
 Then retry to perform update.
 If still stuck, do the following steps in the right order:
 
-- Flash the application
+- Flash & Erase the application
+- A window could be printed while asking to `Recover` the target
+- Press `Flash & Recover`
 - ***At this point the device is locked, we need to recover it***
-- Flash the application
-  - An error should be prompted
-  - Enter the same command + add `--recover` at the end
-- Flash the NCS bootloader
-- Return to **How to verify** then **How to perform DFU**
+- Return to **Application transfer**

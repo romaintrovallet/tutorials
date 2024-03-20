@@ -46,9 +46,32 @@ For the next steps, we will assume you pick the example folder
 
 This will be the application we are working with.
 
-### B) Modify sample
+___
 
-To make the DFU work, we will need to modify the `prj.conf` file
+## 2) Modify Application
+
+To make the DFU work, we will need to modify the application
+
+### A) src/main.c
+
+In your app folder, open `src/main.c`
+
+Add this line of code in the main() => around line 25
+
+```c
+printk("build time: " __DATE__ " " __TIME__ "\n");
+```
+
+This will allow us to see the difference between old and new code after the update.
+You should have something like this:
+
+![Picture of the main.c file modified](img/NCS/3_modif_app/UART/main.png)
+
+Don't forget to save `src/main.c`!!
+
+### B) prj.conf
+
+Now open `prj.conf`
 
 ```bash
 # Print a banner on the UART on startup.
@@ -78,15 +101,11 @@ CONFIG_BASE64=y
 CONFIG_CONSOLE=y
 ```
 
-And to see the effect of the DFU, we will need to modify the `src\main.c` file
-
-```c
-printk("build time: " __DATE__ " " __TIME__ "\n");
-```
+Don't forget to save `prj.conf`!!
 
 ___
 
-## 2) Command Line config
+## 3) Command Line config
 
 In this tutorial we will use the command line
 Open a terminal in the parent folder of `zephyrproject`
@@ -137,7 +156,7 @@ west zephyr-export
 Once done, keep it in your background and please do not close it
 ___
 
-## 3) Build app
+## 4) Build application
 
 In the **MAIN_TERMINAL**
 
@@ -149,7 +168,7 @@ west build -b nrf5340dk_nrf5340_cpuapp apps/blinky -d apps/blinky/build/nrf5340d
 
 ___
 
-## 4) Build bootloader
+## 5) Build bootloader
 
 In the **MAIN_TERMINAL**
 
@@ -161,7 +180,7 @@ west build -b nrf5340dk_nrf5340_cpuapp bootloader/mcuboot/boot/zephyr -d build_b
 
 ___
 
-## 5) Flash app
+## 6) Flash app
 
 Now is a good time to plug your device
 
@@ -180,7 +199,7 @@ Note that, at this point, you shouldn't see anything related to this application
 
 ___
 
-## 6) Flash bootloader
+## 7) Flash bootloader
 
 In the **MAIN_TERMINAL**
 
@@ -204,7 +223,7 @@ It's visible at the start of the application log
 
 ___
 
-## 7) Build app again
+## 8) Build app again
 
 At this point, you have a working bootloader and application
 Now we will update the application with a new version of the same application
@@ -217,7 +236,6 @@ But if you want a more visual approach, there are possibilities available below
 
 <details>
 <summary><b>Rebuild the same app</b></summary>
-
 </br>
 <details>
 <summary><b>[OPTIONAL] Modify the app</b></summary>
@@ -267,9 +285,9 @@ west build -b nrf5340dk_nrf5340_cpuapp apps/hello_world -d apps/hello_world/buil
 
 ___
 
-## 8) Perform DFU
+## 9) Perform DFU
 
-At this point, we use MCUmgr to perform the DFU.
+At this point, we use MCUmgr to perform the DFU over UART.
 Just know that other tools exists
 [List of Over The Air Update provided by Zephyr](https://github.com/zephyrproject-rtos/zephyr/blob/main/doc/services/device_mgmt/ota.rst)
 
@@ -303,14 +321,14 @@ mcumgr 0.0.0-dev
 This verifies your installation of MCUmgr
 
 </details>
-
+</br>
 <details>
-<summary><b>First config</b></summary>
+<summary><b>First MCUmgr config</b></summary>
 
 In the **CONFIG_TERMINAL**
 
 ```bash
-nrfjprog --com
+nrfutil device list
 ```
 
 and the result should be something like this:
@@ -346,7 +364,6 @@ mcumgr -c <name> image list
 You should have a list of details on the current image on the slot
 
 </details>
-
 </br>
 
 At this point you can close **CONFIG_TERMINAL**
@@ -374,8 +391,8 @@ mcumgr -c <name> image list
 ```
 
 You should see 2 images in 2 slots (slot0 and slot1)
-At this point 2 images are on the nordic
-But the original one will always be selected upon each reset
+At this point 2 images are on the target
+But the original one will always be selected with each reset
 Let's modify this
 
 ![Shows the list of images on target via MCUmgr](img/ZEPHYR/2_DFU/image-1.png)
@@ -419,8 +436,8 @@ It still boots on the most up to date image
 
 You have now performed your first DFU !!
 
-You can play with the 2 pictures that are on the nordic
-You have to copy the hahs of the original image
+You can play with the 2 pictures that are on the target
+You have to copy the hashs of the original image
 And follow the same step as above.
 
 If you don't want to press the `RESET` button anymore
@@ -438,7 +455,7 @@ mcumgr -c <name> image confirm <hash> && mcumgr -c <name> reset
 
 ___
 
-## 9) Possible errors
+## 10) Possible errors
 
 ### A) Wrong path when `echo %ZEPHYR_BASE%`
 

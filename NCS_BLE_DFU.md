@@ -82,6 +82,8 @@ ___
 
 ## 2) Modify Application
 
+To make the DFU work, we will need to modify the application
+
 ### A) src/main.c
 
 In your app folder, open `src/main.c`
@@ -118,7 +120,7 @@ Don't forget to save `prj.conf`!!
 
 ___
 
-## 4) Build configuration
+## 4) Build application
 
 Now we need to configure the build settings.
 Select one of the 2 button
@@ -205,7 +207,6 @@ But if you want a more visual approach, there are possibilities available below
 
 <details>
 <summary><b>Rebuild the same app</b></summary>
-
 </br>
 <details>
 <summary><b>[OPTIONAL] Modify the app</b></summary>
@@ -236,10 +237,19 @@ ___
 
 ## 8) Perform DFU
 
+At this point, we use nRF Connect app to perform the DFU over Bluetooth.
+Just know that other tools exists
+[List of Over The Air Update provided by Zephyr](https://github.com/zephyrproject-rtos/zephyr/blob/main/doc/services/device_mgmt/ota.rst)
+
 ### A) Send file to phone
 
+Go to your build folder (ex: `myapps\ble_dfu_peripheral_lbs\build\zephyr`)
+If you built **[OPTIONAL] New app** (in the **7) Build app again**
+You must go to the new application build folder
+
+Check for the presence of `app_update.bin`
+
 Now you should transfer the updated file to your phone.
-It is located at `myapps\ble_dfu_peripheral\build\zephyr\app_update.bin`
 I have chosen bluetooth to send it to my phone.
 
 ![Picture of the file to transfer to your phone in windows explorer](img/NCS/7_DFU/BT/phone_transfer.png)
@@ -274,11 +284,25 @@ You should see the graph like the picture below.
 
 Once it is done, we can head back to the terminal.
 
-<details>
-<summary><b>Serial Result</b></summary>
-
 ![Picture of the nRF Connect application](img/NCS/7_DFU/BT/boot_2.png)
 
 Where we can see the build time is different than the previous one
 
-</details>
+You have now performed your first DFU !!
+
+___
+
+## 7) Possible errors
+
+### A) Error when flashing the application
+
+First verify that you have rightly plugged the Development Kit and that you have turned it on.
+Then if a window is printed and asking to `Recover` the target
+Press `Flash & Recover`
+
+### B) No `app_update.bin` in the `build/zephyr` folder
+
+If the console doesn't provide any error but you can't find the `app_update.bin`.
+Just delete the `build` folder in your application.
+You will need to recreate a new build configuration (select the same options).
+And the file should be here
