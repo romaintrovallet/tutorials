@@ -39,7 +39,7 @@ ___
 In nRF Connect for VS Code, create a new application.
 Select one of the 2 button
 
-![Picture of the nRF Extension for VSCode where the place to click is higlighted](img/NCS/1_new_app/new_app.png)
+![Picture of the nRF Extension for VSCode where the place to click is higlighted](img/NCS/create_app/new_app.png)
 
 You should have this window that pops up.
 We will create an app from an existing sample.
@@ -61,7 +61,7 @@ And I gave it the name `dfu_uart`
 
 ![Picture of VSCode with the path and the name given to the application](img/NCS/create_app/UART/appli_saving.png)
 
-![Picture of VSCode with the application ready to build](img/NCS/1_new_app/UART/create_saved.png)
+![Picture of VSCode with the application ready to build](img/NCS/create_app/UART/appli_saved.png)
 
 This will be the application we are working with.
 
@@ -385,7 +385,7 @@ Adapt and copy this command:
 mcumgr -c <name> image list
 ```
 
-(If you don't know what 'name' is, go to **First Config**)
+(If you don't know what 'name' is, go to **First MCUmgr Config**)
 You should have the list of the image
 
 Adapt and copy this command:
@@ -508,7 +508,7 @@ If it doesn't work, this is generally because the MCUmgr config in the `prj.conf
 Try deactivate mass storage on device:
 
 - Open Jlink Commander
-![JLink Commander on Windows](img/errors/image.png)
+![JLink Commander on Windows](img/errors/jlink.png)
 - Execute this command:
 
 ```bash

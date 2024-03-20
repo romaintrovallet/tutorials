@@ -502,7 +502,7 @@ If it doesn't work, this is generally because the MCUmgr config in the `prj.conf
 Try deactivate mass storage on device:
 
 - Open Jlink Commander
-![JLink Commander on Windows](img/errors/image.png)
+![JLink Commander on Windows](img/errors/jlink.png)
 - Execute this command:
 
 ```bash
