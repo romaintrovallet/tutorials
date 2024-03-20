@@ -12,14 +12,15 @@ Before going any further you should either have:
 - zephyrproject set up with zephyr SDK [Getting Started](https://docs.zephyrproject.org/latest/develop/getting_started/index.html)
 - nRF Connect SDK set up with NCS for VSCode [Install nRF Connect SDK](https://developer.nordicsemi.com/nRF_Connect_SDK/doc/latest/nrf/installation/install_ncs.html)
 
-`/!\-/!\-/!\-/!\-/!\-/!\-/!\-/!\-/!\-/!\`
+`/!\-/!\-/!\-/!\-/!\-/!\-/!\-/!\-/!\-/!\`  
 It's important to note that the 2 **should NOT be installed on the same computer** (outside of R&D purposes)
 Choose with your target:
 
 - **Nordic** Target => Install **nRF Connect SDK**
 - Any **other brand** Target => Install **zephyrproject**
 
-`/!\-/!\-/!\-/!\-/!\-/!\-/!\-/!\-/!\-/!\`
+`/!\-/!\-/!\-/!\-/!\-/!\-/!\-/!\-/!\-/!\`  
+
 In addition of one of the above, you need:
 
 - Serial Communication Port Reader (ex : TeraTerm / Putty / Termite)
