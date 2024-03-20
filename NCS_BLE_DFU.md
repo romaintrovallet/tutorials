@@ -24,7 +24,7 @@ ___
 This tutorial is made for NCS install.
 It is not compatible with the zephyrproject install.
 
-If you are interested by the zephyrproject / Vanilla Zephyr version
+If you are interested by the zephyrproject / Vanilla Zephyr version  
 It is not available yet.
 
 With the global requirements, you should add the following:
@@ -33,15 +33,15 @@ With the global requirements, you should add the following:
 
 ___
 
-## 1) Create application
+## 1) Create Application
 
 In nRF Connect for VS Code, create a new application.
 Select one of the 2 button
 
 ![Picture of the nRF Extension for VSCode where the place to click is higlighted](img/NCS/new_app.png)
 
-You should have this window that pops up.
-We will create an app from an existing sample.
+You should have this window that pops up.  
+We will create an app from an existing sample.  
 Select the correponding button
 
 ![Picture of VSCode where the place to click is higlighted](img/NCS/sample.png)
@@ -51,11 +51,12 @@ Then select the bt sample by searching `bluetooth/peripheral_lbs`
 ![Picture of VSCode where the place to click is higlighted](img/NCS/BLE/ble_lbs_sample.png)
 
 Then save the app.
-You should pick a high level folder because of the limit of 250 characters by CMake
+You should pick a high level folder because of the limit of 250 characters by CMake  
 Furthermore, when you build the application you will have a `build` folder and within
 a lots of folder and folder thus making the full path of certain files very long.
 
 I choose this path for the example : `c:\ncs\myapps\`
+And I gave it the name `ble_dfu_peripheral_lbs`
 
 ![Picture of VSCode where the place to click is higlighted](img/NCS/BLE/appli_saving-1.png)
 
@@ -107,7 +108,7 @@ Don't forget to save `prj.conf`!!
 
 ___
 
-## 3) Build application
+## 3) Build Application
 
 Now we need to configure the build settings.
 Select one of the 2 button
@@ -122,6 +123,9 @@ If you have it too, look it up later
 
 ![Picture of the Build configuration with the place to modify the config higlighted](img/NCS/BLE/build-2.png)
 
+If the build fails, try rebuild first (sometimes NCS needs a second build)
+If it still fails, go to possible error section
+
 This takes quite some time to generate.
 But after the generation you should have something like that.
 
@@ -129,7 +133,7 @@ But after the generation you should have something like that.
 
 ___
 
-## 4) Flash the application
+## 4) Flash Application
 
 Now is a good time to plug your device.
 
@@ -145,7 +149,7 @@ To see the log of our application, follow the steps:
 For the next step the picture might not indicate what's to your screen.
 Just go through the steps so you have the same configuration in the end.
 
-![Picture of the serial configuration we have to select](img/NCS/BLE/output_conf-2.png)
+![Picture of the serial configuration we have to select](img/NCS/output_conf-2.png)
 
 ![Picture of the terminal](img/NCS/BLE/output_log_pre-1.png)
 
@@ -206,8 +210,8 @@ But if you want a more visual approach, there are possibilities available below
 You can modify the app to bring a more visually updated approach
 Here are some examples :
 
-- the blinking LED (DK_LED1 -> DK_LED4) (line 33 `src/main.c`)
-- the blinking rate (1000 -> 100) (line 35 `src/main.c`)
+- the blinking LED (DK_LED1 -> DK_LED4) (line 33 in `src/main.c`)
+- the blinking rate (1000 -> 100) (line 35 in `src/main.c`)
 
 </details>
 </br>
@@ -236,7 +240,7 @@ Just know that other tools exists
 ### A) Send file to phone
 
 Go to your build folder (ex: `myapps\ble_dfu_peripheral_lbs\build`)
-If you built **[OPTIONAL] New app** (in the **5) Build app again**
+If you built **[OPTIONAL] New app** (in the **5) Build Application again**)
 You must go to the new application build folder
 
 Check for the presence of `zephyr\app_update.bin`
@@ -246,7 +250,7 @@ I have chosen bluetooth to send it to my phone.
 
 ![Picture of the file to transfer to your phone in windows explorer](img/NCS/BLE/app_to_phone.png)
 
-### B) Connect + Send file to device
+### B) Connect and Send file to device
 
 Now you have to open nRF Connect application on your phone.
 
@@ -271,10 +275,10 @@ You should see the graph like the picture below.
 
 Once it is done, we can head back to the terminal.
 
-![Picture of the nRF Connect application](img/NCS/BLE/output_log_post.png)
-
 You should see the Bootloader swapping the image to another
-And in the end the application load with a more up to date Build Time
+And in the end the application loads with a more up to date Build Time
+
+![Picture of the nRF Connect application](img/NCS/BLE/output_log_post.png)
 
 You have now performed a DFU over Bluetooth !!
 
@@ -282,7 +286,7 @@ ___
 
 ## 7) Possible errors
 
-### A) Error when flashing the application
+### A) Error when flashing the Application
 
 First verify that you have rightly plugged the Development Kit and that you have turned it on.
 Then if a window is printed and asking to `Recover` the target

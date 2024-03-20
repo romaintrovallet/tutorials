@@ -34,7 +34,7 @@ With the global requirements, you should add the following:
 
 ___
 
-## 1) Create application
+## 1) Create Application
 
 In nRF Connect for VS Code, create a new application.
 Select one of the 2 button
@@ -172,7 +172,7 @@ At this point you should have something like this:
 
 ___
 
-## 3) Build application
+## 3) Build Application
 
 Now we need to configure the build settings.
 Select one of the 2 button
@@ -193,7 +193,7 @@ But after the generation you should have something like that.
 
 ___
 
-## 4) Flash the application
+## 4) Flash Application
 
 Now is a good time to plug your device.
 
@@ -209,7 +209,7 @@ To see the log of our application, follow the steps:
 For the next step the picture might not indicate what's to your screen.
 Just go through the steps so you have the same configuration in the end.
 
-![Picture of the serial configuration we have to select](img/NCS/UART/output_conf-2.png)
+![Picture of the serial configuration we have to select](img/NCS/output_conf-2.png)
 
 ![Picture of the terminal](img/NCS/UART/output_log_pre-1.png)
 
@@ -236,6 +236,10 @@ If the flash was successful, you should see 2 things:
 - The Serial log, itself composed of 2 parts:
   - The bootloader log
   - The application log
+
+The Serial log should be something like this
+
+![Picture of the terminal where we can see the boot sequence](img/NCS/UART/output_log_pre-2.png)
 
 If you missed it, you can still press the `RESET` button
 You should note the build time in the Serial Communication log
@@ -278,18 +282,18 @@ Rebuild by following the instructions below
 <details>
 <summary><b>[OPTIONAL] New app</b></summary>
 
-Follow the **1) Create application**
+Follow the **1) Create Application**
 Instead get the `hello_world`
 and copy it to `apps\dfu_tutorial\hello_world`
 
-Follow the same modification in the **2) Modify application**
+Follow the same modification in the **2) Modify Application**
 and add this library in the `apps\dfu_tutorial\hello_world\src\main.c`
 
 ```c
 #include <zephyr/kernel.h>
 ```
 
-Once done create the same Build Configuration as in **3) Build configuration**
+Once done create the same Build Configuration as in **3) Build Application**
 
 </details>
 
@@ -301,7 +305,7 @@ At this point, we use MCUmgr to perform the DFU over UART.
 Just know that other tools exists
 [List of Over The Air Update provided by Zephyr](https://github.com/zephyrproject-rtos/zephyr/blob/main/doc/services/device_mgmt/ota.rst)
 
-### A) Only For First Time
+### A) Only for First Time with MCUmgr
 
 Open another terminal wherever you want
 In the following, it will be called the **CONFIG_TERMINAL**
@@ -381,10 +385,12 @@ At this point you can close **CONFIG_TERMINAL**
 ### B) Application transfer
 
 Go to your build folder (ex: `apps\dfu_tutorial\dfu_uart\build\5340_ns`)  
-If you built **[OPTIONAL] New app** (in the **5) Build app again**
+If you built **[OPTIONAL] New app** (in the **5) Build app again**)
 You must go to the new application build folder
 
 Check for the presence of `zephyr\app_update.bin`
+
+***Close any Serial COM port Reader***
 
 Open a new Terminal in the build folder folder
 In the following, it will be called the **COMM_TERMINAL**
@@ -398,6 +404,8 @@ mcumgr -c <name> image list
 (If you don't know what 'name' is, go to **First MCUmgr Config**)  
 You should have the list of images that are on target
 
+![Shows the current image on target via MCUmgr](img/NCS/UART/mcumgr_list-1.png)
+
 Adapt and copy this command:
 
 ```bash
@@ -406,6 +414,9 @@ mcumgr -c <name> image upload -e zephyr/app_update.bin
 
 Now you should be printed with a loading bar.
 In this project, the loading should take around 15-20 seconds
+
+![Shows the upload of the file via MCUmgr](img/NCS/UART/mcumgr_upload.png)
+
 Once the upload done, we check the presence of the image
 
 Enter this command in the **COMM_TERMINAL**
@@ -419,7 +430,7 @@ At this point 2 images are on the target
 But the original one will always be selected with each reset
 Let's modify this
 
-![Shows the list of images on target via MCUmgr](img/TeraTerm+CMD/2_DFU/image-1.png)
+![Shows the list of images on target via MCUmgr](img/NCS/UART/mcumgr_list-2.png)
 
 ### C) Application swap
 
@@ -427,38 +438,18 @@ Copy the hash of the second image
 Then adapt and enter this command in the **COMM_TERMINAL**
 
 ```bash
-mcumgr -c <name> image test <hash>
-```
-
-Now open a Serial COM port (ex: TeraTerm)
-
-And press the `RESET` on your board
-You should see the Bootloader swapping the image to another
-And in the end the application load with a more up to date Build Time
-
-![Shows the DFU test with TeraTerm](img/TeraTerm+CMD/2_DFU/image-2.png)
-
-Press the `RESET` button again on your board
-Now the application loading is the original
-
-![Shows the revert with TeraTerm](img/TeraTerm+CMD/2_DFU/image-3.png)
-
-Close the Serial COM port
-
-Enter this command
-
-```bash
 mcumgr -c <name> image confirm <hash>
 ```
 
-Now open a Serial COM port
+Now open a Serial COM port Reader in VSCode or in a standalone app (ex: TeraTerm)
 
 After pressing the `RESET` button
-And now you can see the new application booting again
-Only this time, when you press the `RESET` button again
-It still boots on the most up to date image
+You should see the Bootloader swapping the image to another
+And in the end the application loads with a more up to date Build Time
 
-You have now performed your a DFU over UART!!
+![Shows the log of the DFU VSCode](img/NCS/UART/output_log_post.png)
+
+You have now performed a DFU over UART!!
 
 You can play with the 2 images that are on the target
 You have to copy the hashs of the original image
@@ -466,6 +457,7 @@ And follow the same step as above.
 
 If you don't want to press the `RESET` button anymore
 You can force the reset with this command
+Don't forget to **close any Serial COM port Reader** when you use MCUmgr CLI
 
 ```bash
 mcumgr -c <name> reset
@@ -485,24 +477,30 @@ ___
 
 Relaunch the pristine build, it should work (no idea why it fails no the first try)
 
-### B) Error when flashing the application
+### B) Missing folders at Build
+
+Just refresh the `Applications` bloc
+
+![JLink Commander on Windows](img/errors/build_no_refresh.png)
+
+### C) Error when flashing the application
 
 First verify that you have rightly plugged the Development Kit and that you have turned it on.
 Then if a window is printed and asking to `Recover` the target
 Press `Flash & Recover`
 
-### C) No `app_update.bin` in the `build/zephyr` folder
+### D) No `app_update.bin` in the `build/zephyr` folder
 
 If the console doesn't provide any error but you can't find the `app_update.bin`.
 Just delete the `build` folder in your application.
 You will need to recreate a new build configuration (select the same options).
 And the file should be here
 
-### D) When `mcumgr` command => `Acces is denied`
+### E) When `mcumgr` command => `Acces is denied`
 
 In most cases, you forgot to close the Serial Communication Port
 
-### E) When `mcumgr` command => `NMP timeout`
+### F) When `mcumgr` command => `NMP timeout`
 
 Try to execute simpler command like
 
@@ -513,11 +511,11 @@ mcumgr -c <name> echo hello
 If it happened try the failed command a second time, it could work now.
 If it doesn't work, this is generally because the MCUmgr config in the `prj.conf` is badly set.
 
-### F) When `mcumgr image update` command => Stuck at 0%
+### G) When `mcumgr image update` command => Stuck at 0%
 
 Try deactivate mass storage on device:
 
-- Open Jlink Commander
+- Open Jlink Commander  
 ![JLink Commander on Windows](img/errors/jlink.png)
 - Execute this command:
 
@@ -531,5 +529,4 @@ If still stuck, do the following steps in the right order:
 - Flash & Erase the application
 - A window could be printed while asking to `Recover` the target
 - Press `Flash & Recover`
-- ***At this point the device is locked, we need to recover it***
 - Return to **Application transfer**

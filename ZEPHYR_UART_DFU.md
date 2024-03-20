@@ -34,7 +34,7 @@ With the global requirements, you should add the following:
 
 ___
 
-## 1) Create application
+## 1) Create Application
 
 Go to your zephyrproject install.
 Go to this path : `zephyrproject\zephyr\samples\basic`
@@ -207,12 +207,12 @@ Enter this command :
 west flash -d build_bootloader/nrf5340dk_cpuapp
 ```
 
-So at this point you should have:
+If the flash was successful, you should see 2 things:
 
-- the LED blinking
-- the Serial Communication show information about the booting steps:
-  - the bootloader log
-  - the application log
+- A LED is blinking at a 1 sec rate
+- The Serial log, itself composed of 2 parts:
+  - The bootloader log
+  - The application log
 
 If you missed it, you can still press the `RESET` button
 You should note the build time in the Serial Communication log
@@ -242,8 +242,8 @@ But if you want a more visual approach, there are possibilities available below
 You can modify the app to bring a more visually updated approach
 Here are some examples :
 
-- the LED (led0 -> led1)
-- the blinking rate (1000 -> 100)
+- the LED (led0 -> led1) (line 15 in `src/main.c`)
+- the blinking rate (1000 -> 100) (line 15 in `src/main.c`)
 
 </details>
 </br>
@@ -261,11 +261,11 @@ west build -b nrf5340dk_nrf5340_cpuapp apps/blinky -d apps/blinky/build/nrf5340d
 <details>
 <summary><b>[OPTIONAL] New app</b></summary>
 
-Follow the **A) Copy sample** in the **1) Create application**
+Follow the **A) Copy sample** in the **1) Create Application**
 Instead get the `zephyrproject\zephyr\samples\hello_world`
 and copy it to `zephyrproject\apps\hello_world`
 
-Follow the same modification in the **B) Modify sample**
+Follow the same modification in the **2) Modify Application**
 and add this library in the `zephyrproject\apps\hello_world\src\main.c`
 
 ```c
@@ -290,7 +290,7 @@ At this point, we use MCUmgr to perform the DFU over UART.
 Just know that other tools exists
 [List of Over The Air Update provided by Zephyr](https://github.com/zephyrproject-rtos/zephyr/blob/main/doc/services/device_mgmt/ota.rst)
 
-### A) Only For First Time
+### A) Only for First Time with MCUmgr
 
 Open another terminal wherever you want
 In the following, it will be called the **CONFIG_TERMINAL**
@@ -369,11 +369,13 @@ At this point you can close **CONFIG_TERMINAL**
 
 ### B) Application transfer
 
-Go to your build folder (ex: `zephyrproject\apps\blinky\build\nrf5340dk_cpuapp\build_s`)
-If you built **[OPTIONAL] New app** (in the **5) Build app again**
+Go to your build folder (ex: `zephyrproject\apps\blinky\build\nrf5340dk_cpuapp\build_s`)  
+If you built **[OPTIONAL] New app** (in the **5) Build app again**)
 You must go to the new application build folder
 
 Check for the presence of `zephyr\zephyr.signed.bin`
+
+***Close any Serial COM port Reader***
 
 Open a new Terminal in the build folder folder
 In the following, it will be called the **COMM_TERMINAL**
@@ -447,7 +449,7 @@ And now you can see the new application booting again
 Only this time, when you press the `RESET` button again
 It still boots on the most up to date image
 
-You have now performed your a DFU over UART!!
+You have now performed a DFU over UART!!
 
 You can play with the 2 images that are on the target
 You have to copy the hashs of the original image
@@ -455,6 +457,7 @@ And follow the same step as above.
 
 If you don't want to press the `RESET` button anymore
 You can force the reset with this command
+Don't forget to **close any Serial COM port Reader** when you use MCUmgr CLI
 
 ```bash
 mcumgr -c <name> reset
