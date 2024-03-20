@@ -46,7 +46,7 @@ Select the correponding button
 
 ![Picture of VSCode where the place to click is higlighted](img/NCS/sample.png)
 
-Then select the bt sample by searching `bluetooth/peripheral_lbs`
+Then select the bt sample by searching `plb`
 
 ![Picture of VSCode where the place to click is higlighted](img/NCS/BLE/ble_lbs_sample.png)
 
@@ -55,20 +55,39 @@ You should pick a high level folder because of the limit of 250 characters by CM
 Furthermore, when you build the application you will have a `build` folder and within
 a lots of folder and folder thus making the full path of certain files very long.
 
-I choose this path for the example : `c:\ncs\myapps\`
-And I gave it the name `ble_dfu_peripheral_lbs`
+I choose this path for the example : `c:\ncs\apps\dfu_tutorial`
+And I gave it the name `dfu_ble`
 
-![Picture of VSCode where the place to click is higlighted](img/NCS/BLE/appli_saving-1.png)
+![Picture of VSCode with the path and the name given to the application](img/NCS/BLE/appli_saving.png)
 
-![Picture of path of the application in Windows Explorer](img/NCS/BLE/appli_saving-2.png)
-
-![Picture of VSCode with the name given to the application](img/NCS/BLE/appli_saving-3.png)
+![Picture of VSCode with the application ready to build](img/NCS/BLE/appli_saved.png)
 
 This will be the application we are working with.
 
 ___
 
 ## 2) Modify Application
+
+At this point you should have something like this:
+
+```bash
+.
+└── dfu_tutorial/
+    └── dfu_ble/
+        ├── boards/
+        │   └── ...
+        ├── src/
+        │   └── main.c
+        ├── .gitignore
+        ├── CMakeLists.txt
+        ├── Kconfig
+        ├── Kconfig.sysbuild
+        ├── prj_minimal.conf
+        ├── prj.conf
+        ├── README.rst
+        ├── sample.yaml
+        └── VERSION
+```
 
 To make the DFU work, we will need to modify the application
 
@@ -105,6 +124,27 @@ You should have something like this:
 ![Picture of the prj.conf file modified](img/NCS/BLE/conf.png)
 
 Don't forget to save `prj.conf`!!
+
+At this point you should have something like this:
+
+```bash
+.
+└── dfu_tutorial/
+    └── dfu_ble/
+        ├── boards/
+        │   └── ...
+        ├── src/
+        │   └── main.c (M)
+        ├── .gitignore
+        ├── CMakeLists.txt
+        ├── Kconfig
+        ├── Kconfig.sysbuild
+        ├── prj_minimal.conf
+        ├── prj.conf (M)
+        ├── README.rst
+        ├── sample.yaml
+        └── VERSION
+```
 
 ___
 
@@ -149,7 +189,7 @@ To see the log of our application, follow the steps:
 For the next step the picture might not indicate what's to your screen.
 Just go through the steps so you have the same configuration in the end.
 
-![Picture of the serial configuration we have to select](img/NCS/output_conf-2.png)
+![Picture of the serial configuration we have to select](img/NCS/output_conf_COM10-2.png)
 
 ![Picture of the terminal](img/NCS/BLE/output_log_pre-1.png)
 
@@ -212,6 +252,7 @@ Here are some examples :
 
 - the blinking LED (DK_LED1 -> DK_LED4) (line 33 in `src/main.c`)
 - the blinking rate (1000 -> 100) (line 35 in `src/main.c`)
+- the name of the target on Bluetooth Network (Nordic_LBS -> Quasar_Concept) (line 10 in `prj.conf`)
 
 </details>
 </br>
