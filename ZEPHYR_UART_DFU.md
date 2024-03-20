@@ -36,8 +36,6 @@ ___
 
 ## 1) Create application
 
-### A) Copy sample
-
 Go to your zephyrproject install.
 Go to this path : `zephyrproject\zephyr\samples\basic`
 Copy the `blinky` folder
@@ -65,7 +63,7 @@ printk("build time: " __DATE__ " " __TIME__ "\n");
 This will allow us to see the difference between old and new code after the update.
 You should have something like this:
 
-![Picture of the main.c file modified](img/NCS/3_modif_app/UART/main.png)
+![Picture of the main.c file modified](img/ZEPHYR/modif_app/UART/main.png)
 
 Don't forget to save `src/main.c`!!
 
@@ -180,7 +178,7 @@ west build -b nrf5340dk_nrf5340_cpuapp bootloader/mcuboot/boot/zephyr -d build_b
 
 ___
 
-## 6) Flash app
+## 6) Flash application
 
 Now is a good time to plug your device
 
@@ -216,6 +214,7 @@ So at this point you should have:
   - the bootloader log
   - the application log
 
+If you missed it, you can still press the `RESET` button
 You should note the build time in the Serial Communication port
 It's visible at the start of the application log
 
@@ -223,7 +222,7 @@ It's visible at the start of the application log
 
 ___
 
-## 8) Build app again
+## 8) Build Application again
 
 At this point, you have a working bootloader and application
 Now we will update the application with a new version of the same application
@@ -370,9 +369,23 @@ At this point you can close **CONFIG_TERMINAL**
 
 ### B) Application transfer
 
-Open another terminal in your build folder (ex: `zephyrproject\apps\blinky\build\nrf5340dk_cpuapp\build_s`)
-If you built **[OPTIONAL] New app**, you must go to the new application build folder
+Go to your build folder (ex: `zephyrproject\apps\blinky\build\nrf5340dk_cpuapp\build_s`)
+If you built **[OPTIONAL] New app** (in the **5) Build app again**
+You must go to the new application build folder
+
+Check for the presence of `zephyr\zephyr.signed.bin`
+
+Open a new Terminal in the build folder folder
 In the following, it will be called the **COMM_TERMINAL**
+
+Adapt and copy this command:
+
+```bash
+mcumgr -c <name> image list
+```
+
+(If you don't know what 'name' is, go to **First MCUmgr Config**)
+You should have the list of images that are on target
 
 Adapt and copy this command:
 
@@ -434,9 +447,9 @@ And now you can see the new application booting again
 Only this time, when you press the `RESET` button again
 It still boots on the most up to date image
 
-You have now performed your first DFU !!
+You have now performed your a DFU over UART!!
 
-You can play with the 2 pictures that are on the target
+You can play with the 2 images that are on the target
 You have to copy the hashs of the original image
 And follow the same step as above.
 
