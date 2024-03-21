@@ -280,7 +280,7 @@ Just know that other tools exists
 
 ### A) Send file to phone
 
-Go to your build folder (ex: `myapps\ble_dfu_peripheral_lbs\build`)
+Go to your build folder (ex: `apps\dfu_tutorial\dfu_ble\build\5340_s`)
 If you built **[OPTIONAL] New app** (in the **5) Build Application again**)
 You must go to the new application build folder
 
