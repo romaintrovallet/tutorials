@@ -42,7 +42,7 @@ Select one of the 2 button
 
 You should have this window that pops up.  
 We will create an app from an existing sample.  
-Select the correponding button
+Select the corresponding button
 
 ![Picture of VSCode where the place to click is higlighted](img/NCS/sample.png)
 
@@ -339,3 +339,15 @@ If the console doesn't provide any error but you can't find the `app_update.bin`
 Just delete the `build` folder in your application.
 You will need to recreate a new build configuration (select the same options).
 And the file should be here
+
+### C) FAIL at Build => No configure step for 'tfm'
+
+Relaunch the pristine build, it should work (no idea why it fails no the first try)
+
+### D) Missing folders at Build
+
+Just refresh the `Applications` bloc.
+
+![Missing TF-M folder](img/errors/build_no_refresh.png)
+
+If the refresh did not work, Rebuild as pristine.

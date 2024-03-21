@@ -8,7 +8,7 @@ This tutorial will show:
 
 Things omitted for the sake of simplicity:
 
-- The Secure mode (if working with Non-Secure mode(TF-M), Secure mod should be forgotten)
+- The Secure mode (if working with Non-Secure mode (TF-M), Secure mod should be forgotten)
 - Custom keys (another tutorial is available)
 - Thingy91 as a target (another tutorial is available)
 - Other OS than Windows
@@ -43,7 +43,7 @@ Select one of the 2 button
 
 You should have this window that pops up.  
 We will create an app from an existing sample.  
-Select the correponding button
+Select the corresponding button
 
 ![Picture of VSCode where the place to click is higlighted](img/NCS/sample.png)
 
@@ -209,7 +209,7 @@ To see the log of our application, follow the steps:
 For the next step the picture might not indicate what's to your screen.
 Just go through the steps so you have the same configuration in the end.
 
-![Picture of the serial configuration we have to select](img/NCS/output_conf-2.png)
+![Picture of the serial configuration we have to select](img/NCS/output_conf_COM10-2.png)
 
 ![Picture of the terminal](img/NCS/UART/output_log_pre-1.png)
 
@@ -479,9 +479,11 @@ Relaunch the pristine build, it should work (no idea why it fails no the first t
 
 ### B) Missing folders at Build
 
-Just refresh the `Applications` bloc
+Just refresh the `Applications` bloc.
 
-![JLink Commander on Windows](img/errors/build_no_refresh.png)
+![Missing TF-M folder](img/errors/build_no_refresh.png)
+
+If the refresh did not work, Rebuild as pristine.
 
 ### C) Error when flashing the application
 
