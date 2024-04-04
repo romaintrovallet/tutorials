@@ -10,10 +10,11 @@ Things omitted for the sake of simplicity:
 
 {$Select required$}
 
-- The TF-M mode (could not make it work with this example)
-- The Secure mode (if working with Non-Secure mode(TF-M), Secure mod should be forgotten)
+- Building the app as Non-Secure Processing Environment + TFM as Secure Processing Environment (could not make it work with this example)
+- Building the app as Secure Processing Environment (if working as Non-Secure Processing Environment (TF-M), Secure Processing Environment should be forgotten)
 - Custom keys (another tutorial is available)
-- Thingy91 as a target (nRF852840 on the Thingy91 shall not be used for this purpose)
+- Thingy91 as a target (is not compatible with this tutorial)
+- Thingy91 as a target (nRF52840 on the Thingy91 shall not be used for this purpose)
 - Thingy91 as a target (another tutorial is available)
 - Other OS than Windows
 
@@ -31,7 +32,7 @@ ___
 This tutorial is made for NCS install.
 It is not compatible with the zephyrproject install.
 
-If you are interested by the zephyrproject / Vanilla Zephyr version
+If you are interested by the zephyrproject / Vanilla Zephyr version.  
 {$Select required$}
 It can be found [here](link)  
 It is not available yet.
@@ -40,8 +41,15 @@ With the global requirements, you should add the following:
 
 {$Select required$}
 
-- a phone with nRF Connect Application (available on Play Store / Apple Store)
+- a second USB cable
 - Go + MCUmgr ([Go Install](https://go.dev/doc/install) + [MCUmgr from Zephyr](https://docs.zephyrproject.org/latest/services/device_mgmt/mcumgr.html))
+
+- a phone with nRF Connect Application (available on Play Store / Apple Store)
+
+or
+
+- a Chromium based browser [Wikipedia Chromium (list is below)](https://en.wikipedia.org/wiki/Chromium_(web_browser))
+- Cloning the [MCUmgr-Web Github](https://github.com/boogie/mcumgr-web)
 
 ___
 
@@ -60,7 +68,7 @@ Select the corresponding button
 
 Then select the {$Sample$} sample by searching {$Sample_search$}
 
-![Picture of VSCode where the place to click is higlighted](img/NCS/{$DFU$}/ble_lbs_sample.png)
+![Picture of VSCode where the place to click is higlighted](img/NCS/{$DFU$}/{$sample$}_sample.png)
 
 Then save the app.
 You should pick a high level folder because of the limit of 250 characters by CMake  
@@ -298,7 +306,7 @@ Check for the presence of `zephyr\app_update.bin`
 You should see the Bootloader swapping the image to another
 And in the end the application loads with a more up to date Build Time
 
-![Picture of the nRF Connect application](img/NCS/{$DFU$}/output_log_post.png)
+![Shows the log of the DFU in VSCode](img/NCS/{$DFU$}/output_log_post.png)
 
 You have now performed a DFU over {$Techno$} !!
 
@@ -325,7 +333,7 @@ And the file should be here
 
 ### C) FAIL at Build => No configure step for 'tfm'
 
-Relaunch the pristine build, it should work (no idea why it fails no the first try)
+Relaunch the pristine build, it should work (no idea why it fails on the first try)
 
 ### D) Missing folders at Build
 
