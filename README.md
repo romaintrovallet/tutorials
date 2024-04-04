@@ -48,10 +48,10 @@ Before doing the main tutorial, verify the compatibility between:
 - The main tutorials (rows)
 - The SDK (cols)
 
-| Compatibility Table | ZEPHYR_UART_DFU | NCS_UART_DFU | ... | NCS_USB_DFU | ... | NCS_BLE_DFU |
+| Compatibility Table | ZEPHYR_UART_DFU | NCS_UART_DFU | ... | NCS_USB-CDC_DFU | ... | NCS_BLE_DFU |
 | :------------------ | :-------------: | :-: | :-: | :-: | :-: | :---------: |
 | **NCS** | Compatible | Compatible | ... | Compatible | ... | Compatible |
-| **Zephyrproject** | Compatible | Compatible<sup>1</sup> | ... | N.A. | ... | Not Compatible<sup>2</sup>|
+| **zephyrproject** | Compatible | Compatible<sup>1</sup> | ... | N.A. | ... | Not Compatible<sup>2</sup>|
 
 (<sup>1</sup>) => Uses a zephyr sample
 
@@ -64,7 +64,7 @@ Before adding complementary tutorials to the main ones, verify the compatibility
 - The main tutorials (rows)
 - The complementary tutorial (cols)
 
-| Compatibility Table | ZEPHYR_UART_DFU | NCS_UART_DFU | ... | NCS_USB_DFU | ... | NCS_BLE_DFU |
+| Compatibility Table | ZEPHYR_UART_DFU | NCS_UART_DFU | ... | NCS_USB-CDC_DFU | ... | NCS_BLE_DFU |
 | :------------------ | :-------------: | :-: | :-: | :-: | :-: | :---------: |
 | **Custom_Keys** | Compatible | Compatible | ... | Compatible | ... | Compatible |
 | **Thingy91** | Not Compatible<sup>3</sup>| Compatible | ... | Not Compatible<sup>4</sup> | ... | Not Compatible<sup>5</sup>|
@@ -83,10 +83,15 @@ So here is a table of tested functionnalities.
 - The main tutorials (rows)
 - The functionnalities (cols)
 
-| Compatibility Table | ZEPHYR_UART_DFU | NCS_UART_DFU | ... | NCS_USB_DFU | ... | NCS_BLE_DFU |
+| Compatibility Table | ZEPHYR_UART_DFU | NCS_UART_DFU | ... | NCS_USB-CDC_DFU | ... | NCS_BLE_DFU |
 | :------------------ | :-------------: | :-: | :-: | :-: | :-: | :---------: |
 | **TF-M** | Compatible | Compatible | ... | Not Compatible<sup>6</sup> | ... | Not Compatible<sup>6</sup> |
 | **Revert** | Compatible | Compatible | ... | Compatible | ... | Compatible |
 | **TF-M + Revert** | Compatible | Compatible | ... | Not Compatible<sup>6</sup> | ... | Not Compatible<sup>6</sup> |
 
 (<sup>6</sup>) => Could not make it work
+
+## Credits
+
+- [Nordic Course Intermediate - DFU/FOTA Section](https://academy.nordicsemi.com/courses/nrf-connect-sdk-intermediate/lessons/lesson-8-bootloaders-and-dfu-fota/)
+- [tree.nathanfriend](https://tree.nathanfriend.io/)
