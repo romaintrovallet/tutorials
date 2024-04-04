@@ -49,7 +49,7 @@ Select the corresponding button
 
 Then select the Blinky sample by searching `blinky`
 
-![Picture of VSCode where the place to click is higlighted](img/NCS/UART/blinky_sample.png)
+![Picture of VSCode where the place to click is higlighted](img/NCS/blinky_sample.png)
 
 Then save the app.
 You should pick a high level folder because of the limit of 250 characters by CMake  
@@ -105,7 +105,7 @@ Don't forget to save `src/main.c`!!
 
 ### B) prj.conf
 
-Now open `prj.conf`
+Now open `prj.conf` and copy-paste the following lines.
 
 ```bash
 # Enable MCUboot
