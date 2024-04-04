@@ -8,7 +8,7 @@ This tutorial will show:
 
 Things omitted for the sake of simplicity:
 
-- The Secure mode (if working with Non-Secure mode (TF-M), Secure mod should be forgotten)
+- Building the app as Secure Processing Environment (if working as Non-Secure Processing Environment (TF-M), Secure Processing Environment should be forgotten)
 - Custom keys (another tutorial is available)
 - Thingy91 as a target (another tutorial is available)
 - Other OS than Windows
@@ -25,7 +25,7 @@ ___
 This tutorial is made for NCS install.
 It is not compatible with the zephyrproject install.
 
-If you are interested by the zephyrproject / Vanilla Zephyr version  
+If you are interested by the zephyrproject / Vanilla Zephyr version.  
 It can be found [here](https://github.com/romaintrovallet/tutorials/blob/master/ZEPHYR_UART_DFU.md)
 
 With the global requirements, you should add the following:
@@ -47,7 +47,7 @@ Select the corresponding button
 
 ![Picture of VSCode where the place to click is higlighted](img/NCS/sample.png)
 
-Then select the blinky sample by searching `blinky`
+Then select the Blinky sample by searching `blinky`
 
 ![Picture of VSCode where the place to click is higlighted](img/NCS/UART/blinky_sample.png)
 
@@ -108,27 +108,35 @@ Don't forget to save `src/main.c`!!
 Now open `prj.conf`
 
 ```bash
+# Enable MCUboot
 CONFIG_BOOTLOADER_MCUBOOT=y
 
-# Enable flash operations
-CONFIG_FLASH=y
-
-# Enable MCUmgr and dependencies
+# Enable MCUmgr DFU in application
 CONFIG_MCUMGR=y
+
+# Configure MCUmgr transport to UART
+CONFIG_MCUMGR_TRANSPORT_UART=y
+
+# Enable MCUmgr management for both OS and Images
+CONFIG_MCUMGR_GRP_OS=y
+CONFIG_MCUMGR_GRP_IMG=y
+
+# Dependencies
+# Configure dependencies for CONFIG_MCUMGR
 CONFIG_NET_BUF=y
 CONFIG_ZCBOR=y
+
+# Configure dependencies for CONFIG_MCUMGR_TRANSPORT_UART
+CONFIG_BASE64=y
 CONFIG_CRC=y
+
+# Configure dependencies for CONFIG_MCUMGR_GRP_IMG
+CONFIG_FLASH=y
+CONFIG_IMG_MANAGER=y
+
+## Configure dependencies for CONFIG_IMG_MANAGER
 CONFIG_STREAM_FLASH=y
 CONFIG_FLASH_MAP=y
-
-# Enable most core commands
-CONFIG_IMG_MANAGER=y
-CONFIG_MCUMGR_GRP_IMG=y
-CONFIG_MCUMGR_GRP_OS=y
-
-# Enable the serial mcumgr transport
-CONFIG_MCUMGR_TRANSPORT_UART=y
-CONFIG_BASE64=y
 ```
 
 You should have something like this:
@@ -348,8 +356,8 @@ nrfutil device list
 and the result should be something like this:
 
 ```bash
-1050090497    COM11    VCOM0
-1050090497    COM10    VCOM1
+105009XXXX    COM11    VCOM0
+105009XXXX    COM10    VCOM1
 ```
 
 It is normal if you only have one (it will be easier)
@@ -385,7 +393,7 @@ At this point you can close **CONFIG_TERMINAL**
 ### B) Application transfer
 
 Go to your build folder (ex: `apps\dfu_tutorial\dfu_uart\build\5340_ns`)  
-If you built **[OPTIONAL] New app** (in the **5) Build app again**)
+If you built **[OPTIONAL] New app** (in the **5) Build Application again**)
 You must go to the new application build folder
 
 Check for the presence of `zephyr\app_update.bin`
@@ -447,7 +455,7 @@ After pressing the `RESET` button
 You should see the Bootloader swapping the image to another
 And in the end the application loads with a more up to date Build Time
 
-![Shows the log of the DFU VSCode](img/NCS/UART/output_log_post.png)
+![Shows the log of the DFU in VSCode](img/NCS/UART/output_log_post.png)
 
 You have now performed a DFU over UART!!
 
