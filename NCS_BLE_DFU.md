@@ -8,9 +8,9 @@ This tutorial will show:
 
 Things omitted for the sake of simplicity:
 
-- The TF-M mode (could not make it work with this example)
+- Building the app as Non-Secure Processing Environment + TFM as Secure Processing Environment (could not make it work with this example)
 - Custom keys (another tutorial is available)
-- Thingy91 as a target (nRF852840 on the Thingy91 shall not be used for this purpose)
+- Thingy91 as a target (nRF52840 on the Thingy91 shall not be used for this purpose)
 - Other OS than Windows
 
 Before starting this tutorial, it is recommended to read the following links:
@@ -24,12 +24,17 @@ ___
 This tutorial is made for NCS install.
 It is not compatible with the zephyrproject install.
 
-If you are interested by the zephyrproject / Vanilla Zephyr version  
+If you are interested by the zephyrproject / Vanilla Zephyr version.  
 It is not available yet.
 
 With the global requirements, you should add the following:
 
 - a phone with nRF Connect Application (available on Play Store / Apple Store)
+
+or
+
+- a Chromium based browser [Wikipedia Chromium (list is below)](https://en.wikipedia.org/wiki/Chromium_(web_browser))
+- Cloning the [MCUmgr-Web Github](https://github.com/boogie/mcumgr-web)
 
 ___
 
@@ -46,7 +51,7 @@ Select the corresponding button
 
 ![Picture of VSCode where the place to click is higlighted](img/NCS/sample.png)
 
-Then select the bt sample by searching `plb`
+Then select the BLE LED Button service sample by searching `plb`
 
 ![Picture of VSCode where the place to click is higlighted](img/NCS/BLE/ble_lbs_sample.png)
 
@@ -278,6 +283,9 @@ At this point, we use nRF Connect app to perform the DFU over Bluetooth.
 Just know that other tools exists
 [List of Over The Air Update provided by Zephyr](https://github.com/zephyrproject-rtos/zephyr/blob/main/doc/services/device_mgmt/ota.rst)
 
+<details>
+<summary><b>With NRF Connect Application (with a phone)</b></summary>
+
 ### A) Send file to phone
 
 Go to your build folder (ex: `apps\dfu_tutorial\dfu_ble\build\5340_s`)
@@ -319,10 +327,18 @@ Once it is done, we can head back to the terminal.
 You should see the Bootloader swapping the image to another
 And in the end the application loads with a more up to date Build Time
 
-![Picture of the nRF Connect application](img/NCS/BLE/output_log_post.png)
+![Shows the log of the DFU in VSCode](img/NCS/BLE/output_log_post.png)
 
 You have now performed a DFU over Bluetooth !!
 
+</details>
+</br>
+<details>
+<summary><b>With MCUmgr Web (with Chromium based browser)</b></summary>
+
+Not written yet
+
+</details>
 ___
 
 ## 7) Possible errors
@@ -330,7 +346,7 @@ ___
 ### A) Error when flashing the Application
 
 First verify that you have rightly plugged the Development Kit and that you have turned it on.
-Then if a window is printed and asking to `Recover` the target
+If a window is printed and asking to `Recover` the target,
 Press `Flash & Recover`
 
 ### B) No `app_update.bin` in the `build/zephyr` folder
