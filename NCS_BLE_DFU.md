@@ -4,6 +4,7 @@ This tutorial will show:
 
 - How to perform a DFU over Bluetooth
 - How to use nRF Connect Application
+- How to use MCUmgr-Web
 - Using the BLE Peripheral LBS sample
 
 Things omitted for the sake of simplicity:
@@ -51,7 +52,7 @@ Select the corresponding button
 
 ![Picture of VSCode where the place to click is higlighted](img/NCS/sample.png)
 
-Then select the BLE LED Button service sample by searching `plb`
+Then select the BLE LED Button Service sample by searching `plb`
 
 ![Picture of VSCode where the place to click is higlighted](img/NCS/ble_lbs_sample.png)
 
@@ -158,7 +159,7 @@ ___
 Now we need to configure the build settings.
 Select one of the 2 button
 
-![Picture of the nRF Extension for VSCode with the place to click higlighted](img/NCS/BLE/build-1.png)
+![Picture of nRF for VSCode with the place to click higlighted](img/NCS/BLE/build-1.png)
 
 Select those 2 options and rename the output build folder to something recognizable.
 
@@ -174,7 +175,7 @@ If it still fails, go to possible error section
 This takes quite some time to generate.
 But after the generation you should have something like that.
 
-![Picture of the nRF Extension for VSCode with the visible build configuration](img/NCS/BLE/build-3.png)
+![Picture of nRF for VSCode with the visible build configuration](img/NCS/BLE/build-3.png)
 
 ___
 
@@ -189,7 +190,7 @@ Once it is plugged and turned ON, you have 2 choices:
 
 To see the log of our application, follow the steps:
 
-![Picture of the nRF Extension for VSCode with the place to click higlighted](img/NCS/BLE/output_conf-1.png)
+![Picture of nRF for VSCode with the place to click higlighted](img/NCS/BLE/output_conf-1.png)
 
 For the next step the picture might not indicate what's to your screen.
 Just go through the steps so you have the same configuration in the end.
@@ -213,7 +214,7 @@ Once these 2 things are set, you are ready to flash
 
 If ready, select the `Flash & Erase` command as presented below
 
-![Picture of the nRF Extension for VSCode with the place to click higlighted](img/NCS/BLE/flash.png)
+![Picture of nRF for VSCode with the place to click higlighted](img/NCS/BLE/flash.png)
 
 If the flash was successful, you should see 3 things:
 
@@ -264,14 +265,14 @@ Here are some examples :
 
 Rebuild by following the instructions below
 
-![Picture of the nRF Extension for VSCode with the place to click higlighted](img/NCS/BLE/rebuild.png)
+![Picture of nRF for VSCode with the place to click higlighted](img/NCS/BLE/rebuild.png)
 
 </details>
 </br>
 <details>
 <summary><b>[OPTIONAL] New app</b></summary>
 
-Not written yet
+Not written yet.
 
 </details>
 
@@ -279,20 +280,20 @@ ___
 
 ## 6) Perform DFU
 
-At this point, we use nRF Connect app to perform the DFU over Bluetooth.
+At this point, we either use nRF Connect app or MCUmgr-web to perform the DFU over Bluetooth.
 Just know that other tools exists
 [List of Over The Air Update provided by Zephyr](https://github.com/zephyrproject-rtos/zephyr/blob/main/doc/services/device_mgmt/ota.rst)
-
-<details>
-<summary><b>With NRF Connect Application (with a phone)</b></summary>
-
-### A) Send file to phone
 
 Go to your build folder (ex: `apps\dfu_tutorial\dfu_ble\build\5340_s`)
 If you built **[OPTIONAL] New app** (in the **5) Build Application again**)
 You must go to the new application build folder
 
 Check for the presence of `zephyr\app_update.bin`
+
+<details>
+<summary><b>With NRF Connect Application (with a phone)</b></summary>
+
+### A) Send file to phone
 
 Now you should transfer the updated file to your phone.
 I have chosen bluetooth to send it to my phone.
@@ -322,6 +323,16 @@ You should see the graph like the picture below.
 
 ![Picture of the nRF Connect application](img/NCS/BLE/phone/upload-2.jpg)
 
+</details>
+</br>
+<details>
+<summary><b>With MCUmgr Web (with Chromium based browser)</b></summary>
+
+Not written yet
+
+</details>
+</br>
+
 Once it is done, we can head back to the terminal.
 
 You should see the Bootloader swapping the image to another
@@ -331,39 +342,3 @@ And in the end the application loads with a more up to date Build Time
 
 You have now performed a DFU over Bluetooth !!
 
-</details>
-</br>
-<details>
-<summary><b>With MCUmgr Web (with Chromium based browser)</b></summary>
-
-Not written yet
-
-</details>
-___
-
-## 7) Possible errors
-
-### A) Error when flashing the Application
-
-First verify that you have rightly plugged the Development Kit and that you have turned it on.
-If a window is printed and asking to `Recover` the target,
-Press `Flash & Recover`
-
-### B) No `app_update.bin` in the `build/zephyr` folder
-
-If the console doesn't provide any error but you can't find the `app_update.bin`.
-Just delete the `build` folder in your application.
-You will need to recreate a new build configuration (select the same options).
-And the file should be here
-
-### C) FAIL at Build => No configure step for 'tfm'
-
-Relaunch the pristine build, it should work (no idea why it fails no the first try)
-
-### D) Missing folders at Build
-
-Just refresh the `Applications` bloc.
-
-![Missing TF-M folder](img/errors/build_no_refresh.png)
-
-If the refresh did not work, Rebuild as pristine.
