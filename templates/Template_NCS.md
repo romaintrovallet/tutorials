@@ -160,7 +160,7 @@ ___
 Now we need to configure the build settings.
 Select one of the 2 button
 
-![Picture of the nRF Extension for VSCode with the place to click higlighted](img/NCS/{$DFU$}/build-1.png)
+![Picture of nRF for VSCode with the place to click higlighted](img/NCS/{$DFU$}/build-1.png)
 
 Select those 2 options and rename the output build folder to something recognizable.
 
@@ -178,7 +178,7 @@ If it still fails, go to possible error section
 This takes quite some time to generate.
 But after the generation you should have something like that.
 
-![Picture of the nRF Extension for VSCode with the visible build configuration](img/NCS/{$DFU$}/build-3.png)
+![Picture of nRF for VSCode with the visible build configuration](img/NCS/{$DFU$}/build-3.png)
 
 ___
 
@@ -193,7 +193,7 @@ Once it is plugged and turned ON, you have 2 choices:
 
 To see the log of our application, follow the steps:
 
-![Picture of the nRF Extension for VSCode with the place to click higlighted](img/NCS/{$DFU$}/output_conf-1.png)
+![Picture of nRF for VSCode with the place to click higlighted](img/NCS/{$DFU$}/output_conf-1.png)
 
 For the next step the picture might not indicate what's to your screen.
 Just go through the steps so you have the same configuration in the end.
@@ -217,7 +217,7 @@ Once these 2 things are set, you are ready to flash
 
 If ready, select the `Flash & Erase` command as presented below
 
-![Picture of the nRF Extension for VSCode with the place to click higlighted](img/NCS/{$DFU$}/flash.png)
+![Picture of nRF for VSCode with the place to click higlighted](img/NCS/{$DFU$}/flash.png)
 
 {$Select required$}
 
@@ -264,24 +264,44 @@ Here are some examples :
 {$Select required$}
 
 - the blinking LED (DK_LED1 -> DK_LED4) (line XX in `src/main.c`)
+- the blinking LED (led0 -> led1) (line XX in `src/main.c`)
 - the blinking rate (1000 -> 100) (line XX in `src/main.c`)
 - the name of the target on Bluetooth Network (Nordic_LBS -> Quasar_Concept) (line XX in `prj.conf`)
-- the LED (led0 -> led1) (line XX in `src/main.c`)
-- the blinking rate (1000 -> 100) (line XX in `src/main.c`)
+- the name of the USB device (add following lines in `prj.conf`)
+
+```bash
+# See effect of DFU
+CONFIG_USB_DEVICE_PRODUCT="Zephyr DFU sample"
+```
 
 </details>
 </br>
 
 Rebuild by following the instructions below
 
-![Picture of the nRF Extension for VSCode with the place to click higlighted](img/NCS/{$DFU$}/rebuild.png)
+![Picture of nRF for VSCode with the place to click higlighted](img/NCS/{$DFU$}/rebuild.png)
 
 </details>
 </br>
 <details>
 <summary><b>[OPTIONAL] New app</b></summary>
 
-{$Additional details$}
+{$Select required$}
+
+Follow the **1) Create Application**
+Instead get the `hello_world` sample
+and save it to someplace recognizable `apps\dfu_tutorial\{$app_naming$}_hw`
+
+Follow the same modification in the **2) Modify Application**
+and add this library in the `apps\dfu_tutorial\{$app_naming$}_hw\src\main.c`
+
+```c
+#include <zephyr/kernel.h>
+```
+
+Once done create the same Build Configuration as in **3) Build Application**
+
+Not written yet.
 
 </details>
 
@@ -311,69 +331,3 @@ And in the end the application loads with a more up to date Build Time
 You have now performed a DFU over {$Techno$} !!
 
 {$Additional details$}
-
-___
-
-## 7) Possible errors
-
-{$Select required$}
-
-### A) Error when flashing the Application
-
-First verify that you have rightly plugged the Development Kit and that you have turned it on.
-Then if a window is printed and asking to `Recover` the target
-Press `Flash & Recover`
-
-### B) No `app_update.bin` in the `build/zephyr` folder
-
-If the console doesn't provide any error but you can't find the `app_update.bin`.
-Just delete the `build` folder in your application.
-You will need to recreate a new build configuration (select the same options).
-And the file should be here
-
-### C) FAIL at Build => No configure step for 'tfm'
-
-Relaunch the pristine build, it should work (no idea why it fails on the first try)
-
-### D) Missing folders at Build
-
-Just refresh the `Applications` bloc.
-
-![Missing TF-M folder](img/errors/build_no_refresh.png)
-
-If the refresh did not work, Rebuild as pristine.
-
-### E) When `mcumgr` command => `Acces is denied`
-
-In most cases, you forgot to close the Serial Communication Port
-
-### F) When `mcumgr` command => `NMP timeout`
-
-Try to execute simpler command like
-
-```bash
-mcumgr -c <name> echo hello
-```
-
-If it happened try the failed command a second time, it could work now.
-If it doesn't work, this is generally because the MCUmgr config in the `prj.conf` is badly set.
-
-### G) When `mcumgr image update` command => Stuck at 0%
-
-Try deactivate mass storage on device:
-
-- Open Jlink Commander  
-![JLink Commander on Windows](img/errors/jlink.png)
-- Execute this command:
-
-```bash
-MSDDisable
-```
-
-Then retry to perform update.
-If still stuck, do the following steps in the right order:
-
-- Flash & Erase the application
-- A window could be printed while asking to `Recover` the target
-- Press `Flash & Recover`
-- Return to **Application transfer**
