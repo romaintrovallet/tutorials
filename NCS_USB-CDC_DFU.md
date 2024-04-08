@@ -40,7 +40,7 @@ ___
 In nRF Connect for VS Code, create a new application.
 Select one of the 2 button
 
-![Picture of the nRF Extension for VSCode where the place to click is higlighted](img/NCS/new_app.png)
+![Picture of the nRF Extension for VSCode where the place to click is higlighted](img/NCS/new_app_260.png)
 
 You should have this window that pops up.  
 We will create an app from an existing sample.  
@@ -50,7 +50,7 @@ Select the corresponding button
 
 Then select the Blinky sample by searching `blinky`
 
-![Picture of VSCode where the place to click is higlighted](img/NCS/USB/blinky_sample.png)
+![Picture of VSCode where the place to click is higlighted](img/NCS/blinky_sample.png)
 
 Then save the app.
 You should pick a high level folder because of the limit of 250 characters by CMake  
@@ -97,17 +97,17 @@ Add this line of code in the file => around line 9
 #include <zephyr/usb/usb_device.h>
 ```
 
-And these lines of code in the main() => around line 27
+And these lines of code in the main() => around line 26
 
 ```c
 printk("build time: " __DATE__ " " __TIME__ "\n");
 
 if (IS_ENABLED(CONFIG_USB_DEVICE_STACK)) {
-  ret = usb_enable(NULL);
-  if (ret) {
-    printk("Problem with USB enable");
-    return 0;
-  }
+    ret = usb_enable(NULL);
+    if (ret) {
+        printk("Problem with USB enable");
+        return 0;
+    }
 }
 ```
 
@@ -121,7 +121,7 @@ Don't forget to save `src/main.c`!!
 
 ### B) prj.conf
 
-Now open `prj.conf`
+Now open `prj.conf` and copy-paste the following lines.
 
 ```bash
 # Enable MCUboot
@@ -171,7 +171,7 @@ You need to configure the log of MCUboot to see how it is done
 
 In your app folder, create a folder named `child_image`
 In this folder create a file named `mcuboot.conf`
-And add this line inside the file
+And add these lines inside the file
 
 ```bash
 # Enable logging for MCUboot
@@ -182,11 +182,17 @@ CONFIG_MCUBOOT_LOG_LEVEL_INF=y
 CONFIG_BOOT_SERIAL_CDC_ACM=y
 
 # Increase flash space for MCUboot child image, to fit USB drivers
-# 15000 is for nrf5340, 
+# Size depends on your taget : 0x15000 is for nrf5340dk 
 CONFIG_PM_PARTITION_SIZE_MCUBOOT=0x15000
 ```
 
-This will allow us to have the details in the mcuboot part.
+This will allow us to have the details in the MCUboot part.
+It will also allow the bootloader to have access to the USB stack.
+
+Allowing the access means the bootloader's size is increased.
+The partition size for the bootloader needs to be increased.
+The value depends on your target [More details here (Step 3)](https://academy.nordicsemi.com/courses/nrf-connect-sdk-intermediate/lessons/lesson-8-bootloaders-and-dfu-fota/topic/exercise-2-dfu-over-usb-adding-external-flash/)
+As I have a nrf5340dk, I will set the value to `0x15000`.
 
 Don't forget to save `child_image/mcuboot.conf`!!
 
@@ -221,10 +227,13 @@ At this point you should have something like this:
 .
 └── dfu_tutorial/
     └── dfu_usb-cdc/
+        ├── child_image/
+        │   └── mcuboot.conf (U)
         ├── src/
         │   └── main.c (M)
         ├── .gitignore
         ├── CMakeLists.txt
+        ├── nrf5340dk_nrf5340_cpuapp_ns.overlay (U)
         ├── prj.conf (M)
         ├── README.rst
         └── sample.yaml
@@ -237,9 +246,9 @@ ___
 Now we need to configure the build settings.
 Select one of the 2 button
 
-![Picture of the nRF Extension for VSCode with the place to click higlighted](img/NCS/USB/build-1.png)
+![Picture of nRF for VSCode with the place to click higlighted](img/NCS/USB/build-1.png)
 
-Select those 2 options and rename the output build folder to something recognizable.
+Select those 3 options and rename the output build folder to something recognizable.
 
 ![Picture of the Build configuration with the place to modify the config higlighted](img/NCS/USB/build-2.png)
 
@@ -249,13 +258,14 @@ If it still fails, go to possible error section
 This takes quite some time to generate.
 But after the generation you should have something like that.
 
-![Picture of the nRF Extension for VSCode with the visible build configuration](img/NCS/USB/build-3.png)
+![Picture of nRF for VSCode with the visible build configuration](img/NCS/USB/build-3.png)
 
 ___
 
 ## 4) Flash Application
 
 Now is a good time to plug your device.
+For now, **ONLY ONE** USB cable will be used.
 
 Once it is plugged and turned ON, you have 2 choices:
 
@@ -264,7 +274,7 @@ Once it is plugged and turned ON, you have 2 choices:
 
 To see the log of our application, follow the steps:
 
-![Picture of the nRF Extension for VSCode with the place to click higlighted](img/NCS/USB/output_conf-1.png)
+![Picture of nRF for VSCode with the place to click higlighted](img/NCS/USB/output_conf-1.png)
 
 For the next step the picture might not indicate what's to your screen.
 Just go through the steps so you have the same configuration in the end.
@@ -288,7 +298,7 @@ Once these 2 things are set, you are ready to flash
 
 If ready, select the `Flash & Erase` command as presented below
 
-![Picture of the nRF Extension for VSCode with the place to click higlighted](img/NCS/USB/flash.png)
+![Picture of nRF for VSCode with the place to click higlighted](img/NCS/USB/flash.png)
 
 If the flash was successful, you should see 2 things:
 
@@ -327,11 +337,9 @@ But if you want a more visual approach, there are possibilities available below
 You can modify the app to bring a more visually updated approach
 Here are some examples :
 
-{$Select required$}
-
-- the LED (led0 -> led1) (line XX in `src/main.c`)
-- the blinking rate (1000 -> 100) (line XX in `src/main.c`)
-- Change the name of the USB device (in `prj.conf`)
+- the blinking LED (led0 -> led1) (line 15 in `src/main.c`)
+- the blinking rate (1000 -> 100) (line 12 in `src/main.c`)
+- the name of the USB device (add following lines in `prj.conf`)
 
 ```bash
 # See effect of DFU
@@ -343,14 +351,25 @@ CONFIG_USB_DEVICE_PRODUCT="Zephyr DFU sample"
 
 Rebuild by following the instructions below
 
-![Picture of the nRF Extension for VSCode with the place to click higlighted](img/NCS/USB/rebuild.png)
+![Picture of nRF for VSCode with the place to click higlighted](img/NCS/USB/rebuild.png)
 
 </details>
 </br>
 <details>
 <summary><b>[OPTIONAL] New app</b></summary>
 
-{$Additional details$}
+Follow the **1) Create Application**
+Instead get the `hello_world` sample
+and save it to someplace recognizable `apps\dfu_tutorial\dfu_usb-cdc_hw`
+
+Follow the same modification in the **2) Modify Application**
+and add this library in the `apps\dfu_tutorial\dfu_usb-cdc_hw\src\main.c`
+
+```c
+#include <zephyr/kernel.h>
+```
+
+Once done create the same Build Configuration as in **3) Build Application**
 
 </details>
 
@@ -362,7 +381,9 @@ At this point, we use MCUmgr to perform the DFU over USB-CDC.
 Just know that other tools exists
 [List of Over The Air Update provided by Zephyr](https://github.com/zephyrproject-rtos/zephyr/blob/main/doc/services/device_mgmt/ota.rst)
 
-### A) Only for First Time with MCUmgr
+Before doing anything, connect the second cable to the devkit.
+
+### A) Only for First Time with MCUmgr with USB-CDC
 
 Open another terminal wherever you want
 In the following, it will be called the **CONFIG_TERMINAL**
@@ -373,7 +394,7 @@ In the following, it will be called the **CONFIG_TERMINAL**
 MCUmgr will use the Serial Communication Port
 
 - Close your Serial Communication Port
-- Go to your build folder (example : `apps/dfu_tutorial/dfu_uart/build/5340_ns`)
+- Go to your build folder (example : `apps/dfu_tutorial/dfu_usb-cdc/build/5340_ns`)
   - then `zephyr` folder
   - then verify the presence of `app_update.bin`
 
@@ -394,7 +415,7 @@ This verifies your installation of MCUmgr
 </details>
 </br>
 <details>
-<summary><b>First MCUmgr config</b></summary>
+<summary><b>First MCUmgr USB-CDC config</b></summary>
 
 In the **CONFIG_TERMINAL**
 
@@ -405,17 +426,40 @@ nrfutil device list
 and the result should be something like this:
 
 ```bash
-105009XXXX    COM11    VCOM0
-105009XXXX    COM10    VCOM1
+
+105009XXXX
+product         J-Link
+board version   PCA10095
+ports           COM11, vcom: 0
+                COM10, vcom: 1
+traits          devkit, jlink, seggerUsb, serialPorts, usb
+
+DCAD2FBA45EFXXXX
+product         USB-DEV
+ports           COM15
+traits          serialPorts, usb
+
+Found 2 supported device(s)
+
 ```
 
-It is normal if you only have one (it will be easier)
-This allow us to get the connected serial communication port that are available
-Replace the `<name>` and the `COMXX` before copy the next command in the **CONFIG_TERMINAL**
+If you have only 1 device detected:  
+Verify that you have 2 cables connected between you PC and the devkit.
+
+This allow us to get the serial communication port that are available.
+The one that interest us is the one linked to `USB-DEV` product, in my case `COM15`.
+
+Now let's create a configuration for this communication port.
+Replace the `<name>` and the `COMXX` before copy the next command in the **CONFIG_TERMINAL**.
 
 ```bash
 mcumgr conn add <name> type=serial connstring=COMXX
 ```
+
+In my case:
+
+- `<name>` will be `com15`, but you can name it as you wish.
+- `COMXX` will be `COM15`, but you must select the communication port corresponding
 
 Now to test if you have correctly setup your serial connection
 Close any Serial Communication Port that could be open
@@ -441,13 +485,11 @@ At this point you can close **CONFIG_TERMINAL**
 
 ### B) Application transfer
 
-Go to your build folder (ex: `apps\dfu_tutorial\dfu_usb-cdc\5340_ns`)  
+Go to your build folder (ex: `apps\dfu_tutorial\dfu_usb-cdc\build\5340_ns`)  
 If you built **[OPTIONAL] New app** (in the **5) Build Application again**)
 You must go to the new application build folder
 
 Check for the presence of `zephyr\app_update.bin`
-
-***Close any Serial COM port Reader***
 
 Open a new Terminal in the build folder folder
 In the following, it will be called the **COMM_TERMINAL**
@@ -470,7 +512,7 @@ mcumgr -c <name> image upload -e zephyr/app_update.bin
 ```
 
 Now you should be printed with a loading bar.
-In this project, the loading should take around 15-20 seconds
+In this project, the loading should take around 30-35 seconds
 
 ![Shows the upload of the file via MCUmgr](img/NCS/USB/mcumgr_upload.png)
 
@@ -483,11 +525,12 @@ mcumgr -c <name> image list
 ```
 
 You should see 2 images in 2 slots (slot0 and slot1)
-At this point 2 images are on the target
-But the original one will always be selected with each reset
-Let's modify this
 
 ![Shows the list of images on target via MCUmgr](img/NCS/USB/mcumgr_list-2.png)
+
+At this point, there are 2 images on the target
+But the original one will always be selected with each reset
+Let's modify this !
 
 ### C) Application swap
 
@@ -498,7 +541,7 @@ Then adapt and enter this command in the **COMM_TERMINAL**
 mcumgr -c <name> image confirm <hash>
 ```
 
-Now open a Serial COM port Reader in VSCode or in a standalone app (ex: TeraTerm)
+Now look at your Serial COM port Reader in VSCode or in a standalone app (ex: TeraTerm)
 
 After pressing the `RESET` button
 You should see the Bootloader swapping the image to another
@@ -514,7 +557,6 @@ And follow the same step as above.
 
 If you don't want to press the `RESET` button anymore
 You can force the reset with this command
-Don't forget to **close any Serial COM port Reader** when you use MCUmgr CLI
 
 ```bash
 mcumgr -c <name> reset
@@ -525,69 +567,3 @@ And even optimizing the whole process with one command
 ```bash
 mcumgr -c <name> image confirm <hash> && mcumgr -c <name> reset
 ```
-
-___
-
-## 7) Possible errors
-
-{$Select required$}
-
-### A) Error when flashing the Application
-
-First verify that you have rightly plugged the Development Kit and that you have turned it on.
-Then if a window is printed and asking to `Recover` the target
-Press `Flash & Recover`
-
-### B) No `app_update.bin` in the `build/zephyr` folder
-
-If the console doesn't provide any error but you can't find the `app_update.bin`.
-Just delete the `build` folder in your application.
-You will need to recreate a new build configuration (select the same options).
-And the file should be here
-
-### C) FAIL at Build => No configure step for 'tfm'
-
-Relaunch the pristine build, it should work (no idea why it fails on the first try)
-
-### D) Missing folders at Build
-
-Just refresh the `Applications` bloc.
-
-![Missing TF-M folder](img/errors/build_no_refresh.png)
-
-If the refresh did not work, Rebuild as pristine.
-
-### E) When `mcumgr` command => `Acces is denied`
-
-In most cases, you forgot to close the Serial Communication Port
-
-### F) When `mcumgr` command => `NMP timeout`
-
-Try to execute simpler command like
-
-```bash
-mcumgr -c <name> echo hello
-```
-
-If it happened try the failed command a second time, it could work now.
-If it doesn't work, this is generally because the MCUmgr config in the `prj.conf` is badly set.
-
-### G) When `mcumgr image update` command => Stuck at 0%
-
-Try deactivate mass storage on device:
-
-- Open Jlink Commander  
-![JLink Commander on Windows](img/errors/jlink.png)
-- Execute this command:
-
-```bash
-MSDDisable
-```
-
-Then retry to perform update.
-If still stuck, do the following steps in the right order:
-
-- Flash & Erase the application
-- A window could be printed while asking to `Recover` the target
-- Press `Flash & Recover`
-- Return to **Application transfer**
