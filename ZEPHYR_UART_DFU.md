@@ -28,6 +28,9 @@ But it can be used with Zephyr version of NCS
 Just replace `zephyrproject` with your toolchain version (ex:`v2.6.0`)
 (Not recommended if you have a zephyrproject install)
 
+If you are interested by the NCS version.  
+It can be found [here](https://github.com/romaintrovallet/tutorials/blob/master/NCS_UART_DFU.md)
+
 With the global requirements, you should add the following:
 
 - Go + MCUmgr ([Go Install](https://go.dev/doc/install) + [MCUmgr from Zephyr](https://docs.zephyrproject.org/latest/services/device_mgmt/mcumgr.html))
@@ -468,70 +471,3 @@ And even optimizing the whole process with one command
 ```bash
 mcumgr -c <name> image confirm <hash> && mcumgr -c <name> reset
 ```
-
-___
-
-## 10) Possible errors
-
-### A) Wrong path when `echo %ZEPHYR_BASE%`
-
-First verify you are not in a virtual environment.
-Then adapt and enter this command:
-
-```bash
-set ZEPHYR_BASE=<absolute>\<path>\<to>\zephyrproject\zephyr
-```
-
-### B) Error when flashing the application
-
-First verify that you have rightly plugged the Development Kit and that you have turned it on.
-Then add `--recover` to your command line, see example below
-
-```bash
-west flash -d apps/blinky/build/nrf5340dk_cpuapp/build_s --recover
-```
-
-### C) No `zephyr.signed.bin` in the `build/zephyr` folder
-
-If the console doesn't provide any error but you can't find the `zephyr.signed.bin`.
-Just delete the `build` folder in your application.
-You will need to recreate a new build configuration (select the same options).
-And the file should be here
-
-### D) When `mcumgr` command => `Acces is denied`
-
-In most cases, you forgot to close the Serial Communication Port
-
-### E) When `mcumgr` command => `NMP timeout`
-
-Try to execute simpler command like
-
-```bash
-mcumgr -c <name> echo hello
-```
-
-If it happened try the failed command a second time, it could work now.
-If it doesn't work, this is generally because the MCUmgr config in the `prj.conf` is badly set.
-
-### F) When `mcumgr image update` command => Stuck at 0%
-
-Try deactivate mass storage on device:
-
-- Open Jlink Commander  
-![JLink Commander on Windows](img/errors/jlink.png)
-- Execute this command:
-
-```bash
-MSDDisable
-```
-
-Then retry to perform update.
-If still stuck, do the following steps in the right order:
-
-- Flash the application
-- ***At this point the device is locked, we need to recover it***
-- Flash the application
-  - An error should be prompted
-  - Enter the same command + add `--recover` at the end
-- Flash the NCS bootloader
-- Return to **How to verify** then **How to perform DFU**
