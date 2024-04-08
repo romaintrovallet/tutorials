@@ -157,7 +157,7 @@ And add this line inside the file
 CONFIG_MCUBOOT_LOG_LEVEL_INF=y
 ```
 
-This will allow us to have the details in the mcuboot part.
+This will allow us to have the details in the MCUboot part.
 
 Don't forget to save `child_image/mcuboot.conf`!!
 
@@ -185,7 +185,7 @@ ___
 Now we need to configure the build settings.
 Select one of the 2 button
 
-![Picture of the nRF Extension for VSCode with the place to click higlighted](img/NCS/UART/build-1.png)
+![Picture of nRF for VSCode with the place to click higlighted](img/NCS/UART/build-1.png)
 
 Select those 2 options and rename the output build folder to something recognizable.
 
@@ -197,7 +197,7 @@ If it still fails, go to possible error section
 This takes quite some time to generate.
 But after the generation you should have something like that.
 
-![Picture of the nRF Extension for VSCode with the visible build configuration](img/NCS/UART/build-3.png)
+![Picture of nRF for VSCode with the visible build configuration](img/NCS/UART/build-3.png)
 
 ___
 
@@ -212,7 +212,7 @@ Once it is plugged and turned ON, you have 2 choices:
 
 To see the log of our application, follow the steps:
 
-![Picture of the nRF Extension for VSCode with the place to click higlighted](img/NCS/UART/output_conf-1.png)
+![Picture of nRF for VSCode with the place to click higlighted](img/NCS/UART/output_conf-1.png)
 
 For the next step the picture might not indicate what's to your screen.
 Just go through the steps so you have the same configuration in the end.
@@ -236,7 +236,7 @@ Once these 2 things are set, you are ready to flash
 
 If ready, select the `Flash & Erase` command as presented below
 
-![Picture of the nRF Extension for VSCode with the place to click higlighted](img/NCS/UART/flash.png)
+![Picture of nRF for VSCode with the place to click higlighted](img/NCS/UART/flash.png)
 
 If the flash was successful, you should see 2 things:
 
@@ -275,7 +275,7 @@ But if you want a more visual approach, there are possibilities available below
 You can modify the app to bring a more visually updated approach
 Here are some examples :
 
-- the LED (led0 -> led1) (line 14 in `src/main.c`)
+- the blinking LED (led0 -> led1) (line 14 in `src/main.c`)
 - the blinking rate (1000 -> 100) (line 11 in `src/main.c`)
 
 </details>
@@ -283,7 +283,7 @@ Here are some examples :
 
 Rebuild by following the instructions below
 
-![Picture of the nRF Extension for VSCode with the place to click higlighted](img/NCS/UART/rebuild.png)
+![Picture of nRF for VSCode with the place to click higlighted](img/NCS/UART/rebuild.png)
 
 </details>
 </br>
@@ -291,11 +291,11 @@ Rebuild by following the instructions below
 <summary><b>[OPTIONAL] New app</b></summary>
 
 Follow the **1) Create Application**
-Instead get the `hello_world`
-and copy it to `apps\dfu_tutorial\hello_world`
+Instead get the `hello_world` sample
+and save it to someplace recognizable `apps\dfu_tutorial\dfu_uart_hw`
 
 Follow the same modification in the **2) Modify Application**
-and add this library in the `apps\dfu_tutorial\hello_world\src\main.c`
+and add this library in the `apps\dfu_tutorial\dfu_uart_hw\src\main.c`
 
 ```c
 #include <zephyr/kernel.h>
@@ -313,7 +313,7 @@ At this point, we use MCUmgr to perform the DFU over UART.
 Just know that other tools exists
 [List of Over The Air Update provided by Zephyr](https://github.com/zephyrproject-rtos/zephyr/blob/main/doc/services/device_mgmt/ota.rst)
 
-### A) Only for First Time with MCUmgr
+### A) Only for First Time with MCUmgr with UART
 
 Open another terminal wherever you want
 In the following, it will be called the **CONFIG_TERMINAL**
@@ -345,7 +345,7 @@ This verifies your installation of MCUmgr
 </details>
 </br>
 <details>
-<summary><b>First MCUmgr config</b></summary>
+<summary><b>First MCUmgr UART config</b></summary>
 
 In the **CONFIG_TERMINAL**
 
@@ -356,17 +356,32 @@ nrfutil device list
 and the result should be something like this:
 
 ```bash
-105009XXXX    COM11    VCOM0
-105009XXXX    COM10    VCOM1
+
+105009XXXX
+product         J-Link
+board version   PCA10095
+ports           COM11, vcom: 0
+                COM10, vcom: 1
+traits          devkit, jlink, seggerUsb, serialPorts, usb
+
+Found 1 supported device(s)
+
 ```
 
 It is normal if you only have one (it will be easier)
 This allow us to get the connected serial communication port that are available
-Replace the `<name>` and the `COMXX` before copy the next command in the **CONFIG_TERMINAL**
+
+Now let's create a configuration for this communication port.
+Replace the `<name>` and the `COMXX` before copy the next command in the **CONFIG_TERMINAL**.
 
 ```bash
 mcumgr conn add <name> type=serial connstring=COMXX
 ```
+
+In my case:
+
+- `<name>` will be `com10`, but you can name it as you wish.
+- `COMXX` will be `COM10`, but you must select the communication port corresponding
 
 Now to test if you have correctly setup your serial connection
 Close any Serial Communication Port that could be open
@@ -434,11 +449,12 @@ mcumgr -c <name> image list
 ```
 
 You should see 2 images in 2 slots (slot0 and slot1)
-At this point 2 images are on the target
-But the original one will always be selected with each reset
-Let's modify this
 
 ![Shows the list of images on target via MCUmgr](img/NCS/UART/mcumgr_list-2.png)
+
+At this point, there are 2 images on the target
+But the original one will always be selected with each reset
+Let's modify this !
 
 ### C) Application swap
 
@@ -457,7 +473,7 @@ And in the end the application loads with a more up to date Build Time
 
 ![Shows the log of the DFU in VSCode](img/NCS/UART/output_log_post.png)
 
-You have now performed a DFU over UART!!
+You have now performed a DFU over UART !!
 
 You can play with the 2 images that are on the target
 You have to copy the hashs of the original image
@@ -476,67 +492,3 @@ And even optimizing the whole process with one command
 ```bash
 mcumgr -c <name> image confirm <hash> && mcumgr -c <name> reset
 ```
-
-___
-
-## 7) Possible errors
-
-### A) FAIL at Build => No configure step for 'tfm'
-
-Relaunch the pristine build, it should work (no idea why it fails no the first try)
-
-### B) Missing folders at Build
-
-Just refresh the `Applications` bloc.
-
-![Missing TF-M folder](img/errors/build_no_refresh.png)
-
-If the refresh did not work, Rebuild as pristine.
-
-### C) Error when flashing the application
-
-First verify that you have rightly plugged the Development Kit and that you have turned it on.
-Then if a window is printed and asking to `Recover` the target
-Press `Flash & Recover`
-
-### D) No `app_update.bin` in the `build/zephyr` folder
-
-If the console doesn't provide any error but you can't find the `app_update.bin`.
-Just delete the `build` folder in your application.
-You will need to recreate a new build configuration (select the same options).
-And the file should be here
-
-### E) When `mcumgr` command => `Acces is denied`
-
-In most cases, you forgot to close the Serial Communication Port
-
-### F) When `mcumgr` command => `NMP timeout`
-
-Try to execute simpler command like
-
-```bash
-mcumgr -c <name> echo hello
-```
-
-If it happened try the failed command a second time, it could work now.
-If it doesn't work, this is generally because the MCUmgr config in the `prj.conf` is badly set.
-
-### G) When `mcumgr image update` command => Stuck at 0%
-
-Try deactivate mass storage on device:
-
-- Open Jlink Commander  
-![JLink Commander on Windows](img/errors/jlink.png)
-- Execute this command:
-
-```bash
-MSDDisable
-```
-
-Then retry to perform update.
-If still stuck, do the following steps in the right order:
-
-- Flash & Erase the application
-- A window could be printed while asking to `Recover` the target
-- Press `Flash & Recover`
-- Return to **Application transfer**
