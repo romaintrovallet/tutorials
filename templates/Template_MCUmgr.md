@@ -17,9 +17,9 @@ In the following, it will be called the **CONFIG_TERMINAL**
 MCUmgr will use the Serial Communication Port
 
 - Close your Serial Communication Port
-- Go to your build folder (example : `apps/dfu_tutorial/{$app_naming$}/{$build_naming$}`)
+- Go to your build folder (example : `{$root$}/dfu_tutorial/{$app_naming$}/{$build_naming$}`)
   - then `zephyr` folder
-  - then verify the presence of `app_update.bin`
+  - then verify the presence of `{$binary$}.bin`
 
 In the **CONFIG_TERMINAL**
 
@@ -48,18 +48,60 @@ nrfutil device list
 
 and the result should be something like this:
 
+{$Select required$}
+
 ```bash
-105009XXXX    COM11    VCOM0
-105009XXXX    COM10    VCOM1
+
+105009XXXX
+product         J-Link
+board version   PCA100XX
+ports           COM11, vcom: 0
+                COM{$num_uart$}, vcom: 1
+traits          devkit, jlink, seggerUsb, serialPorts, usb
+
+Found 1 supported device(s)
+
 ```
 
 It is normal if you only have one (it will be easier)
 This allow us to get the connected serial communication port that are available
-Replace the `<name>` and the `COMXX` before copy the next command in the **CONFIG_TERMINAL**
+
+
+```bash
+
+105009XXXX
+product         J-Link
+board version   PCA100XX
+ports           COM11, vcom: 0
+                COM10, vcom: 1
+traits          devkit, jlink, seggerUsb, serialPorts, usb
+
+DCAD2FBA45EFXXXX
+product         USB-DEV
+ports           COM{$num$}
+traits          serialPorts, usb
+
+Found 2 supported device(s)
+
+```
+
+If you have only 1 device detected:  
+Verify that you have 2 cables connected between you PC and the devkit.
+
+This allow us to get the serial communication port that are available.
+The one that interest us is the one linked to `USB-DEV` product, in my case `COM{$num$}`.
+
+Now let's create a configuration for this communication port.
+Replace the `<name>` and the `COMXX` before copy the next command in the **CONFIG_TERMINAL**.
 
 ```bash
 mcumgr conn add <name> type=serial connstring=COMXX
 ```
+
+In my case:
+
+- `<name>` will be `{$name$}`, but you can name it as you wish.
+- `COMXX` will be `COM{$num$}`, but you must select the communication port corresponding
 
 Now to test if you have correctly setup your serial connection
 Close any Serial Communication Port that could be open
@@ -85,11 +127,13 @@ At this point you can close **CONFIG_TERMINAL**
 
 ### B) Application transfer
 
-Go to your build folder (ex: `apps\dfu_tutorial\{$app_naming$}\{$build_naming$}`)  
+Go to your build folder (ex: `{$root$}\dfu_tutorial\{$app_naming$}\{$build_naming$}`)  
 If you built **[OPTIONAL] New app** (in the **5) Build Application again**)
 You must go to the new application build folder
 
-Check for the presence of `zephyr\app_update.bin`
+Check for the presence of `zephyr\{$binary$}.bin`
+
+{$Select required$}
 
 ***Close any Serial COM port Reader***
 
@@ -102,21 +146,21 @@ Adapt and copy this command:
 mcumgr -c <name> image list
 ```
 
-(If you don't know what 'name' is, go to **First MCUmgr Config**)  
+(If you don't know what 'name' is, go to **First MCUmgr {$Techno$} Config**)  
 You should have the list of images that are on target
 
-![Shows the current image on target via MCUmgr](img/NCS/{$DFU$}/mcumgr_list-1.png)
+![Shows the current image on target via MCUmgr](img/{$type$}/{$DFU$}/mcumgr_list-1.png)
 
 Adapt and copy this command:
 
 ```bash
-mcumgr -c <name> image upload -e zephyr/app_update.bin
+mcumgr -c <name> image upload -e zephyr/{$binary$}.bin
 ```
 
 Now you should be printed with a loading bar.
-In this project, the loading should take around 15-20 seconds
+In this project, the loading should take around {$time$} seconds
 
-![Shows the upload of the file via MCUmgr](img/NCS/{$DFU$}/mcumgr_upload.png)
+![Shows the upload of the file via MCUmgr](img/{$type$}/{$DFU$}/mcumgr_upload.png)
 
 Once the upload done, we check the presence of the image
 
@@ -127,11 +171,12 @@ mcumgr -c <name> image list
 ```
 
 You should see 2 images in 2 slots (slot0 and slot1)
-At this point 2 images are on the target
-But the original one will always be selected with each reset
-Let's modify this
 
-![Shows the list of images on target via MCUmgr](img/NCS/{$DFU$}/mcumgr_list-2.png)
+![Shows the list of images on target via MCUmgr](img/{$type$}/{$DFU$}/mcumgr_list-2.png)
+
+At this point, there are 2 images on the target
+But the original one will always be selected with each reset
+Let's modify this !
 
 ### C) Application swap
 
@@ -142,13 +187,13 @@ Then adapt and enter this command in the **COMM_TERMINAL**
 mcumgr -c <name> image confirm <hash>
 ```
 
-Now open a Serial COM port Reader in VSCode or in a standalone app (ex: TeraTerm)
+Now let's read the Serial COM port.
 
 After pressing the `RESET` button
 You should see the Bootloader swapping the image to another
-And in the end the application loads with a more up to date Build Time
+The application loads with a more up to date Build Time
 
-![Shows the log of the DFU in VSCode](img/NCS/{$DFU$}/output_log_post.png)
+![Shows the DFU log in {$serial_soft$}](img/{$type$}/{$DFU$}/output_log_post.png)
 
 You have now performed a DFU over {$Techno$} !!
 
@@ -158,6 +203,9 @@ And follow the same step as above.
 
 If you don't want to press the `RESET` button anymore
 You can force the reset with this command
+
+{$Select required$}
+
 Don't forget to **close any Serial COM port Reader** when you use MCUmgr CLI
 
 ```bash
