@@ -9,8 +9,8 @@ This tutorial will show:
 Things omitted for the sake of simplicity:
 
 - Use of NCS for VSCode app
-- The TF-M mode (could not make it work with Vanilla Zephyr)
-- Custom keys (another Markdown is available)
+- Building the app as Non-Secure Processing Environment + TFM as Secure Processing Environment (could not make it work with Vanilla Zephyr)
+- Custom keys (another tutorial is available)
 - Thingy91 as a target (could not make it work with Vanilla Zephyr)
 - Other OS than Windows
 
@@ -42,7 +42,9 @@ ___
 Go to your zephyrproject install.
 Go to this path : `zephyrproject\zephyr\samples\basic`
 Copy the `blinky` folder
-Paste it in your app folder (ex: `zephyrproject\apps\blinky`)
+
+Paste it in your app folder (ex: `zephyrproject\dfu_tutorial\blinky`)
+Rename it to a more appropriate name (ex: `zephyrproject\dfu_tutorial\dfu_uart`)
 For the next steps, we will assume you pick the example folder
 
 This will be the application we are working with.
@@ -50,6 +52,21 @@ This will be the application we are working with.
 ___
 
 ## 2) Modify Application
+
+At this point you should have something like this:
+
+```bash
+.
+└── dfu_tutorial/
+    └── dfu_uart/
+        ├── src/
+        │   └── main.c
+        ├── .gitignore
+        ├── CMakeLists.txt
+        ├── prj.conf
+        ├── README.rst
+        └── sample.yaml
+```
 
 To make the DFU work, we will need to modify the application
 
@@ -66,13 +83,13 @@ printk("build time: " __DATE__ " " __TIME__ "\n");
 This will allow us to see the difference between old and new code after the update.
 You should have something like this:
 
-![Picture of the main.c file modified](img/ZEPHYR/modif_app/UART/main.png)
+![Picture of the main.c file modified](img/ZEPHYR/UART/main.png)
 
 Don't forget to save `src/main.c`!!
 
 ### B) prj.conf
 
-Now open `prj.conf`
+Now open `prj.conf` and copy-paste the following lines.
 
 ```bash
 # Print a banner on the UART on startup.
@@ -102,7 +119,26 @@ CONFIG_BASE64=y
 CONFIG_CONSOLE=y
 ```
 
+You should have something like this:
+
+![Picture of the prj.conf file modified](img/ZEPHYR/UART/conf.png)
+
 Don't forget to save `prj.conf`!!
+
+At this point you should have something like this:
+
+```bash
+.
+└── dfu_tutorial/
+    └── dfu_uart/
+        ├── src/
+        │   └── main.c (M)
+        ├── .gitignore
+        ├── CMakeLists.txt
+        ├── prj.conf (M)
+        ├── README.rst
+        └── sample.yaml
+```
 
 ___
 
@@ -111,9 +147,9 @@ ___
 In this tutorial we will use the command line
 Open a terminal in the parent folder of `zephyrproject`
 
-If, for whatever reason, you cannot complete the whole tuto in one time.
-If you must build any application/bootloaders (Until Step 7 included)
-You need to make this step all over again
+You will need to build applications and bootloaders until Step 7 included.
+If, for whatever reason, you cannot complete the whole tutorial in one time.
+You need to make this ***Step all over again.***
 
 In the following, it will be called the **MAIN_TERMINAL**
 
@@ -138,7 +174,7 @@ zephyrproject\.venv\Scripts\activate.bat
 ```
 
 You are now in the zephyr virtual environment.
-You shall keep your **MAIN_TERMINAL** open.
+Keep your **MAIN_TERMINAL** open.
 
 Enter the following commands:
 
@@ -154,60 +190,64 @@ west update
 west zephyr-export
 ```
 
-Once done, keep it in your background and please do not close it
+Once done, keep it in your background and do not close it
+
 ___
 
-## 4) Build application
+## 4) Build Application
 
 In the **MAIN_TERMINAL**
 
 Enter this command :
 
 ```bash
-west build -b nrf5340dk_nrf5340_cpuapp apps/blinky -d apps/blinky/build/nrf5340dk_cpuapp/build_s
+west build -b nrf5340dk_nrf5340_cpuapp dfu_tutorial/dfu_uart -d dfu_tutorial/dfu_uart/build/5340_s
 ```
 
 ___
 
-## 5) Build bootloader
+## 5) Build Bootloader
 
 In the **MAIN_TERMINAL**
 
 Enter this command :
 
 ```bash
-west build -b nrf5340dk_nrf5340_cpuapp bootloader/mcuboot/boot/zephyr -d build_bootloader/nrf5340dk_cpuapp
+west build -b nrf5340dk_nrf5340_cpuapp bootloader/mcuboot/boot/zephyr -d build_bootloader/5340_s
 ```
 
 ___
 
-## 6) Flash application
+## 6) Flash Application
 
-Now is a good time to plug your device
+Now is a good time to plug your device.
 
-In the **MAIN_TERMINAL**
-
-Enter this command :
+Once it is plugged and turned ON, enter this command in the **MAIN_TERMINAL**:
 
 ```bash
-west flash -d apps/blinky/build/nrf5340dk_cpuapp/build_s
+west flash -d dfu_tutorial/dfu_uart/build/5340_s
 ```
 
 If it doesn't flash, go to possible errors sections
 
-At this point you should open a Serial Communication Port Reader to see the incoming output
+At this point you should open a Serial Communication Port Reader to see the incoming output.
+
+You have to find the used COM port (TeraTerm select it automatically).
+And set the baud rate to `115200`.
 Note that, at this point, you shouldn't see anything related to this application.
+
+Once these 2 things are set, you are ready to flash the bootloader
 
 ___
 
-## 7) Flash bootloader
+## 7) Flash Bootloader
 
 In the **MAIN_TERMINAL**
 
 Enter this command :
 
 ```bash
-west flash -d build_bootloader/nrf5340dk_cpuapp
+west flash -d build_bootloader/5340_s
 ```
 
 If the flash was successful, you should see 2 things:
@@ -245,7 +285,7 @@ But if you want a more visual approach, there are possibilities available below
 You can modify the app to bring a more visually updated approach
 Here are some examples :
 
-- the LED (led0 -> led1) (line 15 in `src/main.c`)
+- the blinking LED (led0 -> led1) (line 15 in `src/main.c`)
 - the blinking rate (1000 -> 100) (line 15 in `src/main.c`)
 
 </details>
@@ -256,7 +296,7 @@ In the **MAIN_TERMINAL**
 Enter this command :
 
 ```bash
-west build -b nrf5340dk_nrf5340_cpuapp apps/blinky -d apps/blinky/build/nrf5340dk_cpuapp/build_s -p
+west build -b nrf5340dk_nrf5340_cpuapp dfu_tutorial/dfu_uart -d dfu_tutorial/dfu_uart/build/5340_s -p
 ```
 
 </details>
@@ -266,10 +306,10 @@ west build -b nrf5340dk_nrf5340_cpuapp apps/blinky -d apps/blinky/build/nrf5340d
 
 Follow the **A) Copy sample** in the **1) Create Application**
 Instead get the `zephyrproject\zephyr\samples\hello_world`
-and copy it to `zephyrproject\apps\hello_world`
+Copy and save it to `zephyrproject\dfu_tutorial\dfu_uart_hw`
 
 Follow the same modification in the **2) Modify Application**
-and add this library in the `zephyrproject\apps\hello_world\src\main.c`
+and add this library in the `zephyrproject\dfu_tutorial\dfu_uart_hw\src\main.c`
 
 ```c
 #include <zephyr/kernel.h>
@@ -293,7 +333,7 @@ At this point, we use MCUmgr to perform the DFU over UART.
 Just know that other tools exists
 [List of Over The Air Update provided by Zephyr](https://github.com/zephyrproject-rtos/zephyr/blob/main/doc/services/device_mgmt/ota.rst)
 
-### A) Only for First Time with MCUmgr
+### A) Only for First Time with MCUmgr with UART
 
 Open another terminal wherever you want
 In the following, it will be called the **CONFIG_TERMINAL**
@@ -304,7 +344,7 @@ In the following, it will be called the **CONFIG_TERMINAL**
 MCUmgr will use the Serial Communication Port
 
 - Close your Serial Communication Port
-- Go to your build folder (example : `zephyrproject/apps/blinky/build/nrf5340dk_cpuapp/build_s`)
+- Go to your build folder (example : `zephyrproject/dfu_tutorial/dfu_uart/build/5340_s`)
   - then `zephyr` folder
   - then verify the presence of `zephyr.signed.bin`
 
@@ -325,7 +365,7 @@ This verifies your installation of MCUmgr
 </details>
 </br>
 <details>
-<summary><b>First MCUmgr config</b></summary>
+<summary><b>First MCUmgr UART config</b></summary>
 
 In the **CONFIG_TERMINAL**
 
@@ -336,17 +376,32 @@ nrfutil device list
 and the result should be something like this:
 
 ```bash
-1050090497    COM11    VCOM0
-1050090497    COM10    VCOM1
+
+105009XXXX
+product         J-Link
+board version   PCA100XX
+ports           COM11, vcom: 0
+                COM10, vcom: 1
+traits          devkit, jlink, seggerUsb, serialPorts, usb
+
+Found 1 supported device(s)
+
 ```
 
 It is normal if you only have one (it will be easier)
 This allow us to get the connected serial communication port that are available
-Replace the `<name>` and the `COMXX` before copy the next command in the **CONFIG_TERMINAL**
+
+Now let's create a configuration for this communication port.
+Replace the `<name>` and the `COMXX` before copy the next command in the **CONFIG_TERMINAL**.
 
 ```bash
 mcumgr conn add <name> type=serial connstring=COMXX
 ```
+
+In my case:
+
+- `<name>` will be `com10`, but you can name it as you wish.
+- `COMXX` will be `COM10`, but you must select the communication port corresponding
 
 Now to test if you have correctly setup your serial connection
 Close any Serial Communication Port that could be open
@@ -372,8 +427,8 @@ At this point you can close **CONFIG_TERMINAL**
 
 ### B) Application transfer
 
-Go to your build folder (ex: `zephyrproject\apps\blinky\build\nrf5340dk_cpuapp\build_s`)  
-If you built **[OPTIONAL] New app** (in the **5) Build app again**)
+Go to your build folder (ex: `zephyrproject\dfu_tutorial\dfu_uart\build\5340_s`)  
+If you built **[OPTIONAL] New app** (in the **8) Build Application again**)
 You must go to the new application build folder
 
 Check for the presence of `zephyr\zephyr.signed.bin`
@@ -389,8 +444,10 @@ Adapt and copy this command:
 mcumgr -c <name> image list
 ```
 
-(If you don't know what 'name' is, go to **First MCUmgr Config**)  
+(If you don't know what 'name' is, go to **First MCUmgr UART Config**)  
 You should have the list of images that are on target
+
+![Shows the current image on target via MCUmgr](img/{$type$}/{$DFU$}/mcumgr_list-1.png)
 
 Adapt and copy this command:
 
@@ -400,6 +457,9 @@ mcumgr -c <name> image upload -e zephyr/zephyr.signed.bin
 
 Now you should be printed with a loading bar.
 In this project, the loading should take around 15-20 seconds
+
+![Shows the upload of the file via MCUmgr](img/{$type$}/{$DFU$}/mcumgr_upload.png)
+
 Once the upload done, we check the presence of the image
 
 Enter this command in the **COMM_TERMINAL**
@@ -409,11 +469,12 @@ mcumgr -c <name> image list
 ```
 
 You should see 2 images in 2 slots (slot0 and slot1)
-At this point 2 images are on the target
-But the original one will always be selected with each reset
-Let's modify this
 
 ![Shows the list of images on target via MCUmgr](img/ZEPHYR/2_DFU/image-1.png)
+
+At this point, there are 2 images on the target
+But the original one will always be selected with each reset
+Let's modify this !
 
 ### C) Application swap
 
@@ -421,38 +482,18 @@ Copy the hash of the second image
 Then adapt and enter this command in the **COMM_TERMINAL**
 
 ```bash
-mcumgr -c <name> image test <hash>
-```
-
-Now open a Serial COM port (ex: TeraTerm)
-
-And press the `RESET` on your board
-You should see the Bootloader swpping the image to another
-And in the end the application load with a more up to date Build Time
-
-![Shows the DFU test with TeraTerm](img/ZEPHYR/2_DFU/image-2.png)
-
-Press the `RESET` button again on your board
-Now the application loading is the original
-
-![Shows the revert with TeraTerm](img/ZEPHYR/2_DFU/image-3.png)
-
-Close the Serial COM port
-
-Enter this command
-
-```bash
 mcumgr -c <name> image confirm <hash>
 ```
 
-Now open a Serial COM port
+Now let's read the Serial COM port.
 
 After pressing the `RESET` button
-And now you can see the new application booting again
-Only this time, when you press the `RESET` button again
-It still boots on the most up to date image
+You should see the Bootloader swapping the image to another
+The application loads with a more up to date Build Time
 
-You have now performed a DFU over UART!!
+![Shows the DFU log in TeraTerm](img/ZEPHYR/2_DFU/image-2.png)
+
+You have now performed a DFU over UART !!
 
 You can play with the 2 images that are on the target
 You have to copy the hashs of the original image
