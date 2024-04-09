@@ -261,7 +261,7 @@ If you missed it, you can still press the `RESET` button
 You should note the build time in the Serial Communication log
 It's visible at the start of the application log
 
-![Tera Term log](img/ZEPHYR/1_result/image.png)
+![Tera Term log](img/ZEPHYR/UART/output_log_pre.png)
 
 ___
 
@@ -447,7 +447,7 @@ mcumgr -c <name> image list
 (If you don't know what 'name' is, go to **First MCUmgr UART Config**)  
 You should have the list of images that are on target
 
-![Shows the current image on target via MCUmgr](img/{$type$}/{$DFU$}/mcumgr_list-1.png)
+![Shows the current image on target via MCUmgr](img/ZEPHYR/UART/mcumgr_list-1.png)
 
 Adapt and copy this command:
 
@@ -458,7 +458,7 @@ mcumgr -c <name> image upload -e zephyr/zephyr.signed.bin
 Now you should be printed with a loading bar.
 In this project, the loading should take around 15-20 seconds
 
-![Shows the upload of the file via MCUmgr](img/{$type$}/{$DFU$}/mcumgr_upload.png)
+![Shows the upload of the file via MCUmgr](img/ZEPHYR/UART/mcumgr_upload.png)
 
 Once the upload done, we check the presence of the image
 
@@ -470,7 +470,7 @@ mcumgr -c <name> image list
 
 You should see 2 images in 2 slots (slot0 and slot1)
 
-![Shows the list of images on target via MCUmgr](img/ZEPHYR/2_DFU/image-1.png)
+![Shows the list of images on target via MCUmgr](img/ZEPHYR/UART/mcumgr_list-2.png)
 
 At this point, there are 2 images on the target
 But the original one will always be selected with each reset
@@ -491,7 +491,7 @@ After pressing the `RESET` button
 You should see the Bootloader swapping the image to another
 The application loads with a more up to date Build Time
 
-![Shows the DFU log in TeraTerm](img/ZEPHYR/2_DFU/image-2.png)
+![Shows the DFU log in TeraTerm](img/ZEPHYR/UART/output_log_post.png)
 
 You have now performed a DFU over UART !!
 
@@ -507,7 +507,7 @@ Don't forget to **close any Serial COM port Reader** when you use MCUmgr CLI
 mcumgr -c <name> reset
 ```
 
-And even optimizing the whole process with one command
+And even optimizing the whole process with one command :
 
 ```bash
 mcumgr -c <name> image confirm <hash> && mcumgr -c <name> reset
