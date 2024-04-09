@@ -429,7 +429,7 @@ and the result should be something like this:
 
 105009XXXX
 product         J-Link
-board version   PCA10095
+board version   PCA100XX
 ports           COM11, vcom: 0
                 COM10, vcom: 1
 traits          devkit, jlink, seggerUsb, serialPorts, usb
@@ -500,7 +500,7 @@ Adapt and copy this command:
 mcumgr -c <name> image list
 ```
 
-(If you don't know what 'name' is, go to **First MCUmgr Config**)  
+(If you don't know what 'name' is, go to **First MCUmgr USB-CDC Config**)  
 You should have the list of images that are on target
 
 ![Shows the current image on target via MCUmgr](img/NCS/USB/mcumgr_list-1.png)
@@ -541,13 +541,13 @@ Then adapt and enter this command in the **COMM_TERMINAL**
 mcumgr -c <name> image confirm <hash>
 ```
 
-Now look at your Serial COM port Reader in VSCode or in a standalone app (ex: TeraTerm)
+Now let's read the Serial COM port.
 
 After pressing the `RESET` button
 You should see the Bootloader swapping the image to another
-And in the end the application loads with a more up to date Build Time
+The application loads with a more up to date Build Time
 
-![Shows the log of the DFU in VSCode](img/NCS/USB/output_log_post.png)
+![Shows the DFU log in VSCode](img/NCS/USB/output_log_post.png)
 
 You have now performed a DFU over USB-CDC !!
 
