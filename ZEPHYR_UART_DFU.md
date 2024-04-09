@@ -4,7 +4,7 @@ This tutorial will show:
 
 - How to perform a DFU over UART
 - How to use MCUmgr
-- Using the Blinky sample
+- With the Blinky sample
 
 Things omitted for the sake of simplicity:
 
@@ -19,17 +19,20 @@ Before starting this tutorial, it is recommended to read the following links:
 - [Zephyr's doc on MCUboot](https://docs.mcuboot.com/readme-zephyr.html)
 - [Nordic's doc on MCUmgr](https://developer.nordicsemi.com/nRF_Connect_SDK/doc/latest/zephyr/services/device_mgmt/mcumgr.html)
 
+This tutorial is made for zephyrproject + zephyr SDK install
+
+But it can be used with Zephyr version of NCS
+**Not recommended if you have a zephyrproject install**
+Just replace `zephyrproject` with your toolchain version (ex:`v2.6.0`)
+
+If you are interested by the "official" NCS version.  
+It can be found [here](https://github.com/romaintrovallet/tutorials/blob/master/NCS_UART_DFU.md)  
 ___
 
 ## 0) Requirements
 
 This tutorial is made for zephyrproject + zephyr SDK install
-But it can be used with Zephyr version of NCS
-Just replace `zephyrproject` with your toolchain version (ex:`v2.6.0`)
-(Not recommended if you have a zephyrproject install)
-
-If you are interested by the NCS version.  
-It can be found [here](https://github.com/romaintrovallet/tutorials/blob/master/NCS_UART_DFU.md)
+You must have a zephyrproject install that is proven to work.
 
 With the global requirements, you should add the following:
 
@@ -40,11 +43,11 @@ ___
 ## 1) Create Application
 
 Go to your zephyrproject install.
-Go to this path : `zephyrproject\zephyr\samples\basic`
+Go to this path : `zephyrproject/zephyr/samples/basic`
 Copy the `blinky` folder
 
-Paste it in your app folder (ex: `zephyrproject\dfu_tutorial\blinky`)
-Rename it to a more appropriate name (ex: `zephyrproject\dfu_tutorial\dfu_uart`)
+Paste it in your app folder (ex: `zephyrproject/dfu_tutorial/blinky`)
+Rename it to a more appropriate name (ex: `zephyrproject/dfu_tutorial/dfu_uart`)
 For the next steps, we will assume you pick the example folder
 
 This will be the application we are working with.
@@ -201,8 +204,11 @@ In the **MAIN_TERMINAL**
 Enter this command :
 
 ```bash
-west build -b nrf5340dk_nrf5340_cpuapp dfu_tutorial/dfu_uart -d dfu_tutorial/dfu_uart/build/5340_s
+west build -b nrf5340dk/nrf5340/cpuapp dfu_tutorial/dfu_uart -d dfu_tutorial/dfu_uart/build/5340_s
 ```
+
+If the build fails, try rebuild first (sometimes Zephyr needs a second build)
+If it still fails, go to possible error section
 
 ___
 
@@ -213,7 +219,7 @@ In the **MAIN_TERMINAL**
 Enter this command :
 
 ```bash
-west build -b nrf5340dk_nrf5340_cpuapp bootloader/mcuboot/boot/zephyr -d build_bootloader/5340_s
+west build -b nrf5340dk/nrf5340/cpuapp bootloader/mcuboot/boot/zephyr -d build_boot/5340_s
 ```
 
 ___
@@ -247,7 +253,7 @@ In the **MAIN_TERMINAL**
 Enter this command :
 
 ```bash
-west flash -d build_bootloader/5340_s
+west flash -d build_boot/5340_s
 ```
 
 If the flash was successful, you should see 2 things:
@@ -296,7 +302,7 @@ In the **MAIN_TERMINAL**
 Enter this command :
 
 ```bash
-west build -b nrf5340dk_nrf5340_cpuapp dfu_tutorial/dfu_uart -d dfu_tutorial/dfu_uart/build/5340_s -p
+west build -b nrf5340dk/nrf5340/cpuapp dfu_tutorial/dfu_uart -d dfu_tutorial/dfu_uart/build/5340_s -p
 ```
 
 </details>
@@ -305,11 +311,11 @@ west build -b nrf5340dk_nrf5340_cpuapp dfu_tutorial/dfu_uart -d dfu_tutorial/dfu
 <summary><b>[OPTIONAL] New app</b></summary>
 
 Follow the **A) Copy sample** in the **1) Create Application**
-Instead get the `zephyrproject\zephyr\samples\hello_world`
-Copy and save it to `zephyrproject\dfu_tutorial\dfu_uart_hw`
+Instead get the `zephyrproject/zephyr/samples/hello_world`
+Copy and rename it to `zephyrproject/dfu_tutorial/dfu_uart_hw`
 
 Follow the same modification in the **2) Modify Application**
-and add this library in the `zephyrproject\dfu_tutorial\dfu_uart_hw\src\main.c`
+and add this library in the `zephyrproject/dfu_tutorial/dfu_uart_hw/src/main.c`
 
 ```c
 #include <zephyr/kernel.h>
@@ -320,7 +326,7 @@ In the **MAIN_TERMINAL**
 Then build it with this command
 
 ```bash
-west build -b nrf5340dk_nrf5340_cpuapp apps/hello_world -d apps/hello_world/build/nrf5340dk_cpuapp/build_s
+west build -b nrf5340dk/nrf5340/cpuapp dfu_tutorial/dfu_uart_hw -d dfu_tutorial/dfu_uart_hw/build/5340_s
 ```
 
 </details>
@@ -427,11 +433,11 @@ At this point you can close **CONFIG_TERMINAL**
 
 ### B) Application transfer
 
-Go to your build folder (ex: `zephyrproject\dfu_tutorial\dfu_uart\build\5340_s`)  
+Go to your build folder (ex: `zephyrproject/dfu_tutorial/dfu_uart/build/5340_s`)  
 If you built **[OPTIONAL] New app** (in the **8) Build Application again**)
 You must go to the new application build folder
 
-Check for the presence of `zephyr\zephyr.signed.bin`
+Check for the presence of `zephyr/zephyr.signed.bin`
 
 ***Close any Serial COM port Reader***
 
@@ -444,7 +450,7 @@ Adapt and copy this command:
 mcumgr -c <name> image list
 ```
 
-(If you don't know what 'name' is, go to **First MCUmgr UART Config**)  
+(If you don't know what 'name' is, go back to **First MCUmgr UART Config**)  
 You should have the list of images that are on target
 
 ![Shows the current image on target via MCUmgr](img/ZEPHYR/UART/mcumgr_list-1.png)

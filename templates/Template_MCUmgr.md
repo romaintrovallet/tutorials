@@ -6,6 +6,10 @@ At this point, we use MCUmgr to perform the DFU over {$Techno$}.
 Just know that other tools exists
 [List of Over The Air Update provided by Zephyr](https://github.com/zephyrproject-rtos/zephyr/blob/main/doc/services/device_mgmt/ota.rst)
 
+{$Select required$}
+
+Before doing anything, connect the second cable to the devkit.
+
 ### A) Only for First Time with MCUmgr with {$Techno$}
 
 Open another terminal wherever you want
@@ -65,7 +69,6 @@ Found 1 supported device(s)
 
 It is normal if you only have one (it will be easier)
 This allow us to get the connected serial communication port that are available
-
 
 ```bash
 
@@ -127,11 +130,11 @@ At this point you can close **CONFIG_TERMINAL**
 
 ### B) Application transfer
 
-Go to your build folder (ex: `{$root$}\dfu_tutorial\{$app_naming$}\{$build_naming$}`)  
+Go to your build folder (ex: `{$root$}/dfu_tutorial/{$app_naming$}/{$build_naming$}`)  
 If you built **[OPTIONAL] New app** (in the **5) Build Application again**)
 You must go to the new application build folder
 
-Check for the presence of `zephyr\{$binary$}.bin`
+Check for the presence of `zephyr/{$binary$}.bin`
 
 {$Select required$}
 
@@ -146,7 +149,7 @@ Adapt and copy this command:
 mcumgr -c <name> image list
 ```
 
-(If you don't know what 'name' is, go to **First MCUmgr {$Techno$} Config**)  
+(If you don't know what 'name' is, go back to **First MCUmgr {$Techno$} Config**)  
 You should have the list of images that are on target
 
 ![Shows the current image on target via MCUmgr](img/{$type$}/{$DFU$}/mcumgr_list-1.png)
@@ -212,7 +215,7 @@ Don't forget to **close any Serial COM port Reader** when you use MCUmgr CLI
 mcumgr -c <name> reset
 ```
 
-And even optimizing the whole process with one command
+And even optimizing the whole process with one command :
 
 ```bash
 mcumgr -c <name> image confirm <hash> && mcumgr -c <name> reset

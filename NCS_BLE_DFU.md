@@ -5,7 +5,7 @@ This tutorial will show:
 - How to perform a DFU over Bluetooth
 - How to use nRF Connect Application
 - How to use MCUmgr-Web
-- Using the BLE Peripheral LBS sample
+- With the BLE Peripheral LBS sample
 
 Things omitted for the sake of simplicity:
 
@@ -18,15 +18,19 @@ Before starting this tutorial, it is recommended to read the following links:
 
 - [Zephyr's doc on MCUboot](https://docs.mcuboot.com/readme-zephyr.html)
 
+This tutorial is made for NCS install.
+
+It is not compatible with the zephyrproject install.
+
+If you are interested by the zephyrproject / Vanilla Zephyr version.  
+It is not available yet.
+
 ___
 
 ## 0) Requirements
 
 This tutorial is made for NCS install.
-It is not compatible with the zephyrproject install.
-
-If you are interested by the zephyrproject / Vanilla Zephyr version.  
-It is not available yet.
+You must have a NCS install that is already working.
 
 With the global requirements, you should add the following:
 
@@ -44,7 +48,7 @@ ___
 In nRF Connect for VS Code, create a new application.
 Select one of the 2 button
 
-![Picture of the nRF Extension for VSCode where the place to click is higlighted](img/NCS/new_app.png)
+![Picture of nRF for VSCode where the place to click is higlighted](img/NCS/new_app.png)
 
 You should have this window that pops up.  
 We will create an app from an existing sample.  
@@ -228,7 +232,7 @@ If the flash was successful, you should see 3 things:
 
 The Serial log should be something like this
 
-![Picture of the terminal where we can see the boot sequence](img/NCS/BLE/output_log_pre-2.png)
+![Shows the boot sequence log in Serial COM port Reader](img/NCS/BLE/output_log_pre-2.png)
 
 If you missed it, you can still press the `RESET` button
 You should note the build time in the Serial Communication log
@@ -284,11 +288,11 @@ At this point, we either use nRF Connect app or MCUmgr-web to perform the DFU ov
 Just know that other tools exists
 [List of Over The Air Update provided by Zephyr](https://github.com/zephyrproject-rtos/zephyr/blob/main/doc/services/device_mgmt/ota.rst)
 
-Go to your build folder (ex: `apps\dfu_tutorial\dfu_ble\build\5340_s`)
+Go to your build folder (ex: `apps/dfu_tutorial/dfu_ble/build/5340_s`)
 If you built **[OPTIONAL] New app** (in the **5) Build Application again**)
 You must go to the new application build folder
 
-Check for the presence of `zephyr\app_update.bin`
+Check for the presence of `zephyr/app_update.bin`
 
 <details>
 <summary><b>With NRF Connect Application (with a phone)</b></summary>
@@ -336,9 +340,8 @@ Not written yet
 Once it is done, we can head back to the terminal.
 
 You should see the Bootloader swapping the image to another
-And in the end the application loads with a more up to date Build Time
+The application loads with a more up to date Build Time
 
-![Shows the log of the DFU in VSCode](img/NCS/BLE/output_log_post.png)
+![Shows the DFU log in VSCode](img/NCS/BLE/output_log_post.png)
 
 You have now performed a DFU over Bluetooth !!
-

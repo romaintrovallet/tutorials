@@ -4,7 +4,7 @@ This tutorial will show:
 
 - How to perform a DFU over {$Techno$}
 - How to use {$Tool$}
-- Using the {$Sample$} sample
+- With the {$Sample$} sample
 
 Things omitted for the sake of simplicity:
 
@@ -25,17 +25,21 @@ Before starting this tutorial, it is recommended to read the following links:
 - [Zephyr's doc on MCUboot](https://docs.mcuboot.com/readme-zephyr.html)
 - [Nordic's doc on MCUmgr](https://developer.nordicsemi.com/nRF_Connect_SDK/doc/latest/zephyr/services/device_mgmt/mcumgr.html)
 
+This tutorial is made for NCS install.
+
+It is not compatible with the zephyrproject install.
+
+If you are interested by the zephyrproject / Vanilla Zephyr version.  
+{$Select required$}
+It is not available yet.
+It can be found [here](https://github.com/romaintrovallet/tutorials/blob/master/ZEPHYR_{$Techno$}_DFU.md)  
+
 ___
 
 ## 0) Requirements
 
 This tutorial is made for NCS install.
-It is not compatible with the zephyrproject install.
-
-If you are interested by the zephyrproject / Vanilla Zephyr version.  
-{$Select required$}
-It can be found [here](link)  
-It is not available yet.
+You must have a NCS install that is already working.
 
 With the global requirements, you should add the following:
 
@@ -58,7 +62,7 @@ ___
 In nRF Connect for VS Code, create a new application.
 Select one of the 2 button
 
-![Picture of the nRF Extension for VSCode where the place to click is higlighted](img/NCS/new_app.png)
+![Picture of nRF for VSCode where the place to click is higlighted](img/NCS/new_app.png)
 
 You should have this window that pops up.  
 We will create an app from an existing sample.  
@@ -76,7 +80,7 @@ Furthermore, when you build the application you will have a `build` folder and w
 a lots of folder and folder thus making the full path of certain files very long.
 
 I choose this path for the example : `c:\ncs\apps\dfu_tutorial`
-And I gave it the name {$app_naming$}
+And I gave it the name `{$app_naming$}`
 
 ![Picture of VSCode with the path and the name given to the application](img/NCS/{$DFU$}/appli_saving.png)
 
@@ -233,7 +237,7 @@ If the flash was successful, you should see 3 things:
 
 The Serial log should be something like this
 
-![Picture of the terminal where we can see the boot sequence](img/NCS/{$DFU$}/output_log_pre-2.png)
+![Shows the boot sequence log in Serial COM port Reader](img/NCS/{$DFU$}/output_log_pre-2.png)
 
 If you missed it, you can still press the `RESET` button
 You should note the build time in the Serial Communication log
@@ -290,10 +294,10 @@ Rebuild by following the instructions below
 
 Follow the **1) Create Application**
 Instead get the `hello_world` sample
-and save it to someplace recognizable `apps\dfu_tutorial\{$app_naming$}_hw`
+and save it to someplace recognizable `apps/dfu_tutorial/{$app_naming$}_hw`
 
 Follow the same modification in the **2) Modify Application**
-and add this library in the `apps\dfu_tutorial\{$app_naming$}_hw\src\main.c`
+and add this library in the `apps/dfu_tutorial/{$app_naming$}_hw/src/main.c`
 
 ```c
 #include <zephyr/kernel.h>
@@ -315,16 +319,16 @@ Just know that other tools exists
 
 {$Additional details$}
 
-Go to your build folder (ex: `apps\dfu_tutorial\{$app_naming$}\{$build_naming$}`)  
+Go to your build folder (ex: `apps/dfu_tutorial/{$app_naming$}/{$build_naming$}`)  
 If you built **[OPTIONAL] New app** (in the **5) Build Application again**)
 You must go to the new application build folder
 
-Check for the presence of `zephyr\app_update.bin`
+Check for the presence of `zephyr/app_update.bin`
 
 {$Write step by step$}
 
 You should see the Bootloader swapping the image to another
-And in the end the application loads with a more up to date Build Time
+The application loads with a more up to date Build Time
 
 ![Shows the DFU log in VSCode](img/NCS/{$DFU$}/output_log_post.png)
 

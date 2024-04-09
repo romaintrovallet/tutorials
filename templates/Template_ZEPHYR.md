@@ -4,7 +4,7 @@ This tutorial will show:
 
 - How to perform a DFU over {$Techno$}
 - How to use {$Tool$}
-- Using the {$Sample$} sample
+- With the {$Sample$} sample
 
 Things omitted for the sake of simplicity:
 
@@ -24,19 +24,23 @@ Before starting this tutorial, it is recommended to read the following links:
 - [Zephyr's doc on MCUboot](https://docs.mcuboot.com/readme-zephyr.html)
 - [Nordic's doc on MCUmgr](https://developer.nordicsemi.com/nRF_Connect_SDK/doc/latest/zephyr/services/device_mgmt/mcumgr.html)
 
+This tutorial is made for zephyrproject + zephyr SDK install
+
+But it can be used with Zephyr version of NCS
+**Not recommended if you have a zephyrproject install**
+Just replace `zephyrproject` with your toolchain version (ex:`v2.6.0`)
+
+If you are interested by the "official" NCS version.  
+{$Select required$}
+It is not available yet.
+It can be found [here](https://github.com/romaintrovallet/tutorials/blob/master/NCS_{$Techno$}_DFU.md)  
+
 ___
 
 ## 0) Requirements
 
 This tutorial is made for zephyrproject + zephyr SDK install
-But it can be used with Zephyr version of NCS
-Just replace `zephyrproject` with your toolchain version (ex:`v2.6.0`)
-(Not recommended if you have a zephyrproject install)
-
-If you are interested by the NCS version.  
-{$Select required$}
-It can be found [here](link)  
-It is not available yet.
+You must have a zephyrproject install that is already working.
 
 With the global requirements, you should add the following:
 
@@ -50,11 +54,11 @@ ___
 ## 1) Create Application
 
 Go to your zephyrproject install.
-Go to this path : `zephyrproject\zephyr\samples\basic`
+Go to this path : `zephyrproject/zephyr/samples/basic`
 Copy the `{$sample$}` folder
 
-Paste it in your app folder (ex: `zephyrproject\dfu_tutorial\{$sample$}`)
-Rename it to a more appropriate name (ex: `zephyrproject\dfu_tutorial\{$app_naming$}`)
+Paste it in your app folder (ex: `zephyrproject/dfu_tutorial/{$sample$}`)
+Rename it to a more appropriate name (ex: `zephyrproject/dfu_tutorial/{$app_naming$}`)
 For the next steps, we will assume you pick the example folder
 
 This will be the application we are working with.
@@ -189,7 +193,7 @@ In the **MAIN_TERMINAL**
 Enter this command :
 
 ```bash
-west build -b nrf5340dk_nrf5340_cpuapp dfu_tutorial/{$app_naming$} -d dfu_tutorial/{$app_naming$}/{$build_naming$}
+west build -b nrf5340dk/nrf5340/cpuapp dfu_tutorial/{$app_naming$} -d dfu_tutorial/{$app_naming$}/{$build_naming$}
 ```
 
 If the build fails, try rebuild first (sometimes Zephyr needs a second build)
@@ -204,7 +208,7 @@ In the **MAIN_TERMINAL**
 Enter this command :
 
 ```bash
-west build -b nrf5340dk_nrf5340_cpuapp bootloader/mcuboot/boot/zephyr -d {$build_boot_naming$}
+west build -b nrf5340dk/nrf5340/cpuapp bootloader/mcuboot/boot/zephyr -d {$build_boot_naming$}
 ```
 
 ___
@@ -248,11 +252,13 @@ If the flash was successful, you should see 2 things:
   - The bootloader log
   - The application log
 
+The Serial log should be something like this
+
+![Shows the boot sequence log in Serial COM port Reader](img/ZEPHYR/{$DFU$}/output_log_pre.png)
+
 If you missed it, you can still press the `RESET` button
 You should note the build time in the Serial Communication log
 It's visible at the start of the application log
-
-![Tera Term log](img/ZEPHYR/1_result/image.png)
 
 ___
 
@@ -295,7 +301,7 @@ In the **MAIN_TERMINAL**
 Enter this command :
 
 ```bash
-west build -b nrf5340dk_nrf5340_cpuapp dfu_tutorial/{$app_naming$} -d dfu_tutorial/{$app_naming$}/{$build_naming$} -p
+west build -b nrf5340dk/nrf5340/cpuapp dfu_tutorial/{$app_naming$} -d dfu_tutorial/{$app_naming$}/{$build_naming$} -p
 ```
 
 </details>
@@ -304,11 +310,11 @@ west build -b nrf5340dk_nrf5340_cpuapp dfu_tutorial/{$app_naming$} -d dfu_tutori
 <summary><b>[OPTIONAL] New app</b></summary>
 
 Follow the **A) Copy sample** in the **1) Create Application**
-Instead get the `zephyrproject\zephyr\samples\hello_world`
-Copy and rename it to `zephyrproject\dfu_tutorial\{$app_naming$}_hw`
+Instead get the `zephyrproject/zephyr/samples/hello_world`
+Copy and rename it to `zephyrproject/dfu_tutorial/{$app_naming$}_hw`
 
 Follow the same modification in the **2) Modify Application**
-and add this library in the `zephyrproject\dfu_tutorial\{$app_naming$}_hw\src\main.c`
+and add this library in the `zephyrproject/dfu_tutorial/{$app_naming$}_hw/src/main.c`
 
 ```c
 #include <zephyr/kernel.h>
@@ -319,7 +325,7 @@ In the **MAIN_TERMINAL**
 Then build it with this command
 
 ```bash
-west build -b nrf5340dk_nrf5340_cpuapp dfu_tutorial/{$app_naming$}_hw -d dfu_tutorial/{$app_naming$}_hw/{$build_naming$}
+west build -b nrf5340dk/nrf5340/cpuapp dfu_tutorial/{$app_naming$}_hw -d dfu_tutorial/{$app_naming$}_hw/{$build_naming$}
 ```
 
 </details>
@@ -334,18 +340,18 @@ Just know that other tools exists
 
 {$Additional details$}
 
-Go to your build folder (ex: `zephyrproject\dfu_tutorial\{$app_naming$}\{$build_naming$}`)  
+Go to your build folder (ex: `zephyrproject/dfu_tutorial/{$app_naming$}/{$build_naming$}`)  
 If you built **[OPTIONAL] New app** (in the **8) Build Application again**)
 You must go to the new application build folder
 
-Check for the presence of `zephyr\zephyr.signed.bin`
+Check for the presence of `zephyr/zephyr.signed.bin`
 
 {$Write step by step$}
 
 You should see the Bootloader swapping the image to another
 The application loads with a more up to date Build Time
 
-![Shows the DFU log in TeraTerm](img/ZEPHYR/2_DFU/image-2.png)
+![Shows the DFU log in TeraTerm](img/ZEPHYR/{$DFU$}/output_log_post.png)
 
 You have now performed a DFU over {$Techno$} !!
 

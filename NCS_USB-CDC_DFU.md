@@ -4,7 +4,7 @@ This tutorial will show:
 
 - How to perform a DFU over USB-CDC
 - How to use MCUmgr
-- Using the Blinky sample
+- With the Blinky sample
 
 Things omitted for the sake of simplicity:
 
@@ -18,15 +18,19 @@ Before starting this tutorial, it is recommended to read the following links:
 - [Zephyr's doc on MCUboot](https://docs.mcuboot.com/readme-zephyr.html)
 - [Nordic's doc on MCUmgr](https://developer.nordicsemi.com/nRF_Connect_SDK/doc/latest/zephyr/services/device_mgmt/mcumgr.html)
 
+This tutorial is made for NCS install.
+
+It is not compatible with the zephyrproject install.
+
+If you are interested by the zephyrproject / Vanilla Zephyr version.  
+It can be found [here](https://github.com/romaintrovallet/tutorials/blob/master/ZEPHYR_USB-CDC_DFU.md)  
+
 ___
 
 ## 0) Requirements
 
 This tutorial is made for NCS install.
-It is not compatible with the zephyrproject install.
-
-If you are interested by the zephyrproject / Vanilla Zephyr version.  
-It is not available yet.
+You must have a NCS install that is already working.
 
 With the global requirements, you should add the following:
 
@@ -40,7 +44,7 @@ ___
 In nRF Connect for VS Code, create a new application.
 Select one of the 2 button
 
-![Picture of the nRF Extension for VSCode where the place to click is higlighted](img/NCS/new_app_260.png)
+![Picture of nRF for VSCode where the place to click is higlighted](img/NCS/new_app_260.png)
 
 You should have this window that pops up.  
 We will create an app from an existing sample.  
@@ -233,7 +237,7 @@ At this point you should have something like this:
         │   └── main.c (M)
         ├── .gitignore
         ├── CMakeLists.txt
-        ├── nrf5340dk_nrf5340_cpuapp_ns.overlay (U)
+        ├── nrf5340dk_nrf5340_cpuapp.overlay (U)
         ├── prj.conf (M)
         ├── README.rst
         └── sample.yaml
@@ -309,7 +313,7 @@ If the flash was successful, you should see 2 things:
 
 The Serial log should be something like this
 
-![Picture of the terminal where we can see the boot sequence](img/NCS/USB/output_log_pre-2.png)
+![Shows the boot sequence log in Serial COM port Reader](img/NCS/USB/output_log_pre-2.png)
 
 If you missed it, you can still press the `RESET` button
 You should note the build time in the Serial Communication log
@@ -360,10 +364,10 @@ Rebuild by following the instructions below
 
 Follow the **1) Create Application**
 Instead get the `hello_world` sample
-and save it to someplace recognizable `apps\dfu_tutorial\dfu_usb-cdc_hw`
+and save it to someplace recognizable `apps/dfu_tutorial/dfu_usb-cdc_hw`
 
 Follow the same modification in the **2) Modify Application**
-and add this library in the `apps\dfu_tutorial\dfu_usb-cdc_hw\src\main.c`
+and add this library in the `apps/dfu_tutorial/dfu_usb-cdc_hw/src/main.c`
 
 ```c
 #include <zephyr/kernel.h>
@@ -485,11 +489,11 @@ At this point you can close **CONFIG_TERMINAL**
 
 ### B) Application transfer
 
-Go to your build folder (ex: `apps\dfu_tutorial\dfu_usb-cdc\build\5340_ns`)  
+Go to your build folder (ex: `apps/dfu_tutorial/dfu_usb-cdc/build/5340_ns`)  
 If you built **[OPTIONAL] New app** (in the **5) Build Application again**)
 You must go to the new application build folder
 
-Check for the presence of `zephyr\app_update.bin`
+Check for the presence of `zephyr/app_update.bin`
 
 Open a new Terminal in the build folder folder
 In the following, it will be called the **COMM_TERMINAL**
@@ -500,7 +504,7 @@ Adapt and copy this command:
 mcumgr -c <name> image list
 ```
 
-(If you don't know what 'name' is, go to **First MCUmgr USB-CDC Config**)  
+(If you don't know what 'name' is, go back to **First MCUmgr USB-CDC Config**)  
 You should have the list of images that are on target
 
 ![Shows the current image on target via MCUmgr](img/NCS/USB/mcumgr_list-1.png)
@@ -562,7 +566,7 @@ You can force the reset with this command
 mcumgr -c <name> reset
 ```
 
-And even optimizing the whole process with one command
+And even optimizing the whole process with one command :
 
 ```bash
 mcumgr -c <name> image confirm <hash> && mcumgr -c <name> reset
