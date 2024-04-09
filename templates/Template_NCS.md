@@ -315,7 +315,7 @@ Just know that other tools exists
 
 {$Additional details$}
 
-Go to your build folder (ex: `apps\dfu_tutorial\{$app_naming$}\{$build_naming$}`)
+Go to your build folder (ex: `apps\dfu_tutorial\{$app_naming$}\{$build_naming$}`)  
 If you built **[OPTIONAL] New app** (in the **5) Build Application again**)
 You must go to the new application build folder
 
@@ -326,7 +326,7 @@ Check for the presence of `zephyr\app_update.bin`
 You should see the Bootloader swapping the image to another
 And in the end the application loads with a more up to date Build Time
 
-![Shows the log of the DFU in VSCode](img/NCS/{$DFU$}/output_log_post.png)
+![Shows the DFU log in VSCode](img/NCS/{$DFU$}/output_log_post.png)
 
 You have now performed a DFU over {$Techno$} !!
 
