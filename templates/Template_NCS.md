@@ -70,7 +70,7 @@ Select the corresponding button
 
 ![Picture of VSCode where the place to click is higlighted](img/NCS/sample.png)
 
-Then select the {$Sample$} sample by searching {$Sample_search$}
+Then select the {$Sample$} sample by searching `{$Sample_search$}`
 
 ![Picture of VSCode where the place to click is higlighted](img/NCS/{$sample$}_sample.png)
 
@@ -174,7 +174,7 @@ At the time of making the tuto, a danger sign appears when selecting the board.
 It's because of the secure and non-secure way to build the application.
 If you have it too, look it up later
 
-![Picture of the Build configuration with the place to modify the config higlighted](img/NCS/{$DFU$}/build-2.png)
+![Picture of the Build configuration with the place to modify the config higlighted](img/NCS/{$DFU$}/build_conf_5340_ns.png)
 
 If the build fails, try rebuild first (sometimes NCS needs a second build)
 If it still fails, go to possible error section
@@ -197,14 +197,14 @@ Once it is plugged and turned ON, you have 2 choices:
 
 To see the log of our application, follow the steps:
 
-![Picture of nRF for VSCode with the place to click higlighted](img/NCS/{$DFU$}/output_conf-1.png)
+![Picture of nRF for VSCode with the place to click higlighted](img/NCS/vscode_serial-1.png)
 
 For the next step the picture might not indicate what's to your screen.
 Just go through the steps so you have the same configuration in the end.
 
-![Picture of the serial configuration we have to select](img/NCS/output_conf_COM10-2.png)
+![Picture of the serial configuration we have to select](img/NCS/vscode_serial-2.png)
 
-![Picture of the terminal](img/NCS/{$DFU$}/output_log_pre-1.png)
+![Picture of the terminal](img/NCS/vscode_serial-3.png)
 
 </details>
 </br>
@@ -221,7 +221,7 @@ Once these 2 things are set, you are ready to flash
 
 If ready, select the `Flash & Erase` command as presented below
 
-![Picture of nRF for VSCode with the place to click higlighted](img/NCS/{$DFU$}/flash.png)
+![Picture of nRF for VSCode with the place to click higlighted](img/NCS/flash.png)
 
 {$Select required$}
 
@@ -237,7 +237,7 @@ If the flash was successful, you should see 3 things:
 
 The Serial log should be something like this
 
-![Shows the boot sequence log in Serial COM port Reader](img/NCS/{$DFU$}/output_log_pre-2.png)
+![Shows the boot sequence log in Serial COM port Reader](img/NCS/{$DFU$}/log_flash.png)
 
 If you missed it, you can still press the `RESET` button
 You should note the build time in the Serial Communication log
@@ -283,7 +283,7 @@ CONFIG_USB_DEVICE_PRODUCT="Zephyr DFU sample"
 
 Rebuild by following the instructions below
 
-![Picture of nRF for VSCode with the place to click higlighted](img/NCS/{$DFU$}/rebuild.png)
+![Picture of nRF for VSCode with the place to click higlighted](img/NCS/rebuild.png)
 
 </details>
 </br>
@@ -316,6 +316,7 @@ ___
 At this point, we use {$Tool$} to perform the DFU over {$Techno$}.
 Just know that other tools exists
 [List of Over The Air Update provided by Zephyr](https://github.com/zephyrproject-rtos/zephyr/blob/main/doc/services/device_mgmt/ota.rst)
+[List of Tools & Libraries to Perform Update](https://docs.zephyrproject.org/latest/services/device_mgmt/mcumgr.html#tools-libraries)
 
 {$Additional details$}
 
@@ -330,7 +331,7 @@ Check for the presence of `zephyr/app_update.bin`
 You should see the Bootloader swapping the image to another
 The application loads with a more up to date Build Time
 
-![Shows the DFU log in VSCode](img/NCS/{$DFU$}/output_log_post.png)
+![Shows the DFU log in VSCode](img/NCS/{$DFU$}/log_dfu.png)
 
 You have now performed a DFU over {$Techno$} !!
 

@@ -4,7 +4,7 @@
 
 At this point, we use MCUmgr to perform the DFU over {$Techno$}.
 Just know that other tools exists
-[List of Over The Air Update provided by Zephyr](https://github.com/zephyrproject-rtos/zephyr/blob/main/doc/services/device_mgmt/ota.rst)
+[List of Tools & Libraries to Perform Update](https://docs.zephyrproject.org/latest/services/device_mgmt/mcumgr.html#tools-libraries)
 
 {$Select required$}
 
@@ -107,6 +107,7 @@ In my case:
 - `COMXX` will be `COM{$num$}`, but you must select the communication port corresponding
 
 Now to test if you have correctly setup your serial connection
+{$Select required$}
 Close any Serial Communication Port that could be open
 Copy this command to the **CONFIG_TERMINAL**
 
@@ -196,7 +197,7 @@ After pressing the `RESET` button
 You should see the Bootloader swapping the image to another
 The application loads with a more up to date Build Time
 
-![Shows the DFU log in {$serial_soft$}](img/{$type$}/{$DFU$}/output_log_post.png)
+![Shows the DFU log in {$serial_soft$}](img/{$type$}/{$DFU$}/log_post.png)
 
 You have now performed a DFU over {$Techno$} !!
 
@@ -209,7 +210,7 @@ You can force the reset with this command
 
 {$Select required$}
 
-Don't forget to **close any Serial COM port Reader** when you use MCUmgr CLI
+Don't forget to **close any Serial COM port Reader** when using MCUmgr CLI with UART Transport
 
 ```bash
 mcumgr -c <name> reset

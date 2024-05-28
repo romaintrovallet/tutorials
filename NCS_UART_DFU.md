@@ -467,7 +467,8 @@ And follow the same step as above.
 
 If you don't want to press the `RESET` button anymore
 You can force the reset with this command
-Don't forget to **close any Serial COM port Reader** when you use MCUmgr CLI
+
+Don't forget to **close any Serial COM port Reader** when using MCUmgr CLI with UART Transport
 
 ```bash
 mcumgr -c <name> reset

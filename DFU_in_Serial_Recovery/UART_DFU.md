@@ -171,17 +171,18 @@ At this point you should have something like this:
 
 ```bash
 .
-└── app/
-    ├── child_image/
-    │   ├── mcuboot.conf (U)
-    │   └── mcuboot.overlay (U)
-    ├── src/
-    │   └── main.c (M)
-    ├── .gitignore
-    ├── CMakeLists.txt
-    ├── prj.conf (M)
-    ├── README.rst
-    └── sample.yaml
+└── dfu_tutorial/
+    └── dfu_uart_boot/
+        ├── child_image/
+        │   ├── mcuboot.conf (U)
+        │   └── mcuboot.overlay (U)
+        ├── src/
+        │   └── main.c (M)
+        ├── .gitignore
+        ├── CMakeLists.txt
+        ├── prj.conf (M)
+        ├── README.rst
+        └── sample.yaml
 ```
 
 ___

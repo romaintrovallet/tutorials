@@ -23,7 +23,7 @@ This tutorial is made for NCS install.
 
 It is not compatible with the zephyrproject install.
 
-If you are interested by the zephyrproject / Vanilla Zephyr version.
+If you are interested by the zephyrproject / Vanilla Zephyr version.  
 It is not available yet.
 
 ___
@@ -35,6 +35,7 @@ You must have a NCS install that is already working.
 
 With the global requirements, you should add the following:
 
+- a second USB cable
 - Go + MCUmgr ([Go Install](https://go.dev/doc/install) + [MCUmgr from Zephyr](https://docs.zephyrproject.org/latest/services/device_mgmt/mcumgr.html))
 
 ___
@@ -113,7 +114,7 @@ Don't forget to save `src/main.c`!!
 Now open `prj.conf` and copy-paste the next lines.
 
 ```bash
-# Enable Bootloader
+# Enable MCUboot
 CONFIG_BOOTLOADER_MCUBOOT=y
 ```
 
@@ -152,6 +153,14 @@ CONFIG_MCUBOOT_INDICATION_LED=y
 # Configure Bootlader to only use one slot.
 CONFIG_SINGLE_APPLICATION_SLOT=y
 ```
+
+This will allow us to have the details in the MCUboot part.
+It will also allow the bootloader to have access to the USB stack.
+
+Allowing the access means the bootloader's size is increased.
+The partition size for the bootloader needs to be increased.
+The value depends on your target [More details here (Step 3)](https://academy.nordicsemi.com/courses/nrf-connect-sdk-intermediate/lessons/lesson-8-bootloaders-and-dfu-fota/topic/exercise-2-dfu-over-usb-adding-external-flash/)
+As I have a nrf5340dk, I will set the value to `0x15000`.
 
 Don't forget to save `child_image/mcuboot.conf`!!
 
@@ -236,6 +245,7 @@ ___
 ## 4) Flash Application
 
 Now is a good time to plug your device.
+For now, **ONLY ONE** USB cable will be used.
 
 Once it is plugged and turned ON, you have 2 choices:
 
@@ -348,7 +358,7 @@ ___
 
 At this point, we use MCUmgr to perform the DFU over USB-CDC.
 Just know that other tools exists
-[List of Over The Air Update provided by Zephyr](https://github.com/zephyrproject-rtos/zephyr/blob/main/doc/services/device_mgmt/ota.rst)
+[List of Tools & Libraries to Perform Update](https://docs.zephyrproject.org/latest/services/device_mgmt/mcumgr.html#tools-libraries)
 
 We have to enter the DFU state, as described in this diagram below
 
@@ -376,7 +386,9 @@ state Application #00D4FA{
 @enduml
 ```
 
-So press the DFU button (button 1 in the devicetree == button 2 on the DK)
+So before doing anything, connect the second cable to the devkit.
+
+You also need to press the DFU button (button 1 in the devicetree == button 2 on the DK)
 And press the reset button while you hold the DFU button.
 If the manipulation was successful, you should see no log in the Terminal and the LED is ON.
 

@@ -170,38 +170,7 @@ You should have something like this:
 
 Don't forget to save `prj.conf`!!
 
-### C) child_image/mcuboot.conf
-
-You need to configure the log of MCUboot to see how it is done
-
-In your app folder, create a folder named `child_image`
-In this folder create a file named `mcuboot.conf`
-And add these lines inside the file
-
-```bash
-# Enable logging for MCUboot
-CONFIG_LOG=y
-CONFIG_MCUBOOT_LOG_LEVEL_INF=y
-
-# Configure serial recovery to use CDC_ACM, which by default uses the USB
-CONFIG_BOOT_SERIAL_CDC_ACM=y
-
-# Increase flash space for MCUboot child image, to fit USB drivers
-# Size depends on your taget : 0x15000 is for nrf5340dk 
-CONFIG_PM_PARTITION_SIZE_MCUBOOT=0x15000
-```
-
-This will allow us to have the details in the MCUboot part.
-It will also allow the bootloader to have access to the USB stack.
-
-Allowing the access means the bootloader's size is increased.
-The partition size for the bootloader needs to be increased.
-The value depends on your target [More details here (Step 3)](https://academy.nordicsemi.com/courses/nrf-connect-sdk-intermediate/lessons/lesson-8-bootloaders-and-dfu-fota/topic/exercise-2-dfu-over-usb-adding-external-flash/)
-As I have a nrf5340dk, I will set the value to `0x15000`.
-
-Don't forget to save `child_image/mcuboot.conf`!!
-
-### D) nrf5340dk_nrf5340_cpuapp_ns.overlay
+### C) nrf5340dk_nrf5340_cpuapp_ns.overlay
 
 Create a file named `nrf5340dk_nrf5340_cpuapp_ns.overlay` at the project root
 And add this code inside the file
@@ -232,8 +201,6 @@ At this point you should have something like this:
 .
 └── dfu_tutorial/
     └── dfu_usb-cdc/
-        ├── child_image/
-        │   └── mcuboot.conf (U)
         ├── src/
         │   └── main.c (M)
         ├── .gitignore
@@ -258,7 +225,7 @@ Select those 3 options and rename the output build folder to something recogniza
 ![Picture of the Build configuration with the place to modify the config higlighted](img/NCS/USB/build-2.png)
 
 If the build fails, try rebuild first (sometimes NCS needs a second build)
-If it still fails, go to possible error section
+If it still fails, [check this](https://github.com/romaintrovallet/tutorials/blob/master/Errors_encountered/Build.md)
 
 This takes quite some time to generate.
 But after the generation you should have something like that.
@@ -365,7 +332,8 @@ Rebuild by following the instructions below
 
 Follow the **1) Create Application**
 Instead get the `hello_world` sample
-and save it to someplace recognizable `apps/dfu_tutorial/dfu_usb-cdc_hw`
+and save it to someplace findable: `apps/dfu_tutorial/hello_world`
+then rename it to something recognizable: `apps/dfu_tutorial/dfu_usb-cdc_hw`
 
 Follow the same modification in the **2) Modify Application**
 and add this library in the `apps/dfu_tutorial/dfu_usb-cdc_hw/src/main.c`
