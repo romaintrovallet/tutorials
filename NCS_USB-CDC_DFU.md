@@ -44,7 +44,7 @@ ___
 In nRF Connect for VS Code, create a new application.
 Select one of the 2 button
 
-![Picture of nRF for VSCode where the place to click is higlighted](img/NCS/new_app_260.png)
+![Picture of nRF for VSCode where the place to click is higlighted](img/NCS/new_app.png)
 
 You should have this window that pops up.  
 We will create an app from an existing sample.  
@@ -107,11 +107,12 @@ And these lines of code in the main() => around line 26
 printk("build time: " __DATE__ " " __TIME__ "\n");
 
 if (IS_ENABLED(CONFIG_USB_DEVICE_STACK)) {
-    ret = usb_enable(NULL);
+    int ret = usb_enable(NULL);
     if (ret) {
         printk("Problem with USB enable");
         return 0;
     }
+    printk("USB Enabled Succesfully\n");
 }
 ```
 
@@ -200,9 +201,9 @@ As I have a nrf5340dk, I will set the value to `0x15000`.
 
 Don't forget to save `child_image/mcuboot.conf`!!
 
-### D) nrf5340dk_nrf5340_cpuapp.overlay
+### D) nrf5340dk_nrf5340_cpuapp_ns.overlay
 
-Create a file named `nrf5340dk_nrf5340_cpuapp.overlay` at the project root
+Create a file named `nrf5340dk_nrf5340_cpuapp_ns.overlay` at the project root
 And add this code inside the file
 
 ```bash
@@ -223,7 +224,7 @@ And add this code inside the file
 
 This will give access to the usb port.
 
-Don't forget to save `nrf5340dk_nrf5340_cpuapp.overlay`!!
+Don't forget to save `nrf5340dk_nrf5340_cpuapp_ns.overlay`!!
 
 At this point you should have something like this:
 
@@ -237,7 +238,7 @@ At this point you should have something like this:
         │   └── main.c (M)
         ├── .gitignore
         ├── CMakeLists.txt
-        ├── nrf5340dk_nrf5340_cpuapp.overlay (U)
+        ├── nrf5340dk_nrf5340_cpuapp_ns.overlay (U)
         ├── prj.conf (M)
         ├── README.rst
         └── sample.yaml
@@ -278,14 +279,14 @@ Once it is plugged and turned ON, you have 2 choices:
 
 To see the log of our application, follow the steps:
 
-![Picture of nRF for VSCode with the place to click higlighted](img/NCS/USB/output_conf-1.png)
+![Picture of nRF for VSCode with the place to click higlighted](img/NCS/vscode_serial-1.png)
 
 For the next step the picture might not indicate what's to your screen.
 Just go through the steps so you have the same configuration in the end.
 
-![Picture of the serial configuration we have to select](img/NCS/output_conf_COM10-2.png)
+![Picture of the serial configuration we have to select](img/NCS/vscode_serial-2.png)
 
-![Picture of the terminal](img/NCS/USB/output_log_pre-1.png)
+![Picture of the terminal](img/NCS/vscode_serial-3.png)
 
 </details>
 </br>
@@ -302,7 +303,7 @@ Once these 2 things are set, you are ready to flash
 
 If ready, select the `Flash & Erase` command as presented below
 
-![Picture of nRF for VSCode with the place to click higlighted](img/NCS/USB/flash.png)
+![Picture of nRF for VSCode with the place to click higlighted](img/NCS/flash.png)
 
 If the flash was successful, you should see 2 things:
 
@@ -313,7 +314,7 @@ If the flash was successful, you should see 2 things:
 
 The Serial log should be something like this
 
-![Shows the boot sequence log in Serial COM port Reader](img/NCS/USB/output_log_pre-2.png)
+![Shows the boot sequence log in Serial COM port Reader](img/NCS/USB/log_flash.png)
 
 If you missed it, you can still press the `RESET` button
 You should note the build time in the Serial Communication log
@@ -355,7 +356,7 @@ CONFIG_USB_DEVICE_PRODUCT="Zephyr DFU sample"
 
 Rebuild by following the instructions below
 
-![Picture of nRF for VSCode with the place to click higlighted](img/NCS/USB/rebuild.png)
+![Picture of nRF for VSCode with the place to click higlighted](img/NCS/rebuild.png)
 
 </details>
 </br>
@@ -383,7 +384,7 @@ ___
 
 At this point, we use MCUmgr to perform the DFU over USB-CDC.
 Just know that other tools exists
-[List of Over The Air Update provided by Zephyr](https://github.com/zephyrproject-rtos/zephyr/blob/main/doc/services/device_mgmt/ota.rst)
+[List of Tools & Libraries to Perform Update](https://docs.zephyrproject.org/latest/services/device_mgmt/mcumgr.html#tools-libraries)
 
 Before doing anything, connect the second cable to the devkit.
 
@@ -397,7 +398,6 @@ In the following, it will be called the **CONFIG_TERMINAL**
 
 MCUmgr will use the Serial Communication Port
 
-- Close your Serial Communication Port
 - Go to your build folder (example : `apps/dfu_tutorial/dfu_usb-cdc/build/5340_ns`)
   - then `zephyr` folder
   - then verify the presence of `app_update.bin`
@@ -466,7 +466,6 @@ In my case:
 - `COMXX` will be `COM15`, but you must select the communication port corresponding
 
 Now to test if you have correctly setup your serial connection
-Close any Serial Communication Port that could be open
 Copy this command to the **CONFIG_TERMINAL**
 
 ```bash
@@ -495,7 +494,7 @@ You must go to the new application build folder
 
 Check for the presence of `zephyr/app_update.bin`
 
-Open a new Terminal in the build folder folder
+Open a new Terminal in the build folder
 In the following, it will be called the **COMM_TERMINAL**
 
 Adapt and copy this command:
@@ -504,7 +503,7 @@ Adapt and copy this command:
 mcumgr -c <name> image list
 ```
 
-(If you don't know what 'name' is, go back to **First MCUmgr USB-CDC Config**)  
+(If you don't know what 'name' is, go back to **First MCUmgr USB-CDC config**)  
 You should have the list of images that are on target
 
 ![Shows the current image on target via MCUmgr](img/NCS/USB/mcumgr_list-1.png)
@@ -551,7 +550,7 @@ After pressing the `RESET` button
 You should see the Bootloader swapping the image to another
 The application loads with a more up to date Build Time
 
-![Shows the DFU log in VSCode](img/NCS/USB/output_log_post.png)
+![Shows the DFU log in VSCode](img/NCS/USB/log_dfu.png)
 
 You have now performed a DFU over USB-CDC !!
 

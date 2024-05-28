@@ -95,31 +95,39 @@ Don't forget to save `src/main.c`!!
 Now open `prj.conf` and copy-paste the following lines.
 
 ```bash
-# Print a banner on the UART on startup.
-CONFIG_BOOT_BANNER=y
+# Enable Zephyr application to be booted by MCUboot
 CONFIG_BOOTLOADER_MCUBOOT=y
+
+# Use the default MCUBoot PEM key file (BOOT_SIGNATURE_KEY_FILE)
 CONFIG_MCUBOOT_SIGNATURE_KEY_FILE="bootloader/mcuboot/root-rsa-2048.pem"
 
-# Enable flash operations
-CONFIG_FLASH=y
 
-# Enable MCUmgr and dependencies
+# Enable MCUmgr DFU in application
 CONFIG_MCUMGR=y
+
+# Configure MCUmgr transport to UART
+CONFIG_MCUMGR_TRANSPORT_UART=y
+
+# Enable MCUmgr management for both OS and Images
+CONFIG_MCUMGR_GRP_OS=y
+CONFIG_MCUMGR_GRP_IMG=y
+
+# Dependencies
+# Configure dependencies for CONFIG_MCUMGR
 CONFIG_NET_BUF=y
 CONFIG_ZCBOR=y
+
+# Configure dependencies for CONFIG_MCUMGR_TRANSPORT_UART
+CONFIG_BASE64=y
 CONFIG_CRC=y
+
+# Configure dependencies for CONFIG_MCUMGR_GRP_IMG
+CONFIG_FLASH=y
+CONFIG_IMG_MANAGER=y
+
+## Configure dependencies for CONFIG_IMG_MANAGER
 CONFIG_STREAM_FLASH=y
 CONFIG_FLASH_MAP=y
-
-# Enable most core commands
-CONFIG_IMG_MANAGER=y
-CONFIG_MCUMGR_GRP_IMG=y
-CONFIG_MCUMGR_GRP_OS=y
-
-# Enable the serial mcumgr transport
-CONFIG_MCUMGR_TRANSPORT_UART=y
-CONFIG_BASE64=y
-CONFIG_CONSOLE=y
 ```
 
 You should have something like this:
@@ -441,7 +449,7 @@ Check for the presence of `zephyr/zephyr.signed.bin`
 
 ***Close any Serial COM port Reader***
 
-Open a new Terminal in the build folder folder
+Open a new Terminal in the build folder
 In the following, it will be called the **COMM_TERMINAL**
 
 Adapt and copy this command:

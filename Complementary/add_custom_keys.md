@@ -16,7 +16,7 @@ But for the simplicity of the tutorial
 We will keep things simple with only ecdsa-p256 key type.
 
 First create a folder where you store your keys.
-Ex: `C:\Users\<username>\Documents\Stage\zephyr\keys\v1`
+Ex: `C:\Users\<username>\Documents\zephyr_keys\v1`
 Named v1 because there might be other keys/type of keys
 
 <details>
@@ -67,7 +67,7 @@ CONFIG_BOOT_SIGNATURE_TYPE_ECDSA_P256=y
 
 In my case:
 
-- the path to their folder is : `C:/Users/<username>/Documents/Stage/zephyr/keys/v1/priv.pem`
+- the path to their folder is : `C:/Users/<username>/Documents/zephyr_keys/v1/priv.pem`
 - the path to the app folder is: `C:/ncs/myapps/ble_dfu_peripheral_lbs/priv.pem`
 
 </details>
@@ -79,7 +79,7 @@ In that case, place the private key in the mcuboot folder `C:/ncs/v2.5.2/bootloa
 
 Then add these lines:
 
-``` conf
+```conf
 # Path to custom key
 CONFIG_BOOT_SIGNATURE_KEY_FILE="priv.pem"
 # Fix to: undefined reference to 'rsa_pub_key_len'
@@ -165,6 +165,16 @@ Connected
 <details>
 <summary><b>Serial Log in case of failed DFU</b></summary>
 
+In that case, app1 is on target and is built with 'key1'
+And app2 for update is built with 'key2'
+The result :
+
+- It tries to update to app2
+- When verifying app2, it finds out the key does not match
+- It loads app1 and *deletes app2* because it is not conform
+
+*hidden*
+
 ```bash
 I: Image index: 0, Swap type: revert
 I: Image index: 0, Swap type: none
@@ -200,14 +210,3 @@ Connected
 ```
 
 </details>
-
-___
-
-## 4) Possible errors
-
-### A) No `app_update.bin` in the `build/zephyr` folder
-
-If the console doesn't provide any error but you can't find the `app_update.bin`.
-Just delete the `build` folder in your application.
-You will need to recreate a new build configuration (select the same options).
-And the file should be here

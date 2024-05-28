@@ -40,12 +40,10 @@ If the refresh did not work, Rebuild as pristine.
 
 ## D) MBedTLS / MBedTLS X509
 
-Relaunch the pristine build, it should work.
+Relaunch the build (non-pristine)
 
-If it does not, try building another application (basic blinky or hello_world).
-Then relaunch the build pristine for the wanted application.
+And it should work just after.
 
-And it should work after 1 or 2 pristine build.
+It's related to MCUboot config
 
-This is the weirdest errors I've encountered.
-I just know that it's related to MCUboot ...
+Managed to get rid of it by reinstalling the NCS toolchain

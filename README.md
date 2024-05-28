@@ -49,11 +49,11 @@ Before doing the main tutorial, verify the compatibility between:
 - The SDK (cols)
 
 | Compatibility Table | ZEPHYR_UART_DFU | NCS_UART_DFU | ZEPHYR_USB-CDC_DFU | NCS_USB-CDC_DFU | ... | NCS_BLE_DFU |
-| :------------------ | :-------------: | :-: | :-: | :-: | :-: | :---------: |
+| :------------------ | :-------------: | :----------: | :----------------: | :-------------: | :-: | :---------: |
 | **NCS** | Compatible | Compatible | Compatible | Compatible | ... | Compatible |
 | **zephyrproject** | Compatible | Compatible<sup>1</sup> | Compatible | N.A. | ... | Not Compatible<sup>2</sup>|
 
-(<sup>1</sup>) => Uses a zephyr sample
+(<sup>1</sup>) => Uses a zephyr sample (not tested)
 
 (<sup>2</sup>) => Zephyrproject isn't compatible with NCS made up samples
 
@@ -65,13 +65,13 @@ Before adding complementary tutorials to the main ones, verify the compatibility
 - The complementary tutorial (cols)
 
 | Compatibility Table | ZEPHYR_UART_DFU | NCS_UART_DFU | ZEPHYR_USB-CDC_DFU | NCS_USB-CDC_DFU | ... | NCS_BLE_DFU |
-| :------------------ | :-------------: | :-: | :-: | :-: | :-: | :---------: |
+| :------------------ | :-------------: | :----------: | :----------------: | :-------------: | :-: | :---------: |
 | **Custom_Keys** | Compatible | Compatible | Compatible | Compatible | ... | Compatible |
-| **Thingy91** | Not Compatible<sup>3</sup>| Compatible | Not Compatible<sup>3</sup> | Not Compatible<sup>4</sup> | ... | Not Compatible<sup>5</sup>|
+| **Thingy91** | Not Compatible<sup>3</sup>| Compatible | Not Compatible<sup>4</sup> | Not Compatible<sup>4</sup> | ... | Not Compatible<sup>5</sup>|
 
-(<sup>3</sup>) => Thingy91 isn't compatible with 'Vanilla' Zephyr due to lack of its board
+(<sup>3</sup>) => Thingy91 isn't supported by 'Vanilla' Zephyr due to lack of its board
 
-(<sup>4</sup>) => DFU over USB (USB-CDC) needs a second usb port (only provided by Development Kits)
+(<sup>4</sup>) => DFU over USB (USB-CDC) needs an SoC as USB peripheral [See compatible products](https://www.nordicsemi.com/-/media/Publications/WQ-Product-guide/Product-Guide_Nordic_2023.pdf)
 
 (<sup>5</sup>) => Thingy91 can't perform DFU with Bluetooth
 
@@ -83,13 +83,19 @@ So here is a table of tested functionnalities.
 - The main tutorials (rows)
 - The functionnalities (cols)
 
-| Compatibility Table | ZEPHYR_UART_DFU | NCS_UART_DFU | ZEPHYR_USB-CDC_DFU | NCS_USB-CDC_DFU | ... | NCS_BLE_DFU |
-| :------------------ | :-------------: | :-: | :-: | :-: | :-: | :---------: |
-| **TF-M** | Not Compatible<sup>6</sup> | Compatible | Not Compatible<sup>6</sup> | Compatible | ... | Not Compatible<sup>6</sup> |
-| **Revert** | Compatible | Compatible | Compatible | Compatible | ... | Compatible |
-| **TF-M + Revert** | Not Compatible<sup>6</sup> | Compatible | Not Compatible<sup>6</sup> | Compatible | ... | Not Compatible<sup>6</sup> |
+| Compatibility Table | ZEPHYR_UART_DFU          | NCS_UART_DFU | ZEPHYR_USB-CDC_DFU       | NCS_USB-CDC_DFU | ... | NCS_BLE_DFU                |
+| :------------------ | :----------------------: | :----------: | :----------------------: | :-------------: | :-: | :------------------------: |
+| **TF-M**          | Not Compatible<sup>6</sup> | Compatible | Not Compatible<sup>6</sup> | Compatible      | ... | Not Compatible<sup>6</sup> |
+| **Revert**        | Compatible                 | Compatible | Compatible                 | Compatible      | ... | Compatible                 |
+| **TF-M + Revert** | Not Compatible<sup>6</sup> | Compatible | Not Compatible<sup>6</sup> | Compatible      | ... | Not Compatible<sup>6</sup> |
 
 (<sup>6</sup>) => Could not make it work
+
+### SMP Server placement
+
+All main tutorials use the SMP Server in the Application.
+There are seperate tutorials that uses the SMP Server in the Bootloader.
+It can be found in this folder.
 
 ## Credits
 

@@ -140,7 +140,7 @@ Check for the presence of `zephyr/{$binary$}.bin`
 
 ***Close any Serial COM port Reader***
 
-Open a new Terminal in the build folder folder
+Open a new Terminal in the build folder
 In the following, it will be called the **COMM_TERMINAL**
 
 Adapt and copy this command:

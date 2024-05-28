@@ -149,30 +149,12 @@ You should have something like this:
 
 Don't forget to save `prj.conf`!!
 
-### C) child_image/mcuboot.conf
-
-You need to configure the log of MCUboot to see how it is done
-
-In your app folder, create a folder named `child_image`
-In this folder create a file named `mcuboot.conf`
-And add this line inside the file
-
-```bash
-CONFIG_MCUBOOT_LOG_LEVEL_INF=y
-```
-
-This will allow us to have the details in the MCUboot part.
-
-Don't forget to save `child_image/mcuboot.conf`!!
-
 At this point you should have something like this:
 
 ```bash
 .
 └── dfu_tutorial/
     └── dfu_uart/
-        ├── child_image/
-        │   └── mcuboot.conf (U)
         ├── src/
         │   └── main.c (M)
         ├── .gitignore
@@ -193,7 +175,7 @@ Select one of the 2 button
 
 Select those 2 options and rename the output build folder to something recognizable.
 
-![Picture of the Build configuration with the place to modify the config higlighted](img/NCS/UART/build-2.png)
+![Picture of the Build configuration with the place to modify the config higlighted](img/NCS/build_conf_5340_ns.png)
 
 If the build fails, try rebuild first (sometimes NCS needs a second build)
 If it still fails, go to possible error section
@@ -216,14 +198,14 @@ Once it is plugged and turned ON, you have 2 choices:
 
 To see the log of our application, follow the steps:
 
-![Picture of nRF for VSCode with the place to click higlighted](img/NCS/UART/output_conf-1.png)
+![Picture of nRF for VSCode with the place to click higlighted](img/NCS/vscode_serial-1.png)
 
 For the next step the picture might not indicate what's to your screen.
 Just go through the steps so you have the same configuration in the end.
 
-![Picture of the serial configuration we have to select](img/NCS/output_conf_COM10-2.png)
+![Picture of the serial configuration we have to select](img/NCS/vscode_serial-2.png)
 
-![Picture of the terminal](img/NCS/UART/output_log_pre-1.png)
+![Picture of the terminal](img/NCS/vscode_serial-3.png)
 
 </details>
 </br>
@@ -240,7 +222,7 @@ Once these 2 things are set, you are ready to flash
 
 If ready, select the `Flash & Erase` command as presented below
 
-![Picture of nRF for VSCode with the place to click higlighted](img/NCS/UART/flash.png)
+![Picture of nRF for VSCode with the place to click higlighted](img/NCS/flash.png)
 
 If the flash was successful, you should see 2 things:
 
@@ -251,7 +233,7 @@ If the flash was successful, you should see 2 things:
 
 The Serial log should be something like this
 
-![Shows the boot sequence log in Serial COM port Reader](img/NCS/UART/output_log_pre-2.png)
+![Shows the boot sequence log in Serial COM port Reader](img/NCS/UART/log_flash.png)
 
 If you missed it, you can still press the `RESET` button
 You should note the build time in the Serial Communication log
@@ -287,7 +269,7 @@ Here are some examples :
 
 Rebuild by following the instructions below
 
-![Picture of nRF for VSCode with the place to click higlighted](img/NCS/UART/rebuild.png)
+![Picture of nRF for VSCode with the place to click higlighted](img/NCS/rebuild.png)
 
 </details>
 </br>
@@ -315,7 +297,7 @@ ___
 
 At this point, we use MCUmgr to perform the DFU over UART.
 Just know that other tools exists
-[List of Over The Air Update provided by Zephyr](https://github.com/zephyrproject-rtos/zephyr/blob/main/doc/services/device_mgmt/ota.rst)
+[List of Tools & Libraries to Perform Update](https://docs.zephyrproject.org/latest/services/device_mgmt/mcumgr.html#tools-libraries)
 
 ### A) Only for First Time with MCUmgr with UART
 
@@ -419,7 +401,7 @@ Check for the presence of `zephyr/app_update.bin`
 
 ***Close any Serial COM port Reader***
 
-Open a new Terminal in the build folder folder
+Open a new Terminal in the build folder
 In the following, it will be called the **COMM_TERMINAL**
 
 Adapt and copy this command:
@@ -475,7 +457,7 @@ After pressing the `RESET` button
 You should see the Bootloader swapping the image to another
 The application loads with a more up to date Build Time
 
-![Shows the DFU log in VSCode](img/NCS/UART/output_log_post.png)
+![Shows the DFU log in VSCode](img/NCS/UART/log_dfu.png)
 
 You have now performed a DFU over UART !!
 
