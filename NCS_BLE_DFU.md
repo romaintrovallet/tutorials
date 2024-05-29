@@ -4,7 +4,6 @@ This tutorial will show:
 
 - How to perform a DFU over Bluetooth
 - How to use nRF Connect Application
-- How to use MCUmgr-Web
 - With the BLE Peripheral LBS sample
 
 Things omitted for the sake of simplicity:
@@ -68,9 +67,9 @@ a lots of folder and folder thus making the full path of certain files very long
 I choose this path for the example : `c:\ncs\apps\dfu_tutorial`
 And I gave it the name `dfu_ble`
 
-![Picture of VSCode with the path and the name given to the application](img/NCS/BLE/appli_saving.png)
+![Picture of VSCode with the path and the name given to the application](img/NCS/BLE/LBS/appli_saving.png)
 
-![Picture of VSCode with the application ready to build](img/NCS/BLE/appli_saved.png)
+![Picture of VSCode with the application ready to build](img/NCS/BLE/LBS/appli_saved.png)
 
 This will be the application we are working with.
 
@@ -114,7 +113,7 @@ printk("build time: " __DATE__ " " __TIME__ "\n\n");
 This will allow us to see the difference between old and new code after the update.
 You should have something like this:
 
-![Picture of the main.c file modified](img/NCS/BLE/main.png)
+![Picture of the main.c file modified](img/NCS/BLE/LBS/main.png)
 
 Don't forget to save `src/main.c`!!
 
@@ -123,15 +122,16 @@ Don't forget to save `src/main.c`!!
 Now open `prj.conf` and copy-paste the following lines.
 
 ```bash
-# Enable MCUBOOT bootloader build in the application
+# Enable MCUboot
 CONFIG_BOOTLOADER_MCUBOOT=y
-# Include MCUMGR and the dependencies in the build
+
+# Include MCUmgr and the dependencies in the build
 CONFIG_NCS_SAMPLE_MCUMGR_BT_OTA_DFU=y
 ```
 
 You should have something like this:
 
-![Picture of the prj.conf file modified](img/NCS/BLE/conf.png)
+![Picture of the prj.conf file modified](img/NCS/BLE/LBS/conf.png)
 
 Don't forget to save `prj.conf`!!
 
@@ -163,7 +163,7 @@ ___
 Now we need to configure the build settings.
 Select one of the 2 button
 
-![Picture of nRF for VSCode with the place to click higlighted](img/NCS/BLE/build-1.png)
+![Picture of nRF for VSCode with the place to click higlighted](img/NCS/BLE/LBS/build-1.png)
 
 Select those 2 options and rename the output build folder to something recognizable.
 
@@ -175,7 +175,7 @@ If it still fails, [check this](https://github.com/romaintrovallet/tutorials/blo
 This takes quite some time to generate.
 But after the generation you should have something like that.
 
-![Picture of nRF for VSCode with the visible build configuration](img/NCS/BLE/build-3.png)
+![Picture of nRF for VSCode with the visible build configuration](img/NCS/BLE/LBS/build-3.png)
 
 ___
 
@@ -228,7 +228,7 @@ If the flash was successful, you should see 3 things:
 
 The Serial log should be something like this
 
-![Shows the boot sequence log in Serial COM port Reader](img/NCS/BLE/log_flash.png)
+![Shows the boot sequence log in Serial COM port Reader](img/NCS/BLE/LBS/log_flash.png)
 
 If you missed it, you can still press the `RESET` button
 You should note the build time in the Serial Communication log
@@ -280,7 +280,10 @@ ___
 
 ## 6) Perform DFU
 
-At this point, we either use nRF Connect app or MCUmgr-web to perform the DFU over Bluetooth.
+At this point, we either use nRF Connect application or MCUmgr-web to perform the DFU over Bluetooth.
+In this tutorial, nRF Connect application is the "Tool" used
+If you prefer MCUmgr-Web, refer to [this tutorial](https://github.com/romaintrovallet/tutorials/blob/master/NCS_BLE_BLINKY_DFU.md)
+
 Just know that other tools exists
 [List of Over The Air Update provided by Zephyr](https://github.com/zephyrproject-rtos/zephyr/blob/main/doc/services/device_mgmt/ota.rst)
 
@@ -296,7 +299,7 @@ Check for the presence of `zephyr/app_update.bin`
 Now transfer the updated file to your phone.
 I do it via the Windows Bluetooth User Interface (fsquirt) to send it to my phone.
 
-![Picture of the file to transfer to your phone in windows explorer](img/NCS/BLE/app_to_phone.png)
+![Picture of the file to transfer to your phone in windows explorer](img/NCS/BLE/LBS/select_app_update.png)
 
 ### B) Connect and Send file to device
 
@@ -326,86 +329,8 @@ Once it is done, we can head back to the terminal.
 You should see the Bootloader swapping the image to another
 The application loads with a more up to date Build Time
 
-![Shows the DFU log in VSCode](img/NCS/BLE/log_dfu.png)
+![Shows the DFU log in VSCode](img/NCS/BLE/LBS/log_dfu.png)
 
 </details>
-</br>
-<details>
-<summary><b>With MCUmgr Web (with Chromium based browser)</b></summary>
-
-MCUmgr Web will allow to perform DFU over BLE in Chromium based browser.
-So make sure you are using a Chromium based browser.
-
-Now there is 2 way to make the update,
-
-- [use the website](https://boogie.github.io/mcumgr-web/)
-- [clone the git + launch local server](https://github.com/boogie/mcumgr-web)
-
-Both have been tested and are working !
-Choose the one you prefer, i will use the website in this example.
-
-Activate Bluetooth on your computer
-And click the `Connect` button on the website.
-You should be prompted with a pop-up listing all the device with bluetooth activated around
-
-![Picture of the list of bluetooth device](img/NCS/BLE/mcumgr_web/list.png)
-
-Look for `Nordic LBS` like the image above.
-And select it to pair to your device.
-
-Once paired, this is what you should see
-
-![Picture of the application slot in mcumgr-web](img/NCS/BLE/mcumgr_web/menu_1slot.png)
-
-Click on `Choose a file` button ('Choisis un fichier' in the screenshot above)
-
-Go to your build folder (ex: `apps/dfu_tutorial/dfu_ble/build/5340_ns`)
-Select the file `zephyr/app_update.bin`
-
-Once selected, you should see something like this
-
-![Picture of the application slot and the update in mcumgr-web](img/NCS/BLE/mcumgr_web/ready_to_upload.png)
-
-I have version `3.6.0`, it is because i've changed the file `VERSION` in the app folder.
-In your case, just remember the 4 first characters of the hash.
-
-The next step is to send the file to the target.
-This is done by pressing the `Upload` button.
-
-We now need to tell the Bootloader to exchange the images and apply the update.
-It will be done in 2 steps.
-
-The first one is to select the `Test` button on mcumgr-web
-
-![Picture of mcumgr-web with the place to click highlighted](img/NCS/BLE/mcumgr_web/test.png)
-
-Now we need to reset the board.
-It can be done via mcumgr, with the `Reset` button
-Or with the onboard `Reset` button
-
-Once it is done, we can head back to the terminal.
-
-You should see the Bootloader swapping the image to another
-The application loads with a more up to date Build Time
-
-![Picture of the log output after the reset of the target](img/NCS/BLE/mcumgr_web/log_dfu_test.png)
-
-At this point, the second slot (the update) boots.
-But if we do another Reset, the old application will be booted again.
-
-To prevent this, it needs to be confirmed while running.
-
-So if you Reverted the update to see what happened, perform the `Test` step again before going further.
-
-You have to go back to mcumgr-web and press the `Confirm` button
-
-![Picture of mcumgr-web with the place to click highlighted](img/NCS/BLE/mcumgr_web/confirm.png)
-
-Reset the board agains, and this time the application should not swap and still be the same build time.
-
-![Picture of mcumgr-web with the place to click highlighted](img/NCS/BLE/mcumgr_web/log_dfu_confirm.png)
-
-</details>
-</br>
 
 You have now performed a DFU over Bluetooth !!
