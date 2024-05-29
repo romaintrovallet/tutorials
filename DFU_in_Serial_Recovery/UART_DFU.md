@@ -23,7 +23,7 @@ This tutorial is made for NCS install.
 
 It is not compatible with the zephyrproject install.
 
-If you are interested by the zephyrproject / Vanilla Zephyr version.
+If you are interested by the zephyrproject / Vanilla Zephyr version.  
 It is not available yet.
 
 ___
@@ -50,11 +50,11 @@ You should have this window that pops up.
 We will create an app from an existing sample.  
 Select the corresponding button
 
-![Picture of VSCode where the place to click is higlighted](../img/NCS/sample.png)
+![Picture of VSCode where the place to click is higlighted](../img/NCS/sample/choose.png)
 
 Then select the Blinky sample by searching `blinky`
 
-![Picture of VSCode where the place to click is higlighted](../img/NCS/Blinky_sample.png)
+![Picture of VSCode where the place to click is higlighted](../img/NCS/sample/blinky.png)
 
 Then save the app.
 You should pick a high level folder because of the limit of 250 characters by CMake  
@@ -62,11 +62,11 @@ Furthermore, when you build the application you will have a `build` folder and w
 a lots of folder and folder thus making the full path of certain files very long.
 
 I choose this path for the example : `c:\ncs\apps\dfu_tutorial`
-And I gave it the name `dfu_uart_boot`
+And I gave it the name `dfu_uart_sr`
 
-![Picture of VSCode with the path and the name given to the application](../img/Serial_Recovery/UART/appli_saving.png)
+![Picture of VSCode with the path and the name given to the application](../img/NCS/Serial_Recovery/UART/appli_saving.png)
 
-![Picture of VSCode with the application ready to build](../img/Serial_Recovery/UART/appli_saved.png)
+![Picture of VSCode with the application ready to build](../img/NCS/Serial_Recovery/UART/appli_saved.png)
 
 This will be the application we are working with.
 
@@ -79,7 +79,7 @@ At this point you should have something like this:
 ```bash
 .
 └── dfu_tutorial/
-    └── dfu_uart_boot/
+    └── dfu_uart_sr/
         ├── src/
         │   └── main.c
         ├── .gitignore
@@ -104,7 +104,7 @@ printk("build time: " __DATE__ " " __TIME__ "\n");
 This will allow us to see the difference between old and new code after the update.
 You should have something like this:
 
-![Picture of the main.c file modified](../img/NCS/UART/main.png)
+![Picture of the main.c file modified](../img/NCS/main.png)
 
 Don't forget to save `src/main.c`!!
 
@@ -113,13 +113,13 @@ Don't forget to save `src/main.c`!!
 Now open `prj.conf` and copy-paste the next lines.
 
 ```bash
-# Enable Bootloader
+# Enable MCUboot
 CONFIG_BOOTLOADER_MCUBOOT=y
 ```
 
 You should have something like this:
 
-![Picture of the prj.conf file modified](../img/Serial_Recovery/conf.png)
+![Picture of the prj.conf file modified](../img/NCS/Serial_Recovery/conf.png)
 
 Don't forget to save `prj.conf`!!
 
@@ -132,8 +132,11 @@ In this folder create a file named `mcuboot.conf`
 And add these lines inside the file
 
 ```bash
-# Enable Serial Recovery over UART
+# Enable Serial Recovery
 CONFIG_MCUBOOT_SERIAL=y
+
+# Already enabled by the line above
+# Use default UART for the Serial Recovery
 CONFIG_BOOT_SERIAL_UART=y
 
 # Deactivate console on UART, since Serial Recovery uses it
@@ -172,7 +175,7 @@ At this point you should have something like this:
 ```bash
 .
 └── dfu_tutorial/
-    └── dfu_uart_boot/
+    └── dfu_uart_sr/
         ├── child_image/
         │   ├── mcuboot.conf (U)
         │   └── mcuboot.overlay (U)
@@ -192,7 +195,7 @@ ___
 Now we need to configure the build settings.
 Select one of the 2 button
 
-![Picture of nRF for VSCode with the place to click higlighted](../img/Serial_Recovery/UART/build-1.png)
+![Picture of nRF for VSCode with the place to click higlighted](../img/NCS/Serial_Recovery/UART/build-1.png)
 
 Select those 2 options and rename the output build folder to something recognizable.
 
@@ -204,7 +207,7 @@ If it still fails, [check this](https://github.com/romaintrovallet/tutorials/blo
 This takes quite some time to generate.
 But after the generation you should have something like that.
 
-![Picture of nRF for VSCode with the visible build configuration](../img/Serial_Recovery/UART/build-3.png)
+![Picture of nRF for VSCode with the visible build configuration](../img/NCS/Serial_Recovery/UART/build-3.png)
 
 ___
 
@@ -219,14 +222,14 @@ Once it is plugged and turned ON, you have 2 choices:
 
 To see the log of our application, follow the steps:
 
-![Picture of nRF for VSCode with the place to click higlighted](../img/NCS/vscode_serial-1.png)
+![Picture of nRF for VSCode with the place to click higlighted](../img/NCS/vscode_serial/config.png)
 
 For the next step the picture might not indicate what's to your screen.
 Just go through the steps so you have the same configuration in the end.
 
-![Picture of the serial configuration we have to select](../img/NCS/vscode_serial-2.png)
+![Picture of the serial configuration we have to select](../img/NCS/vscode_serial/open.png)
 
-![Picture of the terminal](../img/NCS/vscode_serial-3.png)
+![Picture of the terminal](../img/NCS/vscode_serial/term.png)
 
 </details>
 </br>
@@ -252,7 +255,7 @@ If the flash was successful, you should see 2 things:
 
 The Serial log should be something like this
 
-![Shows the boot sequence log in Serial COM port Reader](../img/Serial_Recovery/UART/log_flash.png)
+![Shows the boot sequence log in Serial COM port Reader](../img/NCS/Serial_Recovery/UART/log_flash.png)
 
 If you missed it, you can still press the `RESET` button
 You should note the build time in the Serial Communication log
@@ -298,10 +301,10 @@ Rebuild by following the instructions below
 Follow the **1) Create Application**
 Instead get the `hello_world` sample
 and save it to someplace findable: `apps/dfu_tutorial/hello_world`
-then rename it to something recognizable: `apps/dfu_tutorial/dfu_uart_boot_hw`
+then rename it to something recognizable: `apps/dfu_tutorial/dfu_uart_sr_hw`
 
 Follow the same modification in the **2) Modify Application**
-and add this library in the `apps/dfu_tutorial/dfu_uart_boot_hw/src/main.c`
+and add this library in the `apps/dfu_tutorial/dfu_uart_sr_hw/src/main.c`
 
 ```c
 #include <zephyr/kernel.h>
@@ -317,7 +320,7 @@ ___
 
 At this point, we use MCUmgr to perform the DFU over UART.
 Just know that other tools exists
-[List of Over The Air Update provided by Zephyr](https://github.com/zephyrproject-rtos/zephyr/blob/main/doc/services/device_mgmt/ota.rst)
+[List of Tools & Libraries to Perform Update](https://docs.zephyrproject.org/latest/services/device_mgmt/mcumgr.html#tools-libraries)
 
 We have to enter the DFU state, as described in this diagram below
 
@@ -345,11 +348,11 @@ state Application #00D4FA{
 @enduml
 ```
 
-So press the DFU button (button 1 in the devicetree == button 2 on the DK)
+So before doing anything, press the DFU button (button 1 in the devicetree == button 2 on the DK)
 And press the reset button while you hold the DFU button.
 If the manipulation was successful, you should see no log in the Terminal and the LED is ON.
 
-![Picture of the RESET and the DFU button on the DevKit](../img/Serial_Recovery/DK_RESET_&_DFU_buttons.png)
+![Picture of the RESET and the DFU button on the DevKit](../img/NCS/Serial_Recovery/DK_RESET_&_DFU_buttons.png)
 
 ### A) Only for First Time with MCUmgr with UART
 
@@ -362,7 +365,7 @@ In the following, it will be called the **CONFIG_TERMINAL**
 MCUmgr will use the Serial Communication Port
 
 - Close your Serial Communication Port
-- Go to your build folder (example : `apps/dfu_tutorial/dfu_uart_boot/build/5340_ns`)
+- Go to your build folder (example : `apps/dfu_tutorial/dfu_uart_sr/build/5340_ns`)
   - then `zephyr` folder
   - then verify the presence of `app_update.bin`
 
@@ -445,7 +448,7 @@ At this point you can close **CONFIG_TERMINAL**
 
 ### B) Application transfer
 
-Go to your build folder (ex: `apps/dfu_tutorial/dfu_uart_boot/build/5340_ns`)  
+Go to your build folder (ex: `apps/dfu_tutorial/dfu_uart_sr/build/5340_ns`)  
 If you built **[OPTIONAL] New app** (in the **5) Build Application again**)
 You must go to the new application build folder
 
@@ -465,7 +468,7 @@ mcumgr -c <name> image list
 (If you don't know what 'name' is, go back to **First MCUmgr UART Config**)  
 You should have the list of images that are on target
 
-![Shows the current image on target via MCUmgr](../img/Serial_Recovery/UART/mcumgr_list-1.png)
+![Shows the current image on target via MCUmgr](../img/NCS/Serial_Recovery/UART/mcumgr_list-1.png)
 
 Adapt and copy this command:
 
@@ -476,7 +479,7 @@ mcumgr -c <name> image upload -e zephyr/app_update.bin
 Now you should be printed with a loading bar.
 In this project, the loading should take around 15-20 seconds.
 
-![Shows the upload of the file via MCUmgr](../img/Serial_Recovery/UART/mcumgr_upload.png)
+![Shows the upload of the file via MCUmgr](../img/NCS/Serial_Recovery/UART/mcumgr_upload.png)
 
 Once the upload done, we check the presence of the image
 
@@ -491,12 +494,12 @@ If you recall correctly, at this point we had 2 images with other tutorials.
 We can do this modification because no application is running, allowing it to directly replace the old one.
 It seems to be possible to implement the second slot, but I did not had any success...
 
-![Shows the list of images on target via MCUmgr](../img/Serial_Recovery/UART/mcumgr_list-2.png)
+![Shows the list of images on target via MCUmgr](../img/NCS/Serial_Recovery/UART/mcumgr_list-2.png)
 
 Now let's read the Serial COM port.
 
 The application loads with a more up to date Build Time
 
-![Shows the DFU log in VSCode](../img/Serial_Recovery/UART/log_dfu.png)
+![Shows the DFU log in VSCode](../img/NCS/Serial_Recovery/UART/log_dfu.png)
 
 You have now performed a DFU over UART with Serial Recovery !!
