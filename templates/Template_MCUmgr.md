@@ -162,7 +162,7 @@ mcumgr -c <name> image upload -e zephyr/{$binary$}.bin
 ```
 
 Now you should be printed with a loading bar.
-In this project, the loading should take around {$time$} seconds
+In this project, the loading should take around {$time$} seconds.
 
 ![Shows the upload of the file via MCUmgr](img/{$type$}/{$DFU$}/mcumgr_upload.png)
 
@@ -197,7 +197,7 @@ After pressing the `RESET` button
 You should see the Bootloader swapping the image to another
 The application loads with a more up to date Build Time
 
-![Shows the DFU log in {$serial_soft$}](img/{$type$}/{$DFU$}/log_post.png)
+![Shows the DFU log in {$serial_soft$}](img/{$type$}/{$DFU$}/log_dfu.png)
 
 You have now performed a DFU over {$Techno$} !!
 

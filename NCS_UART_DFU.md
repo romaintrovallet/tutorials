@@ -23,7 +23,7 @@ This tutorial is made for NCS install.
 It is not compatible with the zephyrproject install.
 
 If you are interested by the zephyrproject / Vanilla Zephyr version.  
-It can be found [here](https://github.com/romaintrovallet/tutorials/blob/master/ZEPHYR_USB-CDC_DFU.md)  
+It can be found [here](https://github.com/romaintrovallet/tutorials/blob/master/ZEPHYR_UART_DFU.md)  
 
 ___
 
@@ -49,11 +49,11 @@ You should have this window that pops up.
 We will create an app from an existing sample.  
 Select the corresponding button
 
-![Picture of VSCode where the place to click is higlighted](img/NCS/sample.png)
+![Picture of VSCode where the place to click is higlighted](img/NCS/sample/choose.png)
 
 Then select the Blinky sample by searching `blinky`
 
-![Picture of VSCode where the place to click is higlighted](img/NCS/blinky_sample.png)
+![Picture of VSCode where the place to click is higlighted](img/NCS/sample/blinky.png)
 
 Then save the app.
 You should pick a high level folder because of the limit of 250 characters by CMake  
@@ -103,7 +103,7 @@ printk("build time: " __DATE__ " " __TIME__ "\n");
 This will allow us to see the difference between old and new code after the update.
 You should have something like this:
 
-![Picture of the main.c file modified](img/NCS/UART/main.png)
+![Picture of the main.c file modified](img/NCS/main.png)
 
 Don't forget to save `src/main.c`!!
 
@@ -178,7 +178,7 @@ Select those 2 options and rename the output build folder to something recogniza
 ![Picture of the Build configuration with the place to modify the config higlighted](img/NCS/build_conf_5340_ns.png)
 
 If the build fails, try rebuild first (sometimes NCS needs a second build)
-If it still fails, go to possible error section
+If it still fails, [check this](https://github.com/romaintrovallet/tutorials/blob/master/Errors_encountered/Build.md)
 
 This takes quite some time to generate.
 But after the generation you should have something like that.
@@ -198,14 +198,14 @@ Once it is plugged and turned ON, you have 2 choices:
 
 To see the log of our application, follow the steps:
 
-![Picture of nRF for VSCode with the place to click higlighted](img/NCS/vscode_serial-1.png)
+![Picture of nRF for VSCode with the place to click higlighted](img/NCS/vscode_serial/config.png)
 
 For the next step the picture might not indicate what's to your screen.
 Just go through the steps so you have the same configuration in the end.
 
-![Picture of the serial configuration we have to select](img/NCS/vscode_serial-2.png)
+![Picture of the serial configuration we have to select](img/NCS/vscode_serial/open.png)
 
-![Picture of the terminal](img/NCS/vscode_serial-3.png)
+![Picture of the terminal](img/NCS/vscode_serial/term.png)
 
 </details>
 </br>
@@ -278,7 +278,8 @@ Rebuild by following the instructions below
 
 Follow the **1) Create Application**
 Instead get the `hello_world` sample
-and save it to someplace recognizable `apps/dfu_tutorial/dfu_uart_hw`
+and save it to someplace findable: `apps/dfu_tutorial/hello_world`
+then rename it to something recognizable: `apps/dfu_tutorial/dfu_uart_hw`
 
 Follow the same modification in the **2) Modify Application**
 and add this library in the `apps/dfu_tutorial/dfu_uart_hw/src/main.c`
@@ -410,7 +411,7 @@ Adapt and copy this command:
 mcumgr -c <name> image list
 ```
 
-(If you don't know what 'name' is, go back to **First MCUmgr UART Config**)  
+(If you don't know what 'name' is, go back to **First MCUmgr UART config**)  
 You should have the list of images that are on target
 
 ![Shows the current image on target via MCUmgr](img/NCS/UART/mcumgr_list-1.png)
@@ -422,7 +423,7 @@ mcumgr -c <name> image upload -e zephyr/app_update.bin
 ```
 
 Now you should be printed with a loading bar.
-In this project, the loading should take around 15-20 seconds
+In this project, the loading should take around 15-20 seconds.
 
 ![Shows the upload of the file via MCUmgr](img/NCS/UART/mcumgr_upload.png)
 

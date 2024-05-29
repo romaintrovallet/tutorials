@@ -110,7 +110,7 @@ Don't forget to save `src/main.c`!!
 
 ### B) prj.conf
 
-Now open `prj.conf` and copy-paste the next lines.
+Now open `prj.conf` and copy-paste the following lines.
 
 ```bash
 # Enable MCUboot
@@ -465,7 +465,7 @@ Adapt and copy this command:
 mcumgr -c <name> image list
 ```
 
-(If you don't know what 'name' is, go back to **First MCUmgr UART Config**)  
+(If you don't know what 'name' is, go back to **First MCUmgr UART config**)  
 You should have the list of images that are on target
 
 ![Shows the current image on target via MCUmgr](../img/NCS/Serial_Recovery/UART/mcumgr_list-1.png)

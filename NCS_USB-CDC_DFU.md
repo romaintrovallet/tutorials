@@ -50,11 +50,11 @@ You should have this window that pops up.
 We will create an app from an existing sample.  
 Select the corresponding button
 
-![Picture of VSCode where the place to click is higlighted](img/NCS/sample.png)
+![Picture of VSCode where the place to click is higlighted](img/NCS/sample/choose.png)
 
 Then select the Blinky sample by searching `blinky`
 
-![Picture of VSCode where the place to click is higlighted](img/NCS/blinky_sample.png)
+![Picture of VSCode where the place to click is higlighted](img/NCS/sample/blinky.png)
 
 Then save the app.
 You should pick a high level folder because of the limit of 250 characters by CMake  
@@ -246,14 +246,14 @@ Once it is plugged and turned ON, you have 2 choices:
 
 To see the log of our application, follow the steps:
 
-![Picture of nRF for VSCode with the place to click higlighted](img/NCS/vscode_serial-1.png)
+![Picture of nRF for VSCode with the place to click higlighted](img/NCS/vscode_serial/config.png)
 
 For the next step the picture might not indicate what's to your screen.
 Just go through the steps so you have the same configuration in the end.
 
-![Picture of the serial configuration we have to select](img/NCS/vscode_serial-2.png)
+![Picture of the serial configuration we have to select](img/NCS/vscode_serial/open.png)
 
-![Picture of the terminal](img/NCS/vscode_serial-3.png)
+![Picture of the terminal](img/NCS/vscode_serial/term.png)
 
 </details>
 </br>
@@ -483,7 +483,7 @@ mcumgr -c <name> image upload -e zephyr/app_update.bin
 ```
 
 Now you should be printed with a loading bar.
-In this project, the loading should take around 30-35 seconds
+In this project, the loading should take around 30-35 seconds.
 
 ![Shows the upload of the file via MCUmgr](img/NCS/USB/mcumgr_upload.png)
 

@@ -63,7 +63,7 @@ Furthermore, when you build the application you will have a `build` folder and w
 a lots of folder and folder thus making the full path of certain files very long.
 
 I choose this path for the example : `c:\ncs\apps\dfu_tutorial`
-And I gave it the name `dfu_usb-cdc_boot`
+And I gave it the name `dfu_usb-cdc_sr`
 
 ![Picture of VSCode with the path and the name given to the application](../img/NCS/Serial_Recovery/USB/appli_saving.png)
 

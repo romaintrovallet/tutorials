@@ -54,11 +54,11 @@ You should have this window that pops up.
 We will create an app from an existing sample.  
 Select the corresponding button
 
-![Picture of VSCode where the place to click is higlighted](img/NCS/sample.png)
+![Picture of VSCode where the place to click is higlighted](img/NCS/sample/choose.png)
 
 Then select the BLE LED Button Service sample by searching `plb`
 
-![Picture of VSCode where the place to click is higlighted](img/NCS/ble_lbs_sample.png)
+![Picture of VSCode where the place to click is higlighted](img/NCS/sample/ble_lbs.png)
 
 Then save the app.
 You should pick a high level folder because of the limit of 250 characters by CMake  
@@ -170,7 +170,7 @@ Select those 2 options and rename the output build folder to something recogniza
 ![Picture of the Build configuration with the place to modify the config higlighted](img/NCS/build_conf_5340_ns.png)
 
 If the build fails, try rebuild first (sometimes NCS needs a second build)
-If it still fails, go to possible error section
+If it still fails, [check this](https://github.com/romaintrovallet/tutorials/blob/master/Errors_encountered/Build.md)
 
 This takes quite some time to generate.
 But after the generation you should have something like that.
@@ -190,14 +190,14 @@ Once it is plugged and turned ON, you have 2 choices:
 
 To see the log of our application, follow the steps:
 
-![Picture of nRF for VSCode with the place to click higlighted](img/NCS/vscode_serial-1.png)
+![Picture of nRF for VSCode with the place to click higlighted](img/NCS/vscode_serial/config.png)
 
 For the next step the picture might not indicate what's to your screen.
 Just go through the steps so you have the same configuration in the end.
 
-![Picture of the serial configuration we have to select](img/NCS/vscode_serial-2.png)
+![Picture of the serial configuration we have to select](img/NCS/vscode_serial/open.png)
 
-![Picture of the terminal](img/NCS/vscode_serial-3.png)
+![Picture of the terminal](img/NCS/vscode_serial/term.png)
 
 </details>
 </br>

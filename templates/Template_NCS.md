@@ -68,11 +68,11 @@ You should have this window that pops up.
 We will create an app from an existing sample.  
 Select the corresponding button
 
-![Picture of VSCode where the place to click is higlighted](img/NCS/sample.png)
+![Picture of VSCode where the place to click is higlighted](img/NCS/sample/choose.png)
 
 Then select the {$Sample$} sample by searching `{$Sample_search$}`
 
-![Picture of VSCode where the place to click is higlighted](img/NCS/{$sample$}_sample.png)
+![Picture of VSCode where the place to click is higlighted](img/NCS/sample/{$sample$}.png)
 
 Then save the app.
 You should pick a high level folder because of the limit of 250 characters by CMake  
@@ -122,7 +122,10 @@ printk("build time: " __DATE__ " " __TIME__ "\n");
 This will allow us to see the difference between old and new code after the update.
 You should have something like this:
 
+{$select required$}
+
 ![Picture of the main.c file modified](img/NCS/{$DFU$}/main.png)
+![Picture of the main.c file modified](img/NCS/main.png)
 
 Don't forget to save `src/main.c`!!
 
@@ -174,10 +177,11 @@ At the time of making the tuto, a danger sign appears when selecting the board.
 It's because of the secure and non-secure way to build the application.
 If you have it too, look it up later
 
-![Picture of the Build configuration with the place to modify the config higlighted](img/NCS/{$DFU$}/build_conf_5340_ns.png)
+![Picture of the Build configuration with the place to modify the config higlighted](img/NCS/{$DFU$}/build-2.png)
+![Picture of the Build configuration with the place to modify the config higlighted](img/NCS/build_conf_5340_ns.png)
 
 If the build fails, try rebuild first (sometimes NCS needs a second build)
-If it still fails, go to possible error section
+If it still fails, [check this](https://github.com/romaintrovallet/tutorials/blob/master/Errors_encountered/Build.md)
 
 This takes quite some time to generate.
 But after the generation you should have something like that.
@@ -197,14 +201,14 @@ Once it is plugged and turned ON, you have 2 choices:
 
 To see the log of our application, follow the steps:
 
-![Picture of nRF for VSCode with the place to click higlighted](img/NCS/vscode_serial-1.png)
+![Picture of nRF for VSCode with the place to click higlighted](img/NCS/vscode_serial/config.png)
 
 For the next step the picture might not indicate what's to your screen.
 Just go through the steps so you have the same configuration in the end.
 
-![Picture of the serial configuration we have to select](img/NCS/vscode_serial-2.png)
+![Picture of the serial configuration we have to select](img/NCS/vscode_serial/open.png)
 
-![Picture of the terminal](img/NCS/vscode_serial-3.png)
+![Picture of the terminal](img/NCS/vscode_serial/term.png)
 
 </details>
 </br>
@@ -294,7 +298,8 @@ Rebuild by following the instructions below
 
 Follow the **1) Create Application**
 Instead get the `hello_world` sample
-and save it to someplace recognizable `apps/dfu_tutorial/{$app_naming$}_hw`
+and save it to someplace findable: `apps/dfu_tutorial/hello_world`
+then rename it to something recognizable: `apps/dfu_tutorial/{$app_naming$}_hw`
 
 Follow the same modification in the **2) Modify Application**
 and add this library in the `apps/dfu_tutorial/{$app_naming$}_hw/src/main.c`
