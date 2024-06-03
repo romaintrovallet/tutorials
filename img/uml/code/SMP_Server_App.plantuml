@@ -1,0 +1,22 @@
+@startuml
+
+[*] --> OFF
+OFF --> Bootloader: switch on
+Bootloader --> OFF: switch off
+
+state Bootloader #red{
+  [*] --> Verif_image_integrity
+  Verif_image_integrity --> Bricked: image KO
+}
+
+Verif_image_integrity -down-> Application: image OK
+Application -up-> OFF: switch off
+
+state Application #00D4FA{
+  [*] --> Running
+  state Running{
+    App_Work -right[#white]-> SMP_Server #14DC00
+  }
+}
+
+@enduml

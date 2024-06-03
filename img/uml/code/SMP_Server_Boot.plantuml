@@ -1,0 +1,21 @@
+@startuml
+
+[*] --> OFF
+OFF --> Bootloader: switch on
+Bootloader --> OFF: switch off
+
+state Bootloader #red{
+  [*] --> Verif_Call_DFU
+  Verif_Call_DFU -right-> SMP_Server #14DC00: button pressed
+  Verif_Call_DFU --> Verif_image_integrity: button not pressed
+  Verif_image_integrity --> Bricked: image KO
+}
+
+Verif_image_integrity -down-> Application: image OK
+Application -up-> OFF: switch off
+
+state Application #00D4FA{
+  [*] --> Work
+}
+
+@enduml
