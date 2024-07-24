@@ -49,6 +49,4 @@ The second main advantage is that the size of the application remains the same, 
 
 The main disadvantage is that it's limited to UART and USB-CDC.
 
-Couldn't make it work with 'pure' / 'Vanilla' Zephyr
-
 Couldn't make it work with 2 image slots (managed to upload but couldn't confirm)

@@ -9,9 +9,10 @@ This tutorial will show:
 
 Things omitted for the sake of simplicity:
 
+- Use of NCS for VSCode app
 - Building the app as Secure Processing Environment (if working as Non-Secure Processing Environment (TF-M), Secure Processing Environment should be forgotten)
 - Custom keys (another tutorial is available)
-- Thingy91 as a target (is not compatible with this tutorial)
+- Thingy91 as a target (could not make it work with Vanilla Zephyr)
 - Other OS than Windows
 
 Before starting this tutorial, it is recommended to read the following links:
@@ -19,19 +20,21 @@ Before starting this tutorial, it is recommended to read the following links:
 - [Zephyr's doc on MCUboot](https://docs.mcuboot.com/readme-zephyr.html)
 - [Nordic's doc on MCUmgr](https://developer.nordicsemi.com/nRF_Connect_SDK/doc/latest/zephyr/services/device_mgmt/mcumgr.html)
 
-This tutorial is made for NCS install.
+This tutorial is made for zephyrproject + zephyr SDK install
 
-It is not compatible with the zephyrproject install.
+But it can be used with Zephyr version of NCS
+**Not recommended if you have a zephyrproject install**
+Just replace `zephyrproject` with your toolchain version (ex:`v2.6.0`)
 
-If you are interested by the zephyrproject / Vanilla Zephyr version.  
-It is not available yet.
+If you are interested by the "official" NCS version.  
+It can be found [here](https://github.com/romaintrovallet/tutorials/blob/master/DFU_in_Serial_Recovery/NCS_USB-CDC_SR.md)  
 
 ___
 
 ## 0) Requirements
 
-This tutorial is made for NCS install.
-You must have a NCS install that is already working.
+This tutorial is made for zephyrproject + zephyr SDK install
+You must have a zephyrproject install that is already working.
 
 With the global requirements, you should add the following:
 
@@ -42,32 +45,13 @@ ___
 
 ## 1) Create Application
 
-In nRF Connect for VS Code, create a new application.
-Select one of the 2 button
+Go to your zephyrproject install.
+Go to this path : `zephyrproject/zephyr/samples/basic`
+Copy the `blinky` folder
 
-![Picture of nRF for VSCode where the place to click is higlighted](../img/NCS/new_app.png)
-
-You should have this window that pops up.  
-We will create an app from an existing sample.  
-Select the corresponding button
-
-![Picture of VSCode where the place to click is higlighted](../img/NCS/sample/choose.png)
-
-Then select the Blinky sample by searching `blinky`
-
-![Picture of VSCode where the place to click is higlighted](../img/NCS/sample/blinky.png)
-
-Then save the app.
-You should pick a high level folder because of the limit of 250 characters by CMake  
-Furthermore, when you build the application you will have a `build` folder and within
-a lots of folder and folder thus making the full path of certain files very long.
-
-I choose this path for the example : `c:\ncs\apps\dfu_tutorial`
-And I gave it the name `dfu_usb-cdc_sr`
-
-![Picture of VSCode with the path and the name given to the application](../img/NCS/Serial_Recovery/USB/appli_saving.png)
-
-![Picture of VSCode with the application ready to build](../img/NCS/Serial_Recovery/USB/appli_saved.png)
+Paste it in your app folder (ex: `zephyrproject/dfu_tutorial/blinky`)
+Rename it to a more appropriate name (ex: `zephyrproject/dfu_tutorial/dfu_usb-cdc_sr`)
+For the next steps, we will assume you pick the example folder
 
 This will be the application we are working with.
 
@@ -96,7 +80,7 @@ To make the DFU work, we will need to modify the application
 
 In your app folder, open `src/main.c`
 
-Add this line of code in the main() => around line 25
+Add this line of code in the main() => around line 26
 
 ```c
 printk("build time: " __DATE__ " " __TIME__ "\n");
@@ -105,22 +89,25 @@ printk("build time: " __DATE__ " " __TIME__ "\n");
 This will allow us to see the difference between old and new code after the update.
 You should have something like this:
 
-![Picture of the main.c file modified](../img/NCS/main.png)
+![Picture of the main.c file modified](../img/ZEPHYR/main.png)
 
 Don't forget to save `src/main.c`!!
 
 ### B) prj.conf
 
-Now open `prj.conf` and copy-paste the next lines.
+Now open `prj.conf` and copy-paste the following lines.
 
 ```bash
 # Enable MCUboot
 CONFIG_BOOTLOADER_MCUBOOT=y
+
+# Use the default MCUBoot PEM key file to sign binary
+CONFIG_MCUBOOT_SIGNATURE_KEY_FILE="bootloader/mcuboot/root-rsa-2048.pem"
 ```
 
 You should have something like this:
 
-![Picture of the prj.conf file modified](../img/NCS/Serial_Recovery/conf.png)
+![Picture of the prj.conf file modified](../img/ZEPHYR/SR/conf.png)
 
 Don't forget to save `prj.conf`!!
 
@@ -135,14 +122,12 @@ And add these lines inside the file
 ```bash
 # Enable Serial Recovery
 CONFIG_MCUBOOT_SERIAL=y
-CONFIG_BOOT_SERIAL_UART=y
+
+# Force disable UART
+CONFIG_BOOT_SERIAL_UART=n
 
 # Configure Serial Recovery to use CDC_ACM, which by default uses the USB
 CONFIG_BOOT_SERIAL_CDC_ACM=y
-
-# Increase flash space for MCUboot child image, to fit USB drivers
-# Size depends on your target : 0x15000 is for nrf5340dk 
-CONFIG_PM_PARTITION_SIZE_MCUBOOT=0x15000
 
 # Deactivate console on UART, since Serial Recovery uses it
 CONFIG_UART_CONSOLE=n
@@ -153,14 +138,6 @@ CONFIG_MCUBOOT_INDICATION_LED=y
 # Configure Bootlader to only use one slot.
 CONFIG_SINGLE_APPLICATION_SLOT=y
 ```
-
-This will allow us to have the details in the MCUboot part.
-It will also allow the bootloader to have access to the USB stack.
-
-Allowing the access means the bootloader's size is increased.
-The partition size for the bootloader needs to be increased.
-The value depends on your target [More details here (Step 3)](https://academy.nordicsemi.com/courses/nrf-connect-sdk-intermediate/lessons/lesson-8-bootloaders-and-dfu-fota/topic/exercise-2-dfu-over-usb-adding-external-flash/)
-As I have a nrf5340dk, I will set the value to `0x15000`.
 
 Don't forget to save `child_image/mcuboot.conf`!!
 
@@ -176,29 +153,12 @@ And add this code inside the file
           mcuboot-led0 = &led1;
     };
   };
+  &zephyr_udc0 {
+          cdc_acm_uart0 {
+                  compatible = "zephyr,cdc-acm-uart";   
+          };
+  };
 ```
-
-This will allow the bootloader to enter the DFU mode (button).
-And also signals that it is in DFU mode.
-
-Don't forget to save `child_image/mcuboot.conf`!!
-
-### E) pm_static.yml
-
-Create a file named `pm_static.yml` at the project root
-And add this code inside the file
-
-```yaml
-mcuboot_sram:
-  address: 0x20000000
-  end_address: 0x2000a000
-  size: 0xa000
-```
-
-If you do not include this file, the build will fail and say that not everything in RAM section.
-This file increase the ram dedicated to mcuboot to finish the build.
-
-Don't forget to save `pm_static.yml`!!
 
 At this point you should have something like this:
 
@@ -214,71 +174,122 @@ At this point you should have something like this:
         ├── .gitignore
         ├── CMakeLists.txt
         ├── prj.conf (M)
-        ├── pm_static.yml (U)
         ├── README.rst
         └── sample.yaml
 ```
 
 ___
 
-## 3) Build Application
+## 3) Command Line config
 
-Now we need to configure the build settings.
-Select one of the 2 button
+In this tutorial we will use the command line
+Open a terminal in the parent folder of `zephyrproject`
 
-![Picture of nRF for VSCode with the place to click higlighted](../img/NCS/Serial_Recovery/USB/build-1.png)
+You will need to build applications and bootloaders until Step 7 included.
+If, for whatever reason, you cannot complete the whole tutorial in one time.
+You need to make this ***Step all over again.***
 
-Select those 2 options and rename the output build folder to something recognizable.
+In the following, it will be called the **MAIN_TERMINAL**
 
-![Picture of the Build configuration with the place to modify the config higlighted](../img/NCS/build_conf_5340_ns.png)
+Enter this command:
 
-If the build fails, try rebuild first (sometimes NCS needs a second build)
-If it still fails, [check this](https://github.com/romaintrovallet/tutorials/blob/master/Errors_encountered/Build.md)
+```bash
+echo %ZEPHYR_BASE%
+```
 
-This takes quite some time to generate.
-But after the generation you should have something like that.
+and it should return something like this:
 
-![Picture of nRF for VSCode with the visible build configuration](../img/NCS/Serial_Recovery/USB/build-3.png)
+```bash
+<absolute>\<path>\<to>\zephyrproject\zephyr
+```
+
+If not go to error section
+
+Still in the **MAIN_TERMINAL**, enter this command:
+
+```bash
+zephyrproject\.venv\Scripts\activate.bat
+```
+
+You are now in the zephyr virtual environment.
+Keep your **MAIN_TERMINAL** open.
+
+Enter the following commands:
+
+```bash
+cd zephyrproject
+```
+
+```bash
+west update
+```
+
+```bash
+west zephyr-export
+```
+
+Once done, keep it in your background and do not close it
 
 ___
 
-## 4) Flash Application
+## 4) Build Application
+
+In the **MAIN_TERMINAL**
+
+Enter this command :
+
+```bash
+west build -b nrf5340dk/nrf5340/cpuapp dfu_tutorial/dfu_usb-cdc_sr -d dfu_tutorial/dfu_usb-cdc_sr/build/5340_s
+```
+
+If the build fails, try rebuild first (sometimes Zephyr needs a second build)
+If it still fails, go to possible error section
+
+___
+
+## 5) Build Bootloader
+
+In the **MAIN_TERMINAL**
+
+Enter this command :
+
+```bash
+west build -b nrf5340dk/nrf5340/cpuapp bootloader/mcuboot/boot/zephyr -d dfu_tutorial/dfu_usb-cdc_sr/build/5340_s/mcuboot -- -DEXTRA_DTC_OVERLAY_FILE=<absolute>/<path>/<to>/zephyrproject/dfu_tutorial/dfu_usb-cdc_sr/child_image/mcuboot.overlay -DEXTRA_CONF_FILE=<absolute>/<path>/<to>/zephyrproject/dfu_tutorial/dfu_usb-cdc_sr/child_image/mcuboot.conf
+```
+
+___
+
+## 6) Flash Application
 
 Now is a good time to plug your device.
-For now, **ONLY ONE** USB cable will be used.
 
-Once it is plugged and turned ON, you have 2 choices:
+Once it is plugged and turned ON, enter this command in the **MAIN_TERMINAL**:
 
-<details>
-<summary><b>Open VSCode Serial Communication Port Reader</b></summary>
+```bash
+west flash -d dfu_tutorial/dfu_usb-cdc_sr/build/5340_s --recover
+```
 
-To see the log of our application, follow the steps:
+If it doesn't flash, go to possible errors sections
 
-![Picture of nRF for VSCode with the place to click higlighted](../img/NCS/vscode_serial/config.png)
+At this point you should open a Serial Communication Port Reader to see the incoming output.
 
-For the next step the picture might not indicate what's to your screen.
-Just go through the steps so you have the same configuration in the end.
+You have to find the used COM port (TeraTerm select it automatically).
+And set the baud rate to `115200`.
+Note that, at this point, you shouldn't see anything related to this application.
 
-![Picture of the serial configuration we have to select](../img/NCS/vscode_serial/open.png)
+Once these 2 things are set, you are ready to flash the bootloader
 
-![Picture of the terminal](../img/NCS/vscode_serial/term.png)
+___
 
-</details>
-</br>
-<details>
-<summary><b>Open your Serial Communication Port Reader</b></summary>
+## 7) Flash Bootloader
 
-You have to find the used COM port (TeraTerm select it automatically)
-And set the baud rate to `115200`
+In the **MAIN_TERMINAL**
 
-Once these 2 things are set, you are ready to flash
+Enter this command :
 
-</details>
-</br>
-
-If ready, select the `Flash & Erase` command as presented below
-
-![Picture of nRF for VSCode with the place to click higlighted](../img/NCS/flash.png)
+```bash
+west flash -d dfu_tutorial/dfu_usb-cdc_sr/build/5340_s/mcuboot
+```
 
 If the flash was successful, you should see 2 things:
 
@@ -287,7 +298,7 @@ If the flash was successful, you should see 2 things:
 
 The Serial log should be something like this
 
-![Shows the boot sequence log in Serial COM port Reader](../img/NCS/Serial_Recovery/USB/log_flash.png)
+![Shows the boot sequence log in Serial COM port Reader](../img/ZEPHYR/SR/USB/log_flash.png)
 
 If you missed it, you can still press the `RESET` button
 You should note the build time in the Serial Communication log
@@ -295,7 +306,7 @@ It's visible at the start of the application log
 
 ___
 
-## 5) Build Application again
+## 8) Build Application again
 
 At this point, you have a working bootloader and application
 Now we will update the application with a new version of the same application
@@ -315,8 +326,8 @@ But if you want a more visual approach, there are possibilities available below
 You can modify the app to bring a more visually updated approach
 Here are some examples :
 
-- the blinking LED (led0 -> led1) (line 14 in `src/main.c`)
-- the blinking rate (1000 -> 100) (line 11 in `src/main.c`)
+- the blinking LED (led0 -> led1) (line 15 in `src/main.c`)
+- the blinking rate (1000 -> 100) (line 12 in `src/main.c`)
 - the name of the USB device (add following lines in `prj.conf`)
 
 ```bash
@@ -327,34 +338,44 @@ CONFIG_USB_DEVICE_PRODUCT="Zephyr DFU sample"
 </details>
 </br>
 
-Rebuild by following the instructions below
+In the **MAIN_TERMINAL**
 
-![Picture of nRF for VSCode with the place to click higlighted](../img/NCS/rebuild.png)
+Enter this command :
+
+```bash
+west build -b nrf5340dk/nrf5340/cpuapp dfu_tutorial/dfu_usb-cdc_sr -d dfu_tutorial/dfu_usb-cdc_sr/build/5340_s -p
+```
 
 </details>
 </br>
 <details>
 <summary><b>[OPTIONAL] New app</b></summary>
 
-Follow the **1) Create Application**
-Instead get the `hello_world` sample
-and save it to someplace findable: `apps/dfu_tutorial/hello_world`
-then rename it to something recognizable: `apps/dfu_tutorial/dfu_usb-cdc_sr_hw`
+Follow the **A) Copy sample** in the **1) Create Application**
+Instead get the `zephyrproject/zephyr/samples/hello_world`sample
+and save it to someplace findable: `zephyrproject/dfu_tutorial/hello_world`
+then rename it to `zephyrproject/dfu_tutorial/dfu_usb-cdc_sr_hw`
 
 Follow the same modification in the **2) Modify Application**
-and add this library in the `apps/dfu_tutorial/dfu_usb-cdc_sr_hw/src/main.c`
+and add this library in the `zephyrproject/dfu_tutorial/dfu_usb-cdc_sr_hw/src/main.c`
 
 ```c
 #include <zephyr/kernel.h>
 ```
 
-Once done create the same Build Configuration as in **3) Build Application**
+In the **MAIN_TERMINAL**
+
+Then build it with this command
+
+```bash
+west build -b nrf5340dk/nrf5340/cpuapp dfu_tutorial/dfu_usb-cdc_sr_hw -d dfu_tutorial/dfu_usb-cdc_sr_hw/build/5340_s
+```
 
 </details>
 
 ___
 
-## 6) Perform DFU
+## 9) Perform DFU
 
 At this point, we use MCUmgr to perform the DFU over USB-CDC.
 Just know that other tools exists
@@ -362,29 +383,7 @@ Just know that other tools exists
 
 We have to enter the DFU state, as described in this diagram below
 
-```plantuml
-@startuml
-
-[*] --> OFF
-OFF --> Bootloader: switch on
-Bootloader --> OFF: switch off
-
-state Bootloader #red{
-  [*] --> Verif_Call_DFU
-  Verif_Call_DFU -right-> State_DFU #14DC00: button pressed
-  Verif_Call_DFU --> Verif_image_integrity: button not pressed
-  Verif_image_integrity --> Bricked: image KO  
-}
-
-Verif_image_integrity -down-> Application: image OK
-Application -up-> OFF: switch off
-
-state Application #00D4FA{
-  [*] --> Work
-}
-
-@enduml
-```
+![Boot State Machine Representation with SMP Server in the Bootloader](../img/uml/SMP_Server_Boot.png)
 
 So before doing anything, connect the second cable to the devkit.
 
@@ -392,7 +391,7 @@ You also need to press the DFU button (button 1 in the devicetree == button 2 on
 And press the reset button while you hold the DFU button.
 If the manipulation was successful, you should see no log in the Terminal and the LED is ON.
 
-![Picture of the RESET and the DFU button on the DevKit](../img/NCS/Serial_Recovery/DK_RESET_&_DFU_buttons.png)
+![Picture of the RESET and the DFU button on the DevKit](../img/SR/DK_RESET_&_DFU_buttons.png)
 
 ### A) Only for First Time with MCUmgr with USB-CDC
 
@@ -404,9 +403,9 @@ In the following, it will be called the **CONFIG_TERMINAL**
 
 MCUmgr will use the Serial Communication Port
 
-- Go to your build folder (example : `apps/dfu_tutorial/dfu_usb-cdc_sr/build/5340_ns`)
+- Go to your build folder (example : `zephyrproject/dfu_tutorial/dfu_usb-cdc_sr/build/5340_s`)
   - then `zephyr` folder
-  - then verify the presence of `app_update.bin`
+  - then verify the presence of `zephyr.signed.bin`
 
 In the **CONFIG_TERMINAL**
 
@@ -475,17 +474,11 @@ Now to test if you have correctly setup your serial connection
 Copy this command to the **CONFIG_TERMINAL**
 
 ```bash
-mcumgr -c <name> echo hello
-```
-
-You should receive `hello` almost instantly, if not see possible errors
-If you do not have any error, you can try the next one
-
-```bash
 mcumgr -c <name> image list
 ```
 
 You should have a list of details on the current image on the slot
+If you do not have any error, you can go to the next step
 
 </details>
 </br>
@@ -494,11 +487,11 @@ At this point you can close **CONFIG_TERMINAL**
 
 ### B) Application transfer
 
-Go to your build folder (ex: `apps/dfu_tutorial/dfu_usb-cdc_sr/build/5340_ns`)  
-If you built **[OPTIONAL] New app** (in the **5) Build Application again**)
+Go to your build folder (ex: `zephyrproject/dfu_tutorial/dfu_usb-cdc_sr/build/5340_s`)  
+If you built **[OPTIONAL] New app** (in the **8) Build Application again**)
 You must go to the new application build folder
 
-Check for the presence of `zephyr/app_update.bin`
+Check for the presence of `zephyr/zephyr.signed.bin`
 
 Open a new Terminal in the build folder
 In the following, it will be called the **COMM_TERMINAL**
@@ -509,21 +502,21 @@ Adapt and copy this command:
 mcumgr -c <name> image list
 ```
 
-(If you don't know what 'name' is, go back to **First MCUmgr USB-CDC Config**)  
+(If you don't know what 'name' is, go back to **First MCUmgr USB-CDC config**)  
 You should have the list of images that are on target
 
-![Shows the current image on target via MCUmgr](../img/NCS/Serial_Recovery/USB/mcumgr_list-1.png)
+![Shows the current image on target via MCUmgr](../img/ZEPHYR/SR/USB/mcumgr_list-1.png)
 
 Adapt and copy this command:
 
 ```bash
-mcumgr -c <name> image upload -e zephyr/app_update.bin
+mcumgr -c <name> image upload -e zephyr/zephyr.signed.bin
 ```
 
 Now you should be printed with a loading bar.
-In this project, the loading should take around 15-20 seconds.
+In this project, the loading should take around 10 seconds.
 
-![Shows the upload of the file via MCUmgr](../img/NCS/Serial_Recovery/USB/mcumgr_upload.png)
+![Shows the upload of the file via MCUmgr](../img/ZEPHYR/SR/USB/mcumgr_upload.png)
 
 Once the upload done, we check the presence of the image
 
@@ -538,12 +531,15 @@ If you recall correctly, at this point we had 2 images with other tutorials.
 We can do this modification because no application is running, allowing it to directly replace the old one.
 It seems to be possible to implement the second slot, but I did not had any success...
 
-![Shows the list of images on target via MCUmgr](../img/NCS/Serial_Recovery/USB/mcumgr_list-2.png)
+![Shows the list of images on target via MCUmgr](../img/ZEPHYR/SR/USB/mcumgr_list-2.png)
 
-Now let's read the Serial COM port.
+Let's see the result:
+
+- Reopen the Serial COM port Reader
+- Restart the board
 
 The application loads with a more up to date Build Time
 
-![Shows the DFU log in VSCode](../img/NCS/Serial_Recovery/USB/log_dfu.png)
+![Shows the DFU log in TeraTerm](../img/ZEPHYR/SR/USB/log_dfu.png)
 
 You have now performed a DFU over USB-CDC with Serial Recovery !!

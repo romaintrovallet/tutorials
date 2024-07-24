@@ -77,7 +77,7 @@ To make the DFU work, we will need to modify the application
 
 In your app folder, open `src/main.c`
 
-Add this line of code in the main() => around line 25
+Add this line of code in the main() => around line 26
 
 ```c
 printk("build time: " __DATE__ " " __TIME__ "\n");
@@ -86,7 +86,7 @@ printk("build time: " __DATE__ " " __TIME__ "\n");
 This will allow us to see the difference between old and new code after the update.
 You should have something like this:
 
-![Picture of the main.c file modified](img/ZEPHYR/UART/main.png)
+![Picture of the main.c file modified](img/ZEPHYR/main.png)
 
 Don't forget to save `src/main.c`!!
 
@@ -95,12 +95,11 @@ Don't forget to save `src/main.c`!!
 Now open `prj.conf` and copy-paste the following lines.
 
 ```bash
-# Enable Zephyr application to be booted by MCUboot
+# Enable MCUboot
 CONFIG_BOOTLOADER_MCUBOOT=y
 
-# Use the default MCUBoot PEM key file (BOOT_SIGNATURE_KEY_FILE)
+# Use the default MCUBoot PEM key file to sign binary
 CONFIG_MCUBOOT_SIGNATURE_KEY_FILE="bootloader/mcuboot/root-rsa-2048.pem"
-
 
 # Enable MCUmgr DFU in application
 CONFIG_MCUMGR=y
@@ -227,7 +226,7 @@ In the **MAIN_TERMINAL**
 Enter this command :
 
 ```bash
-west build -b nrf5340dk/nrf5340/cpuapp bootloader/mcuboot/boot/zephyr -d build_boot/5340_s
+west build -b nrf5340dk/nrf5340/cpuapp bootloader/mcuboot/boot/zephyr -d dfu_tutorial/dfu_uart/build/5340_s/mcuboot
 ```
 
 ___
@@ -239,7 +238,7 @@ Now is a good time to plug your device.
 Once it is plugged and turned ON, enter this command in the **MAIN_TERMINAL**:
 
 ```bash
-west flash -d dfu_tutorial/dfu_uart/build/5340_s
+west flash -d dfu_tutorial/dfu_uart/build/5340_s --recover
 ```
 
 If it doesn't flash, go to possible errors sections
@@ -261,7 +260,7 @@ In the **MAIN_TERMINAL**
 Enter this command :
 
 ```bash
-west flash -d build_boot/5340_s
+west flash -d dfu_tutorial/dfu_uart/build/5340_s/mcuboot
 ```
 
 If the flash was successful, you should see 2 things:
@@ -275,7 +274,7 @@ If you missed it, you can still press the `RESET` button
 You should note the build time in the Serial Communication log
 It's visible at the start of the application log
 
-![Tera Term log](img/ZEPHYR/UART/output_log_pre.png)
+![Tera Term log](img/ZEPHYR/UART/log_flash.png)
 
 ___
 
@@ -300,7 +299,7 @@ You can modify the app to bring a more visually updated approach
 Here are some examples :
 
 - the blinking LED (led0 -> led1) (line 15 in `src/main.c`)
-- the blinking rate (1000 -> 100) (line 15 in `src/main.c`)
+- the blinking rate (1000 -> 100) (line 12 in `src/main.c`)
 
 </details>
 </br>
@@ -505,7 +504,7 @@ After pressing the `RESET` button
 You should see the Bootloader swapping the image to another
 The application loads with a more up to date Build Time
 
-![Shows the DFU log in TeraTerm](img/ZEPHYR/UART/output_log_post.png)
+![Shows the DFU log in TeraTerm](img/ZEPHYR/UART/log_dfu.png)
 
 You have now performed a DFU over UART !!
 

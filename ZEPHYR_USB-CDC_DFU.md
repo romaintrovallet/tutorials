@@ -90,7 +90,7 @@ And these lines of code in the main() => around line 29
 printk("build time: " __DATE__ " " __TIME__ "\n");
 
 if (IS_ENABLED(CONFIG_USB_DEVICE_STACK)) {
-    ret = usb_enable(NULL);
+    int ret = usb_enable(NULL);
     if (ret) {
         printk("Problem with USB enable");
         return 0;
@@ -113,7 +113,7 @@ Now open `prj.conf` and copy-paste the following lines.
 # Enable MCUboot
 CONFIG_BOOTLOADER_MCUBOOT=y
 
-# Path to custom key
+# Use the default MCUBoot PEM key file to sign binary
 CONFIG_MCUBOOT_SIGNATURE_KEY_FILE="bootloader/mcuboot/root-rsa-2048.pem"
 
 # Enable USB subsystem
@@ -179,69 +179,16 @@ This will give access to the usb port.
 
 Don't forget to save `nrf5340dk_nrf5340_cpuapp.overlay`!!
 
-### D) child_image/mcuboot.conf
-
-In your app folder, create a folder named `child_image`
-In this folder create a file named `mcuboot.conf`
-And add these lines inside the file
-
-```bash
-# Enable logging for MCUboot
-CONFIG_LOG=y
-CONFIG_MCUBOOT_LOG_LEVEL_INF=y
-
-# Configure serial recovery to use CDC_ACM, which by default uses the USB
-CONFIG_BOOT_SERIAL_CDC_ACM=y
-
-# Increase flash space for MCUboot child image, to fit USB drivers
-# Size depends on your taget : 0x15000 is for nrf5340dk 
-CONFIG_PM_PARTITION_SIZE_MCUBOOT=0x15000
-```
-
-This will allow us to have the details in the MCUboot part.
-It will also allow the bootloader to have access to the USB stack.
-
-Allowing the access means the bootloader's size is increased.
-The partition size for the bootloader needs to be increased.
-The value depends on your target [More details here (Step 3)](https://academy.nordicsemi.com/courses/nrf-connect-sdk-intermediate/lessons/lesson-8-bootloaders-and-dfu-fota/topic/exercise-2-dfu-over-usb-adding-external-flash/)
-As I have a nrf5340dk, I will set the value to `0x15000`.
-
-Don't forget to save `child_image/mcuboot.conf`!!
-
-### E) CMakeLists.txt
-
-Modifying this file allow to automate the building with the newly created file.
-
-Add these lines before `find_package(Zephyr ...`
-
-```bash
-list(APPEND mcuboot_OVERLAY_CONFIG
- "${CMAKE_CURRENT_SOURCE_DIR}/child_image/mcuboot.conf"
- )
-
-list (APPEND DTC_OVERLAY_FILE
- "${CMAKE_CURRENT_SOURCE_DIR}/nrf5340dk_nrf5340_cpuapp.overlay"
- )
-```
-
-You should have something like this:
-
-![Picture of the CMakeLists.txt file modified](img/ZEPHYR/USB/cmakelists.png)
-
-Don't forget to save `CMakeLists.txt`!!
-
 At this point you should have something like this:
 
 ```bash
 .
 └── dfu_tutorial/
     └── dfu_usb-cdc/
-        ├── child_image/
-        │   └── mcuboot.conf (U)
         ├── src/
         │   └── main.c (M)
         ├── .gitignore
-        ├── CMakeLists.txt (M)
+        ├── CMakeLists.txt
         ├── nrf5340dk_nrf5340_cpuapp.overlay (U)
         ├── prj.conf (M)
         ├── README.rst
@@ -324,7 +271,7 @@ In the **MAIN_TERMINAL**
 Enter this command :
 
 ```bash
-west build -b nrf5340dk/nrf5340/cpuapp bootloader/mcuboot/boot/zephyr -d build_boot/5340_s
+west build -b nrf5340dk/nrf5340/cpuapp bootloader/mcuboot/boot/zephyr -d dfu_tutorial/dfu_usb-cdc/build/5340_s/mcuboot
 ```
 
 ___
@@ -336,7 +283,7 @@ Now is a good time to plug your device.
 Once it is plugged and turned ON, enter this command in the **MAIN_TERMINAL**:
 
 ```bash
-west flash -d dfu_tutorial/dfu_usb-cdc/build/5340_s
+west flash -d dfu_tutorial/dfu_usb-cdc/build/5340_s --recover
 ```
 
 If it doesn't flash, go to possible errors sections
@@ -358,7 +305,7 @@ In the **MAIN_TERMINAL**
 Enter this command :
 
 ```bash
-west flash -d build_boot/5340_s
+west flash -d dfu_tutorial/dfu_usb-cdc/build/5340_s/mcuboot
 ```
 
 If the flash was successful, you should see 2 things:
@@ -372,7 +319,7 @@ If you missed it, you can still press the `RESET` button
 You should note the build time in the Serial Communication log
 It's visible at the start of the application log
 
-![Tera Term log](img/ZEPHYR/USB/output_log_pre.png)
+![Tera Term log](img/ZEPHYR/USB/log_flash.png)
 
 ___
 
@@ -396,12 +343,12 @@ But if you want a more visual approach, there are possibilities available below
 You can modify the app to bring a more visually updated approach
 Here are some examples :
 
-- the blinking LED (led0 -> led1) (line XX in `src/main.c`)
-- the blinking rate (1000 -> 100) (line XX in `src/main.c`)
+- the blinking LED (led0 -> led1) (line 13 in `src/main.c`)
+- the blinking rate (1000 -> 100) (line 16 in `src/main.c`)
 - the name of the USB device (add following lines in `prj.conf`)
 
 ```bash
-# See effect of DFU
+# Change name of USB device
 CONFIG_USB_DEVICE_PRODUCT="Zephyr DFU sample"
 ```
 
@@ -614,7 +561,7 @@ After pressing the `RESET` button
 You should see the Bootloader swapping the image to another
 The application loads with a more up to date Build Time
 
-![Shows the DFU log in TeraTerm](img/ZEPHYR/USB/output_log_post.png)
+![Shows the DFU log in TeraTerm](img/ZEPHYR/USB/log_dfu.png)
 
 You have now performed a DFU over USB-CDC !!
 
