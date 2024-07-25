@@ -455,7 +455,7 @@ mcumgr -c <name> image upload -e zephyr/app_update.bin
 ```
 
 Now you should be printed with a loading bar.
-In this project, the loading should take around 15-20 seconds.
+In this project, the loading should take around 10 seconds.
 
 ![Shows the upload of the file via MCUmgr](../img/NCS/SR/UART/mcumgr_upload.png)
 

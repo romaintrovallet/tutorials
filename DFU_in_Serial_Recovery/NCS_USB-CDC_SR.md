@@ -518,7 +518,6 @@ It seems to be possible to implement the second slot, but I did not had any succ
 
 Let's see the result:
 
-- Reopen the Serial COM port Reader
 - Restart the board
 
 The application loads with a more up to date Build Time
